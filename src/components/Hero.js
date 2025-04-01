@@ -1,16 +1,3 @@
-// src/components/Hero.js
-// export default function Hero() {
-//   return (
-//     <section className="bg-gray-100 text-center py-16">
-//       <h1 className="text-4xl font-bold text-blue-600">
-//         Welcome to Construction Kinetics
-//       </h1>
-//       <p className="mt-4 text-gray-700">
-//         Building the future, one project at a time.
-//       </p>
-//     </section>
-//   )
-// }
 import Image from "next/image"
 
 export default function Hero() {
@@ -47,40 +34,4 @@ export default function Hero() {
       </div>
     </section>
   )
-}
-
-// export default function Hero() {
-//   return (
-//     <section
-//       id="about"
-//       className="text-white h-screen bg-black  text-center flex">
-//       <h1 className="m-auto font-waterfall text-7xl text-purple-600 font-bold  ">
-//         About
-//       </h1>
-//     </section>
-//   )
-// }
-
-{
-  /* <section id="blog" className=" text-white h-screen bg-purple-900 flex">
-<h1 className="m-auto font-waterfall text-7xl text-white font-bold">
-  Blog
-</h1>
-</section>
-<section
-id="contact"
-className="text-white h-screen bg-black  text-center flex"
->
-<h1 className="m-auto font-waterfall text-7xl text-purple-600 font-bold">
-  Contact{' '}
-</h1>
-</section>
-<section
-id="projects"
-className=" text-white h-screen bg-purple-900 flex"
->
-<h1 className="m-auto font-waterfall text-7xl text-white font-bold">
-  Projects
-</h1>
-</section> */
 }
