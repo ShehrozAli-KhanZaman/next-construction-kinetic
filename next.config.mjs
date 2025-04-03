@@ -1,4 +1,6 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  output: "standalone", // Enables standalone build
+  distDir: ".next", // Default build directory
+}
 
-export default nextConfig;
+export default nextConfig
