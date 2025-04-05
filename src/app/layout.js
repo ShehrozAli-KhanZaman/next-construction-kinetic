@@ -1,23 +1,28 @@
 // src/app/layout.js
 import "./globals.css"
 import { Inter } from "next/font/google"
-import Navbar from "../components/Navbar"
-import Footer from "../components/Footer"
+import { ThemeProvider } from "@/context/ThemeContext"
+import NavBar from "@/components/Navbar"
+import Footer from "@/components/Footer"
+import Preloader from "@/components/Preloader"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
   title: "Construction Kinetics",
-  description: "A modern web application for construction projects.",
+  description: "Premium construction services in Pakistan",
 }
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} flex flex-col min-h-screen`}>
-        <Navbar />
-        <main className="flex-1 w-full max-w-8xl mx-auto ">{children}</main>
-        <Footer />
+      <body className={inter.className}>
+        <ThemeProvider>
+          <Preloader />
+          <NavBar />
+          {children}
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   )
