@@ -61,24 +61,24 @@ export default function ContactPage() {
       <section className="relative py-20 md:py-28 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/70 z-0"></div>
 
-        <div className="absolute inset-0 opacity-10">
+        {/* <div className="absolute inset-0 opacity-10">
           <Image
             src="/images/Background/pattern-bg.png"
             alt="Pattern"
             fill
             className="object-cover"
           />
-        </div>
+        </div> */}
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="container mx-auto px-4 relative z-10 text-center">
-          <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
+          <h1 className="text-3xl md:text-5xl font-bold text-gray-600 mb-4">
             Contact Us
           </h1>
-          <p className="text-lg text-white/80 max-w-xl mx-auto">
+          <p className="text-lg text-gray-600 max-w-xl mx-auto">
             Get in touch with our team for any inquiries or to discuss your
             construction project needs
           </p>
@@ -124,13 +124,13 @@ export default function ContactPage() {
               className="space-y-12">
               <div>
                 <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
-                  Let's Build Your{" "}
+                  Let&apos;s Build Your{" "}
                   <span className="text-primary">Dream Project</span> Together
                 </h2>
                 <p className="text-gray-700 dark:text-gray-300">
-                  We're here to assist with any questions about our construction
-                  services, architectural designs, or to provide quotes for your
-                  upcoming projects.
+                  We are here to assist with any questions about our
+                  construction services, architectural designs, or to provide
+                  quotes for your upcoming projects.
                 </p>
               </div>
 
@@ -227,7 +227,7 @@ export default function ContactPage() {
                     Message Sent!
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300 mb-6">
-                    Thank you for contacting us. We'll respond to your inquiry
+                    Thank you for contacting us. We will respond to your inquiry
                     shortly.
                   </p>
                   <button

@@ -20,32 +20,49 @@ export default function HomePage() {
         <Why />
       </SectionWrapper>
 
-      <SectionWrapper id="how-section" alt={true} animation="slideLeft">
+      <SectionWrapper
+        id="how-section"
+        alt={true}
+        animation="bounce"
+        disableAnimations={true}
+        bgImage="/images/Background/bg3.jpg">
         <How />
+        {/* slideLeft */}
       </SectionWrapper>
 
       <HouseLayouts />
 
       <SectionWrapper
         id="construction-process"
-        animation="slideUp"
-        bgImage="/images/Background/bg2.jpg">
+        animation="bounce"
+        bgImage="/images/Background/bg4.jpg"
+        disableAnimations={true}>
         <ConstructionProcess />
+        {/* slideLeft */}
       </SectionWrapper>
 
       <SectionWrapper id="grey-structure" alt={true} animation="slideRight">
         <GreyStructure />
+        {/* slideLeft */}
       </SectionWrapper>
 
-      <SectionWrapper id="finishing" animation="scale">
+      <SectionWrapper
+        id="finishing"
+        animation="bounce"
+        bgImage="/images/Background/bg6.jpg"
+        disableAnimations={true}>
         <Finishing />
+        {/* slideLeft */}
       </SectionWrapper>
-
-      <SectionWrapper id="costing" alt={true} animation="slideDown">
-        <Costing />
-      </SectionWrapper>
-
       <CostCalculator />
+      <SectionWrapper
+        id="costing"
+        alt={true}
+        animation="bounce"
+        bgImage="/images/Background/bg5.jpg">
+        <Costing />
+        {/* slideLeft */}
+      </SectionWrapper>
     </>
   )
 }

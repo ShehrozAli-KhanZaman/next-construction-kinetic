@@ -1,10 +1,10 @@
 export default function ConstructionProcess() {
   return (
     <section
-      className="relative min-h-[60vh] flex flex-col items-center justify-center text-center bg-gray-200 bg-[url('/images/Background/bg4.jpg')] bg-cover bg-center bg-no-repeat min-h-[650px]"
+      className="relative min-h-[60vh] flex flex-col items-center justify-center text-center min-h-[650px] py-0 px-0 sm:py-6 sm:px-6 md:py-12 md:px-12 lg:py-20 lg:px-20"
       id="construction-process">
       {/* Dark Overlay for Better Readability */}
-      <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+      {/* <div className="absolute inset-0 bg-black bg-opacity-50"></div> */}
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center px-6 max-w-3xl">

@@ -80,24 +80,27 @@ const FloatingObject = ({ color, size, delay, duration, left }) => {
 const ConnectionLines = () => {
   return (
     <svg className="absolute inset-0 w-full h-full opacity-5 z-0 pointer-events-none">
+      {/* Extended to 1000 units */}
       <motion.path
-        d="M0,50 Q50,0 100,50 T200,50"
+        d="M0,300 Q500,0 1000,300 T2000,300"
         stroke="currentColor"
-        strokeWidth="1"
+        strokeWidth="4"
         fill="none"
         initial={{ pathLength: 0 }}
         animate={{ pathLength: 1 }}
-        transition={{ duration: 2, repeat: Infinity, repeatType: "loop" }}
+        transition={{ duration: 4, repeat: Infinity, repeatType: "loop" }}
       />
+
+      {/* Another extended curve */}
       <motion.path
-        d="M20,20 Q100,100 180,20"
+        d="M0,100 Q500,500 1000,100 T2000,100"
         stroke="currentColor"
-        strokeWidth="1"
+        strokeWidth="3"
         fill="none"
         initial={{ pathLength: 0 }}
         animate={{ pathLength: 1 }}
         transition={{
-          duration: 3,
+          duration: 5,
           repeat: Infinity,
           repeatType: "loop",
           delay: 0.5,
@@ -115,6 +118,7 @@ const SectionWrapper = ({
   bgImage = "",
   animation = "fadeIn",
   delay = 0,
+  disableAnimations = false,
 }) => {
   const sectionAnimation = animations[animation] || animations.fadeIn
 
@@ -129,7 +133,7 @@ const SectionWrapper = ({
   return (
     <section
       id={id}
-      className={`relative py-10 md:py-14 ${
+      className={`relative ${
         alt ? "section-alt" : "bg-white dark:bg-gray-900"
       } ${className}`}
       style={bgStyle}>
@@ -137,37 +141,62 @@ const SectionWrapper = ({
         <div className="absolute inset-0 bg-black/50 dark:bg-black/70"></div>
       )}
 
-      {/* Background animated elements */}
-      <FloatingObject
-        color="var(--primary)"
-        size="80px"
-        delay={0}
-        duration={6}
-        left={true}
-      />
-      <FloatingObject
-        color="var(--secondary)"
-        size="60px"
-        delay={1.5}
-        duration={7}
-        left={false}
-      />
-      <FloatingObject
-        color="var(--primary)"
-        size="40px"
-        delay={2.5}
-        duration={5}
-        left={true}
-      />
+      {/* ✅ Skip animated visuals if disabled */}
+      {!disableAnimations && (
+        <>
+          <FloatingObject
+            color="var(--primary-dark)"
+            size="80px"
+            delay={0}
+            duration={6}
+            left={true}
+          />
+          <FloatingObject
+            color="var(--secondary-light)"
+            size="60px"
+            delay={1.5}
+            duration={7}
+            left={false}
+          />
+          <FloatingObject
+            color="var(--primary-light)"
+            size="40px"
+            delay={2.5}
+            duration={5}
+            left={true}
+          />
+          <FloatingObject
+            color="var(--secondary-dark)"
+            size="70px"
+            delay={0}
+            duration={6}
+            left={false}
+          />
+          <FloatingObject
+            color="var(--secondary-dark)"
+            size="50px"
+            delay={1.5}
+            duration={7}
+            left={true}
+          />
+          <FloatingObject
+            color="var(--primary-dark)"
+            size="30px"
+            delay={2.5}
+            duration={5}
+            left={false}
+          />
 
-      <ConnectionLines />
+          <ConnectionLines />
+        </>
+      )}
 
       <motion.div
         initial={sectionAnimation.initial}
         whileInView={sectionAnimation.animate}
         viewport={{ once: true, amount: 0.1 }} // Reduced amount for earlier animations
         transition={{ duration: 0.7, delay }}
-        className="container mx-auto px-4 relative z-10">
+        className="relative z-10">
         {children}
       </motion.div>
     </section>

@@ -272,7 +272,7 @@ export default function ServicesPage() {
               <div className="relative">
                 <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-xl blur-lg opacity-70"></div>
                 <Image
-                  src="/images/process-illustration.jpg"
+                  src="/images/processIllustration.webp"
                   alt="Our Construction Process"
                   width={600}
                   height={400}

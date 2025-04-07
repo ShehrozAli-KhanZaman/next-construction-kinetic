@@ -1,10 +1,10 @@
 export default function Costing() {
   return (
     <section
-      className="relative min-h-screen flex flex-col items-center justify-center text-center bg-gray-200 bg-[url('/images/Background/bg5.jpg')] bg-cover bg-center bg-no-repeat"
+      className="relative min-h-screen flex flex-col items-center justify-center text-center"
       id="costing">
       {/* Dark Overlay for Better Readability */}
-      <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+      {/* <div className="absolute flex inset-0 bg-black bg-opacity-50"></div> */}
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center px-6 max-w-3xl">

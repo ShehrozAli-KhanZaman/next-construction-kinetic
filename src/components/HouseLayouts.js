@@ -80,7 +80,7 @@ const HouseLayouts = () => {
       id="house-layouts"
       className="py-20 relative overflow-hidden"
       style={{
-        backgroundImage: 'url("/images/Background/pattern-bg.png")',
+        // backgroundImage: 'url("/images/Background/pattern-bg.png")',
         backgroundSize: "400px",
         backgroundRepeat: "repeat",
       }}>

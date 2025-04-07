@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Loader2 } from "lucide-react"
+import Image from "next/image"
 
 export default function Preloader() {
   const [isLoading, setIsLoading] = useState(true)
@@ -51,10 +52,12 @@ export default function Preloader() {
                   scale: { repeat: Infinity, duration: 1.5, ease: "easeInOut" },
                 }}
                 className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center">
-                <img
+                <Image
                   src="/images/Logo/LogoTransparent.png"
-                  alt="Logo"
-                  className="w-16 h-16 md:w-20 md:h-20 object-contain"
+                  alt="Construction Kinetics"
+                  width={80}
+                  height={80}
+                  className="rounded-lg shadow-lg w-auto h-auto max-w-[80px] max-h-[80px]"
                 />
               </motion.div>
 

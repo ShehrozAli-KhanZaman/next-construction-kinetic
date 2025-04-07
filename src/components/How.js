@@ -1,10 +1,10 @@
 export default function How() {
   return (
     <section
-      className="relative min-h-screen flex flex-col items-center justify-center text-center bg-gray-200 bg-[url('/images/Background/bg3.jpg')] bg-cover bg-center bg-no-repeat py-40"
+      className="relative min-h-screen flex flex-col items-center justify-center text-center bg-no-repeat py-20"
       id="How">
       {/* Dark Overlay for Better Readability */}
-      <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+      {/* <div className="absolute inset-0 bg-black bg-opacity-50"></div> */}
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center px-4">
