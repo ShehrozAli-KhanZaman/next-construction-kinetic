@@ -147,7 +147,7 @@ export default function Hero() {
               <div className="absolute -inset-4 bg-secondary/20 rounded-full blur-xl"></div>
               <div className="relative bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20 shadow-2xl">
                 <Image
-                  src="/images/Logo/logoTransparent.png"
+                  src="/images/Logo/LogoTransparent.png"
                   alt="Construction Kinetics"
                   width={180}
                   height={180}
