@@ -1,9 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { motion } from "framer-motion"
 import Image from "next/image"
 import { useTheme } from "@/context/ThemeContext"
+import ClientWrapper from "@/components/ClientWrapper"
 
 // Import icons
 import {
@@ -28,27 +29,7 @@ const SectionWrapper = ({ children, className = "", id }) => {
 }
 
 export default function ServicesPage() {
-  // Client-side state for theme management
-  const { theme } = useTheme()
-  const [mounted, setMounted] = useState(false)
   const [expandedServices, setExpandedServices] = useState({})
-
-  // Only apply theme effect after component mounts to avoid hydration issues
-  useEffect(() => {
-    setMounted(true)
-
-    // Add or remove dark class based on theme
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark")
-    } else {
-      document.documentElement.classList.remove("dark")
-    }
-  }, [theme])
-
-  // Avoid rendering theme-dependent UI until after hydration
-  if (!mounted) {
-    return null // Return empty until client-side rendering is ready
-  }
 
   const toggleService = (id) => {
     setExpandedServices((prev) => ({
@@ -123,249 +104,223 @@ export default function ServicesPage() {
   }
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1 },
   }
 
   return (
-    <div className="bg-white dark:bg-gray-900 pt-20">
-      {/* Hero Section */}
-      <SectionWrapper className="bg-primary text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-dark to-primary opacity-90 z-0"></div>
-        <div className="absolute inset-0 bg-grid-white/[0.05] bg-grid-8"></div>
-
-        {/* Decorative elements */}
-        <div className="absolute top-20 right-10 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-10 left-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl"></div>
-
-        <div className="relative z-10 max-w-4xl mx-auto text-center py-16 md:py-24">
-          <motion.h1
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            Our <span className="text-secondary">Services</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto mb-8">
-            From architectural design to complete construction and renovation,
-            we offer comprehensive solutions for all your building needs.
-          </motion.p>
+    <ClientWrapper>
+      <div className="bg-white dark:bg-gray-900">
+        {/* Hero Section */}
+        <section className="relative py-20 md:py-28 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/70 z-0"></div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-wrap justify-center gap-4">
-            <a
-              href="#services-list"
-              className="px-8 py-3 bg-secondary hover:bg-secondary-dark text-black font-medium rounded-lg shadow-lg transition-all">
-              Explore Services
-            </a>
-            <a
-              href="/contact"
-              className="px-8 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-medium rounded-lg border border-white/20 transition-all">
-              Get in Touch
-            </a>
+            transition={{ duration: 0.6 }}
+            className="container mx-auto px-4 relative z-10 text-center">
+            <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
+              Our Services
+            </h1>
+            <p className="text-lg text-white/80 max-w-xl mx-auto">
+              Comprehensive construction solutions tailored to your needs
+            </p>
           </motion.div>
-        </div>
-      </SectionWrapper>
+        </section>
 
-      {/* Services List */}
-      <SectionWrapper
-        id="services-list"
-        className="bg-white dark:bg-gray-900 py-16 md:py-24">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          viewport={{ once: true }}
-          className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <span className="inline-block bg-primary/10 dark:bg-primary/20 text-primary px-4 py-1 rounded-full text-sm font-medium mb-4">
-              What We Offer
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
-              Comprehensive Construction Solutions
-            </h2>
-            <p className="text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
-              We provide a wide range of services to meet all your construction
-              and design needs, delivered with professionalism and attention to
-              detail.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service) => (
-              <motion.div
-                key={service.id}
-                variants={itemVariants}
-                className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 shadow-md border border-gray-100 dark:border-gray-700 transition-all hover:shadow-lg hover:border-primary/20 dark:hover:border-primary/30">
-                <div className="w-14 h-14 bg-primary/10 dark:bg-primary/20 rounded-lg flex items-center justify-center text-primary mb-5">
-                  {service.icon}
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
-                  {service.title}
-                </h3>
-                <p className="text-gray-700 dark:text-gray-300 mb-4">
-                  {service.shortDescription}
+        {/* Services List */}
+        <section className="py-16 bg-white dark:bg-gray-900">
+          <div className="container mx-auto px-4">
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              className="max-w-6xl mx-auto">
+              <div className="text-center mb-16">
+                <span className="inline-block bg-primary/10 dark:bg-primary/20 text-primary px-4 py-1 rounded-full text-sm font-medium mb-4">
+                  What We Offer
+                </span>
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
+                  Comprehensive Construction Solutions
+                </h2>
+                <p className="text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
+                  We provide a wide range of services to meet all your
+                  construction and design needs, delivered with professionalism
+                  and attention to detail.
                 </p>
-
-                <div>
-                  {expandedServices[service.id] && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="mt-4 text-gray-700 dark:text-gray-300 border-t border-gray-200 dark:border-gray-700 pt-4">
-                      {service.longDescription}
-                    </motion.div>
-                  )}
-
-                  <button
-                    onClick={() => toggleService(service.id)}
-                    className="mt-2 flex items-center text-primary hover:text-primary-dark dark:hover:text-primary-light transition-colors font-medium text-sm">
-                    {expandedServices[service.id] ? (
-                      <>
-                        Read Less <ChevronUp size={16} className="ml-1" />
-                      </>
-                    ) : (
-                      <>
-                        Read More <ChevronDown size={16} className="ml-1" />
-                      </>
-                    )}
-                  </button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </SectionWrapper>
-
-      {/* Process Section */}
-      <SectionWrapper className="bg-gray-50 dark:bg-gray-800">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <span className="inline-block bg-secondary/10 dark:bg-secondary/20 text-secondary px-4 py-1 rounded-full text-sm font-medium mb-4">
-              Our Process
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
-              How We Work
-            </h2>
-            <p className="text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
-              Our streamlined process ensures quality results, clear
-              communication, and satisfaction at every stage of your project.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="order-2 md:order-1">
-              <div className="relative">
-                <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-xl blur-lg opacity-70"></div>
-                <Image
-                  src="/images/processIllustration.webp"
-                  alt="Our Construction Process"
-                  width={600}
-                  height={400}
-                  className="rounded-xl shadow-lg relative"
-                />
               </div>
-            </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="order-1 md:order-2">
-              <div className="space-y-6">
-                {[
-                  {
-                    id: 1,
-                    title: "Consultation & Planning",
-                    description:
-                      "We begin with understanding your vision, requirements, and budget to develop a comprehensive plan tailored to your needs.",
-                  },
-                  {
-                    id: 2,
-                    title: "Design & Development",
-                    description:
-                      "Our team creates detailed designs and proposals, incorporating your feedback to perfect the plans before construction begins.",
-                  },
-                  {
-                    id: 3,
-                    title: "Construction & Execution",
-                    description:
-                      "We implement the approved plans with precision, keeping you informed throughout the building process.",
-                  },
-                  {
-                    id: 4,
-                    title: "Quality Assurance & Handover",
-                    description:
-                      "We conduct thorough quality checks before project completion and provide comprehensive documentation during handover.",
-                  },
-                ].map((step) => (
-                  <div key={step.id} className="flex gap-4">
-                    <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white shrink-0 font-bold text-lg">
-                      {step.id}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {services.map((service) => (
+                  <motion.div
+                    key={service.id}
+                    variants={itemVariants}
+                    className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 shadow-md border border-gray-100 dark:border-gray-700 transition-all hover:shadow-lg hover:border-primary/20 dark:hover:border-primary/30">
+                    <div className="w-14 h-14 bg-primary/10 dark:bg-primary/20 rounded-lg flex items-center justify-center text-primary mb-5">
+                      {service.icon}
                     </div>
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                      {service.title}
+                    </h3>
+                    <p className="text-gray-700 dark:text-gray-300 mb-4">
+                      {service.shortDescription}
+                    </p>
+
                     <div>
-                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                        {step.title}
-                      </h3>
-                      <p className="text-gray-700 dark:text-gray-300">
-                        {step.description}
-                      </p>
+                      {expandedServices[service.id] && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="mt-4 text-gray-700 dark:text-gray-300 border-t border-gray-200 dark:border-gray-700 pt-4">
+                          {service.longDescription}
+                        </motion.div>
+                      )}
+
+                      <button
+                        onClick={() => toggleService(service.id)}
+                        className="mt-2 flex items-center text-primary hover:text-primary-dark dark:hover:text-primary-light transition-colors font-medium text-sm">
+                        {expandedServices[service.id] ? (
+                          <>
+                            Read Less <ChevronUp size={16} className="ml-1" />
+                          </>
+                        ) : (
+                          <>
+                            Read More <ChevronDown size={16} className="ml-1" />
+                          </>
+                        )}
+                      </button>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>
           </div>
-        </div>
-      </SectionWrapper>
+        </section>
 
-      {/* CTA Section */}
-      <SectionWrapper className="bg-white dark:bg-gray-900">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="bg-gradient-to-r from-primary to-primary/80 rounded-2xl p-8 md:p-12 text-white overflow-hidden relative">
-            <div className="absolute inset-0 bg-grid-white/[0.05] bg-grid-8"></div>
-
-            <div className="absolute -top-20 -right-20 w-64 h-64 bg-secondary/20 rounded-full blur-3xl"></div>
-            <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
-
-            <div className="relative">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Ready to Start Your Project?
+        {/* Process Section */}
+        <section className="bg-gray-50 dark:bg-gray-800">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <span className="inline-block bg-secondary/10 dark:bg-secondary/20 text-secondary px-4 py-1 rounded-full text-sm font-medium mb-4">
+                Our Process
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
+                How We Work
               </h2>
-              <p className="text-white/80 max-w-2xl mx-auto mb-8">
-                Contact us today to discuss your construction needs. Our team is
-                ready to bring your vision to life with quality craftsmanship
-                and professional service.
+              <p className="text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
+                Our streamlined process ensures quality results, clear
+                communication, and satisfaction at every stage of your project.
               </p>
-              <a
-                href="/contact"
-                className="inline-block px-8 py-3 bg-white text-primary hover:bg-gray-100 font-medium rounded-lg shadow-lg transition-all">
-                Get a Free Consultation
-              </a>
             </div>
-          </motion.div>
-        </div>
-      </SectionWrapper>
-    </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="order-2 md:order-1">
+                <div className="relative">
+                  <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-xl blur-lg opacity-70"></div>
+                  <Image
+                    src="/images/processIllustration.webp"
+                    alt="Our Construction Process"
+                    width={600}
+                    height={400}
+                    className="rounded-xl shadow-lg relative"
+                  />
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="order-1 md:order-2">
+                <div className="space-y-6">
+                  {[
+                    {
+                      id: 1,
+                      title: "Consultation & Planning",
+                      description:
+                        "We begin with understanding your vision, requirements, and budget to develop a comprehensive plan tailored to your needs.",
+                    },
+                    {
+                      id: 2,
+                      title: "Design & Development",
+                      description:
+                        "Our team creates detailed designs and proposals, incorporating your feedback to perfect the plans before construction begins.",
+                    },
+                    {
+                      id: 3,
+                      title: "Construction & Execution",
+                      description:
+                        "We implement the approved plans with precision, keeping you informed throughout the building process.",
+                    },
+                    {
+                      id: 4,
+                      title: "Quality Assurance & Handover",
+                      description:
+                        "We conduct thorough quality checks before project completion and provide comprehensive documentation during handover.",
+                    },
+                  ].map((step) => (
+                    <div key={step.id} className="flex gap-4">
+                      <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white shrink-0 font-bold text-lg">
+                        {step.id}
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                          {step.title}
+                        </h3>
+                        <p className="text-gray-700 dark:text-gray-300">
+                          {step.description}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="bg-white dark:bg-gray-900">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="bg-gradient-to-r from-primary to-primary/80 rounded-2xl p-8 md:p-12 text-white overflow-hidden relative">
+              <div className="absolute inset-0 bg-grid-white/[0.05] bg-grid-8"></div>
+
+              <div className="absolute -top-20 -right-20 w-64 h-64 bg-secondary/20 rounded-full blur-3xl"></div>
+              <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+
+              <div className="relative">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                  Ready to Start Your Project?
+                </h2>
+                <p className="text-white/80 max-w-2xl mx-auto mb-8">
+                  Contact us today to discuss your construction needs. Our team
+                  is ready to bring your vision to life with quality
+                  craftsmanship and professional service.
+                </p>
+                <a
+                  href="/contact"
+                  className="inline-block px-8 py-3 bg-white text-primary hover:bg-gray-100 font-medium rounded-lg shadow-lg transition-all">
+                  Get a Free Consultation
+                </a>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      </div>
+    </ClientWrapper>
   )
 }

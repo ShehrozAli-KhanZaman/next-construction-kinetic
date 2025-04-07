@@ -5,23 +5,26 @@ import { ThemeProvider } from "@/context/ThemeContext"
 import NavBar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import Preloader from "@/components/Preloader"
+import ClientWrapper from "@/components/ClientWrapper"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
   title: "Construction Kinetics",
-  description: "Premium construction services in Pakistan",
+  description: "Building dreams with excellence",
 }
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider>
-          <Preloader />
-          <NavBar />
-          {children}
-          <Footer />
+          <ClientWrapper>
+            <Preloader />
+            <NavBar />
+            {children}
+            <Footer />
+          </ClientWrapper>
         </ThemeProvider>
       </body>
     </html>
