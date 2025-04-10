@@ -1,13 +1,14 @@
 "use client"
-import Image from "next/image"
-import Link from "next/link"
+
 import { useState, useEffect, useRef } from "react"
+import Link from "next/link"
+import Image from "next/image"
+import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { useTheme } from "@/context/ThemeContext"
 import { Moon, Sun, Menu, X } from "lucide-react"
-import { usePathname } from "next/navigation"
 
-function NavBar() {
+export default function NavBar() {
   const [navbar, setNavbar] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeTab, setActiveTab] = useState(null)
@@ -25,7 +26,6 @@ function NavBar() {
         setScrolled(false)
       }
     }
-
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
@@ -54,44 +54,20 @@ function NavBar() {
     }
   }
 
-  // Particle animation component
-  const ParticleTrail = ({ from, to }) => {
-    if (!from || !to) return null
-
-    const particles = Array.from({ length: 8 }).map((_, i) => (
-      <motion.div
-        key={i}
-        initial={{
-          x: from.x,
-          y: from.y,
-          opacity: 1,
-          scale: 1,
-        }}
-        animate={{
-          x: to.x + (Math.random() * 40 - 20),
-          y: to.y + (Math.random() * 40 - 20),
-          opacity: 0,
-          scale: 0,
-        }}
-        transition={{
-          duration: 0.5,
-          delay: i * 0.03,
-          ease: "easeOut",
-        }}
-        className={`absolute w-2 h-2 rounded-full ${
-          Math.random() > 0.5 ? "bg-primary" : "bg-secondary"
-        }`}
-      />
-    ))
-
-    return <>{particles}</>
-  }
+  const navItems = [
+    { name: "About Work", href: "/about" },
+    { name: "Construction Kinetics", href: "/construction" },
+    { name: "House Layouts", href: "/layouts" },
+    { name: "UAE Chapter", href: "/uae" },
+    { name: "LHR Vertical Projects", href: "/projects" },
+    { name: "Contact", href: "/contact" },
+  ]
 
   return (
     <motion.div
+      variants={navVariants}
       initial="hidden"
       animate="visible"
-      variants={navVariants}
       className="w-full">
       <nav
         className={`w-full fixed top-0 left-0 right-0 z-30 transition-all duration-300 py-2 ${
@@ -102,7 +78,6 @@ function NavBar() {
         <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
           <div>
             <div className="flex items-center justify-between py-3 md:py-4 md:block">
-              {/* LOGO */}
               <Link href="/">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
@@ -123,7 +98,6 @@ function NavBar() {
                   </span>
                 </motion.div>
               </Link>
-              {/* HAMBURGER BUTTON FOR MOBILE */}
               <div className="md:hidden flex items-center gap-4">
                 <button
                   onClick={toggleTheme}
@@ -158,186 +132,36 @@ function NavBar() {
                     ? ""
                     : "md:bg-white/10 md:dark:bg-gray-900/20 md:backdrop-blur-sm md:rounded-full md:px-2 md:py-1"
                 } ${navbar ? "px-4 py-2" : ""}`}>
-                <div className="relative">
-                  <AnimatePresence>
-                    {prevTab && activeTab && (
-                      <ParticleTrail
-                        from={{ x: prevTab.x, y: prevTab.y }}
-                        to={{ x: activeTab.x, y: activeTab.y }}
-                      />
-                    )}
-                  </AnimatePresence>
-                </div>
-
+                {navItems.map((item, index) => (
+                  <motion.li
+                    key={item.name}
+                    variants={itemVariants}
+                    onMouseEnter={(e) => {
+                      const rect = e.currentTarget.getBoundingClientRect()
+                      handleTabHover({
+                        id: item.name,
+                        x: rect.x + rect.width / 2,
+                        y: rect.y + rect.height / 2,
+                      })
+                    }}
+                    className="text-base py-2 px-4 text-center border-b md:border-b-0 border-gray-200 dark:border-gray-700 md:border-0 md:flex md:items-center h-full relative z-10">
+                    <Link
+                      href={item.href}
+                      className={`${
+                        scrolled
+                          ? "text-gray-800 dark:text-gray-200"
+                          : navbar
+                          ? "text-gray-800 dark:text-gray-200"
+                          : "text-white"
+                      } hover:text-primary dark:hover:text-secondary font-medium relative group transition-colors duration-300 block py-2`}
+                      onClick={() => setNavbar(false)}>
+                      {item.name}
+                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary dark:bg-secondary group-hover:w-full transition-all duration-300"></span>
+                    </Link>
+                  </motion.li>
+                ))}
                 <motion.li
                   variants={itemVariants}
-                  onMouseEnter={(e) => {
-                    const rect = e.currentTarget.getBoundingClientRect()
-                    handleTabHover({
-                      id: "services",
-                      x: rect.x + rect.width / 2,
-                      y: rect.y + rect.height / 2,
-                    })
-                  }}
-                  className="text-base py-2 px-4 text-center border-b md:border-b-0 border-gray-200 dark:border-gray-700 md:border-0 md:flex md:items-center h-full relative z-10">
-                  <Link
-                    href="/services"
-                    className={`${
-                      scrolled
-                        ? "text-gray-800 dark:text-gray-200"
-                        : navbar
-                        ? "text-gray-800 dark:text-gray-200"
-                        : "text-white"
-                    } hover:text-primary dark:hover:text-secondary font-medium relative group transition-colors duration-300 block py-2`}
-                    onClick={() => setNavbar(false)}>
-                    Services
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary dark:bg-secondary group-hover:w-full transition-all duration-300"></span>
-                  </Link>
-                </motion.li>
-
-                <motion.li
-                  variants={itemVariants}
-                  onMouseEnter={(e) => {
-                    const rect = e.currentTarget.getBoundingClientRect()
-                    handleTabHover({
-                      id: "projects",
-                      x: rect.x + rect.width / 2,
-                      y: rect.y + rect.height / 2,
-                    })
-                  }}
-                  className="text-base py-2 px-4 text-center border-b md:border-b-0 border-gray-200 dark:border-gray-700 md:border-0 md:flex md:items-center h-full relative z-10">
-                  <Link
-                    href="/coming-soon"
-                    className={`${
-                      scrolled
-                        ? "text-gray-800 dark:text-gray-200"
-                        : navbar
-                        ? "text-gray-800 dark:text-gray-200"
-                        : "text-white"
-                    } hover:text-primary dark:hover:text-secondary font-medium relative group transition-colors duration-300 block py-2`}
-                    onClick={() => setNavbar(false)}>
-                    Projects
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary dark:bg-secondary group-hover:w-full transition-all duration-300"></span>
-                  </Link>
-                </motion.li>
-
-                {isHomePage && (
-                  <>
-                    <motion.li
-                      variants={itemVariants}
-                      onMouseEnter={(e) => {
-                        const rect = e.currentTarget.getBoundingClientRect()
-                        handleTabHover({
-                          id: "about",
-                          x: rect.x + rect.width / 2,
-                          y: rect.y + rect.height / 2,
-                        })
-                      }}
-                      className="text-base py-2 px-4 text-center border-b md:border-b-0 border-gray-200 dark:border-gray-700 md:border-0 md:flex md:items-center h-full relative z-10">
-                      <Link
-                        href="#How"
-                        className={`${
-                          scrolled
-                            ? "text-gray-800 dark:text-gray-200"
-                            : navbar
-                            ? "text-gray-800 dark:text-gray-200"
-                            : "text-white"
-                        } hover:text-primary dark:hover:text-secondary font-medium relative group transition-colors duration-300 block py-2`}
-                        onClick={() => setNavbar(false)}>
-                        About Work
-                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary dark:bg-secondary group-hover:w-full transition-all duration-300"></span>
-                      </Link>
-                    </motion.li>
-                    <motion.li
-                      variants={itemVariants}
-                      onMouseEnter={(e) => {
-                        const rect = e.currentTarget.getBoundingClientRect()
-                        handleTabHover({
-                          id: "layouts",
-                          x: rect.x + rect.width / 2,
-                          y: rect.y + rect.height / 2,
-                        })
-                      }}
-                      className="text-base py-2 px-4 text-center border-b md:border-b-0 border-gray-200 dark:border-gray-700 md:border-0 md:flex md:items-center h-full relative z-10">
-                      <Link
-                        href="#house-layouts"
-                        className={`${
-                          scrolled
-                            ? "text-gray-800 dark:text-gray-200"
-                            : navbar
-                            ? "text-gray-800 dark:text-gray-200"
-                            : "text-white"
-                        } hover:text-primary dark:hover:text-secondary font-medium relative group transition-colors duration-300 block py-2`}
-                        onClick={() => setNavbar(false)}>
-                        House Layouts
-                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary dark:bg-secondary group-hover:w-full transition-all duration-300"></span>
-                      </Link>
-                    </motion.li>
-                  </>
-                )}
-
-                <motion.li
-                  variants={itemVariants}
-                  onMouseEnter={(e) => {
-                    const rect = e.currentTarget.getBoundingClientRect()
-                    handleTabHover({
-                      id: "gallery",
-                      x: rect.x + rect.width / 2,
-                      y: rect.y + rect.height / 2,
-                    })
-                  }}
-                  className="text-base py-2 px-4 text-center border-b md:border-b-0 border-gray-200 dark:border-gray-700 md:border-0 md:flex md:items-center h-full relative z-10">
-                  <Link
-                    href="/coming-soon"
-                    className={`${
-                      scrolled
-                        ? "text-gray-800 dark:text-gray-200"
-                        : navbar
-                        ? "text-gray-800 dark:text-gray-200"
-                        : "text-white"
-                    } hover:text-primary dark:hover:text-secondary font-medium relative group transition-colors duration-300 block py-2`}
-                    onClick={() => setNavbar(false)}>
-                    Gallery
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary dark:bg-secondary group-hover:w-full transition-all duration-300"></span>
-                  </Link>
-                </motion.li>
-
-                <motion.li
-                  variants={itemVariants}
-                  onMouseEnter={(e) => {
-                    const rect = e.currentTarget.getBoundingClientRect()
-                    handleTabHover({
-                      id: "contact",
-                      x: rect.x + rect.width / 2,
-                      y: rect.y + rect.height / 2,
-                    })
-                  }}
-                  className="text-base py-2 px-4 text-center border-b md:border-b-0 border-gray-200 dark:border-gray-700 md:border-0 md:flex md:items-center h-full relative z-10">
-                  <Link
-                    href="/contact"
-                    className={`${
-                      scrolled
-                        ? "text-gray-800 dark:text-gray-200"
-                        : navbar
-                        ? "text-gray-800 dark:text-gray-200"
-                        : "text-white"
-                    } hover:text-primary dark:hover:text-secondary font-medium relative group transition-colors duration-300 block py-2`}
-                    onClick={() => setNavbar(false)}>
-                    Contact
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary dark:bg-secondary group-hover:w-full transition-all duration-300"></span>
-                  </Link>
-                </motion.li>
-
-                <motion.li
-                  variants={itemVariants}
-                  onMouseEnter={(e) => {
-                    const rect = e.currentTarget.getBoundingClientRect()
-                    handleTabHover({
-                      id: "theme",
-                      x: rect.x + rect.width / 2,
-                      y: rect.y + rect.height / 2,
-                    })
-                  }}
                   className="text-xl py-2 px-4 text-center md:border-b-0 md:hover:bg-transparent hidden md:block">
                   <button
                     onClick={toggleTheme}
@@ -354,5 +178,3 @@ function NavBar() {
     </motion.div>
   )
 }
-
-export default NavBar

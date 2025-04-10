@@ -1,3 +1,12 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import AnimatedSection from "@/components/AnimatedSection"
+import PropertySearch from "@/components/sections/PropertySearch"
+import ConstructionDetails from "@/components/sections/ConstructionDetails"
+import CostCalculator from "@/components/sections/CostCalculator"
+import HouseLayouts from "@/components/HouseLayouts"
 import Hero from "../components/Hero"
 import Services from "../components/Services"
 import How from "../components/How"
@@ -7,62 +16,47 @@ import ConstructionProcess from "@/components/ConstructionProcess"
 import GreyStructure from "@/components/GreyStructure"
 import Finishing from "@/components/Finishing"
 import Costing from "@/components/Costing"
-import CostCalculator from "@/components/CostCalculator"
-import HouseLayouts from "@/components/HouseLayouts"
 import SectionWrapper from "@/components/SectionWrapper"
 
-export default function HomePage() {
+export default function Home() {
+  const [activeSection, setActiveSection] = useState(0)
+  const [scrollDirection, setScrollDirection] = useState("down")
+
+  const sections = [
+    { component: PropertySearch, direction: "up" },
+    { component: ConstructionDetails, direction: "up" },
+    { component: CostCalculator, direction: "up" },
+    { component: HouseLayouts, direction: "up" },
+  ]
+
+  useEffect(() => {
+    const handleWheel = (e) => {
+      e.preventDefault()
+      if (e.deltaY > 0) {
+        setScrollDirection("down")
+        setActiveSection((prev) => Math.min(prev + 1, sections.length - 1))
+      } else {
+        setScrollDirection("up")
+        setActiveSection((prev) => Math.max(prev - 1, 0))
+      }
+    }
+
+    window.addEventListener("wheel", handleWheel, { passive: false })
+    return () => window.removeEventListener("wheel", handleWheel)
+  }, [])
+
   return (
-    <>
-      <Hero />
-
-      <SectionWrapper id="why-section" animation="bounce">
-        <Why />
-      </SectionWrapper>
-
-      <SectionWrapper
-        id="how-section"
-        alt={true}
-        animation="bounce"
-        disableAnimations={true}
-        bgImage="/images/Background/bg3.jpg">
-        <How />
-        {/* slideLeft */}
-      </SectionWrapper>
-
-      <HouseLayouts />
-
-      <SectionWrapper
-        id="construction-process"
-        animation="bounce"
-        bgImage="/images/Background/bg4.jpg"
-        disableAnimations={true}>
-        <ConstructionProcess />
-        {/* slideLeft */}
-      </SectionWrapper>
-
-      <SectionWrapper id="grey-structure" alt={true} animation="slideRight">
-        <GreyStructure />
-        {/* slideLeft */}
-      </SectionWrapper>
-
-      <SectionWrapper
-        id="finishing"
-        animation="bounce"
-        bgImage="/images/Background/bg6.jpg"
-        disableAnimations={true}>
-        <Finishing />
-        {/* slideLeft */}
-      </SectionWrapper>
-      <CostCalculator />
-      <SectionWrapper
-        id="costing"
-        alt={true}
-        animation="bounce"
-        bgImage="/images/Background/bg5.jpg">
-        <Costing />
-        {/* slideLeft */}
-      </SectionWrapper>
-    </>
+    <div className="relative w-full h-screen overflow-hidden">
+      <AnimatePresence mode="wait">
+        {sections.map((section, index) => (
+          <AnimatedSection
+            key={index}
+            isActive={activeSection === index}
+            direction={scrollDirection}>
+            <section.component />
+          </AnimatedSection>
+        ))}
+      </AnimatePresence>
+    </div>
   )
 }
