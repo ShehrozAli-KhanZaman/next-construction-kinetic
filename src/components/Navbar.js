@@ -26,6 +26,7 @@ export default function NavBar() {
         setScrolled(false)
       }
     }
+
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
@@ -70,14 +71,14 @@ export default function NavBar() {
       animate="visible"
       className="w-full">
       <nav
-        className={`w-full fixed top-0 left-0 right-0 z-30 transition-all duration-300 py-2 ${
+        className={`w-full fixed top-0 left-0 right-0 z-30 transition-all duration-300 py-1 ${
           scrolled
             ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-md"
-            : "bg-transparent dark:bg-transparent py-4"
+            : "bg-transparent dark:bg-transparent py-2"
         }`}>
         <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
           <div>
-            <div className="flex items-center justify-between py-3 md:py-4 md:block">
+            <div className="flex items-center justify-between py-2 md:py-2 md:block">
               <Link href="/">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
@@ -121,7 +122,7 @@ export default function NavBar() {
             <div
               className={`flex-1 justify-self-center md:block md:pb-0 md:mt-0 ${
                 navbar
-                  ? "block absolute left-0 right-0 top-[73px] bg-white dark:bg-gray-900 shadow-lg"
+                  ? "block absolute left-0 right-0 top-[60px] bg-white dark:bg-gray-900 shadow-lg"
                   : "hidden"
               }`}>
               <motion.ul
@@ -160,7 +161,7 @@ export default function NavBar() {
                     </Link>
                   </motion.li>
                 ))}
-                <motion.li
+                {/* <motion.li
                   variants={itemVariants}
                   className="text-xl py-2 px-4 text-center md:border-b-0 md:hover:bg-transparent hidden md:block">
                   <button
@@ -169,7 +170,7 @@ export default function NavBar() {
                     className="p-2 rounded-full bg-primary/10 dark:bg-primary/20 text-primary dark:text-white hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors duration-200">
                     {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
                   </button>
-                </motion.li>
+                </motion.li> */}
               </motion.ul>
             </div>
           </div>

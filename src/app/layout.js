@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
   title: "Construction Kinetics",
-  description: "Building dreams with excellence",
+  description: "Your trusted partner in construction and real estate",
 }
 
 export default function RootLayout({ children }) {
@@ -23,7 +23,6 @@ export default function RootLayout({ children }) {
             <Preloader />
             <NavBar />
             {children}
-            <Footer />
           </ClientWrapper>
         </ThemeProvider>
       </body>

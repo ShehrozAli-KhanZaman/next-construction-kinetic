@@ -1,9 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import ModernDropdown from "@/components/ModernDropdown"
 import Image from "next/image"
+import Script from "next/script"
+import Background from "@/components/Background"
 
 const propertyTypes = [
   { value: "house", label: "House" },
@@ -28,6 +30,64 @@ export default function PropertySearch() {
     priceRange: { min: "", max: "" },
   })
   const [showMoreOptions, setShowMoreOptions] = useState(false)
+
+  useEffect(() => {
+    // Initialize Vanta.js
+    if (typeof window !== "undefined") {
+      const vantaScript = document.createElement("script")
+      vantaScript.src =
+        "https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"
+      vantaScript.async = true
+      document.body.appendChild(vantaScript)
+
+      vantaScript.onload = () => {
+        const globeScript = document.createElement("script")
+        globeScript.src =
+          "https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"
+        globeScript.async = true
+        document.body.appendChild(globeScript)
+
+        globeScript.onload = () => {
+          window.VANTA.GLOBE({
+            el: "#vanta-background",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.0,
+            minWidth: 200.0,
+            scale: 1.0,
+            scaleMobile: 1.0,
+            backgroundColor: 0x0,
+            color: 0x3f51b5,
+            size: 1.0,
+          })
+        }
+      }
+    }
+
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+        e.preventDefault()
+        const sections = document.querySelectorAll("section")
+        const currentSection = document
+          .elementFromPoint(window.innerWidth / 2, window.innerHeight / 2)
+          ?.closest("section")
+
+        if (!currentSection) return
+
+        const currentIndex = Array.from(sections).indexOf(currentSection)
+        const nextIndex =
+          e.key === "ArrowDown"
+            ? Math.min(currentIndex + 1, sections.length - 1)
+            : Math.max(currentIndex - 1, 0)
+
+        sections[nextIndex]?.scrollIntoView({ behavior: "smooth" })
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [])
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({
@@ -158,23 +218,11 @@ export default function PropertySearch() {
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden">
-      <motion.div
-        variants={backgroundVariants}
-        initial="hidden"
-        animate="visible"
-        className="absolute inset-0 z-0">
-        <Image
-          src="/images/Background/bg1.jpg"
-          alt="Property Background"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-black/50" />
-      </motion.div>
+      <Background type="GLOBE" color={0x3f51b5} />
+      <div className="absolute inset-0 bg-black/50 z-0" />
 
-      <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
-        <div className="w-full md:w-[55%] h-auto md:h-[40%] flex flex-col">
+      <div className="relative z-10 min-h-screen flex flex-col items-center  justify-center">
+        <div className="w-full md:w-[43%] h-auto md:h-[40%] flex flex-col items-center justify-cennter">
           <motion.h1
             variants={titleVariants}
             initial="hidden"
@@ -331,7 +379,7 @@ export default function PropertySearch() {
 
             {/* Desktop View */}
             <div className="hidden md:block">
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-5">
                 <motion.div
                   variants={dropdownVariants}
                   initial="hidden"

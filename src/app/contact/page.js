@@ -64,7 +64,7 @@ export default function ContactPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/70 z-0"></div>
 
           {/* <div className="absolute inset-0 opacity-10">
-            <Image
+          <Image
               src="/images/Background/pattern-bg.png"
               alt="Pattern"
               fill

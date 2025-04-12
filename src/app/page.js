@@ -17,6 +17,9 @@ import GreyStructure from "@/components/GreyStructure"
 import Finishing from "@/components/Finishing"
 import Costing from "@/components/Costing"
 import SectionWrapper from "@/components/SectionWrapper"
+import FeaturedProperties from "@/components/sections/FeaturedProperties"
+import AboutUs from "@/components/sections/About"
+import Contact from "@/components/sections/Contact"
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState(0)
@@ -27,6 +30,9 @@ export default function Home() {
     { component: ConstructionDetails, direction: "up" },
     { component: CostCalculator, direction: "up" },
     { component: HouseLayouts, direction: "up" },
+    // { component: FeaturedProperties, direction: "up" },
+    // { component: AboutUs, direction: "up" },
+    { component: Contact, direction: "up" },
   ]
 
   useEffect(() => {

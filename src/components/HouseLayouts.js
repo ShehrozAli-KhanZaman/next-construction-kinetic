@@ -3,6 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
+import Background from "@/components/Background"
 
 const layouts = [
   {
@@ -76,17 +77,19 @@ const HouseLayouts = () => {
   }
 
   return (
-    <section
-      id="house-layouts"
-      className="py-20 relative overflow-hidden"
-      style={{
-        // backgroundImage: 'url("/images/Background/pattern-bg.png")',
-        backgroundSize: "400px",
-        backgroundRepeat: "repeat",
-      }}>
-      <div className="absolute inset-0 bg-white/90 dark:bg-gray-900/90"></div>
+    <section className="relative min-h-screen w-full overflow-hidden">
+      <Background type="BIRDS" color={0x9b59b6} />
+      <div className="absolute inset-0 bg-black/50 z-0" />
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center pt-16 md:pt-20">
+        <motion.h1
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          className="text-3xl md:text-4xl font-bold text-center mb-8 text-white">
+          House Layouts
+        </motion.h1>
+
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
