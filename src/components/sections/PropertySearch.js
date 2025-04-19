@@ -1,307 +1,146 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import ModernDropdown from "@/components/ModernDropdown"
-import Image from "next/image"
-import Script from "next/script"
+import { useRouter } from "next/navigation"
 import Background from "@/components/Background"
+import { locations } from "@/lib/location"
 
-const propertyTypes = [
-  { value: "house", label: "House" },
-  { value: "apartment", label: "Apartment" },
-  { value: "villa", label: "Villa" },
-  { value: "plot", label: "Plot" },
-]
+const propertyTypes = ["Plot", "House"]
 
-const locations = [
-  { value: "lahore", label: "Lahore" },
-  { value: "karachi", label: "Karachi" },
-  { value: "islamabad", label: "Islamabad" },
-  { value: "rawalpindi", label: "Rawalpindi" },
-]
+const dropdownVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+}
+
+const moreOptionsVariants = {
+  hidden: { height: 0, opacity: 0 },
+  visible: { height: "auto", opacity: 1, transition: { duration: 0.3 } },
+  exit: { height: 0, opacity: 0, transition: { duration: 0.3 } },
+}
+
+const rangeInputVariants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.3 } },
+}
 
 export default function PropertySearch() {
+  const router = useRouter()
+  const [showMoreOptions, setShowMoreOptions] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
-    type: "buy",
-    propertyType: "",
+    propertyType: "Plot",
     location: "",
     sizeRange: { min: "", max: "" },
     priceRange: { min: "", max: "" },
   })
-  const [showMoreOptions, setShowMoreOptions] = useState(false)
-
-  useEffect(() => {
-    // Initialize Vanta.js
-    if (typeof window !== "undefined") {
-      const vantaScript = document.createElement("script")
-      vantaScript.src =
-        "https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"
-      vantaScript.async = true
-      document.body.appendChild(vantaScript)
-
-      vantaScript.onload = () => {
-        const globeScript = document.createElement("script")
-        globeScript.src =
-          "https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"
-        globeScript.async = true
-        document.body.appendChild(globeScript)
-
-        globeScript.onload = () => {
-          window.VANTA.GLOBE({
-            el: "#vanta-background",
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
-            minHeight: 200.0,
-            minWidth: 200.0,
-            scale: 1.0,
-            scaleMobile: 1.0,
-            backgroundColor: 0x0,
-            color: 0x3f51b5,
-            size: 1.0,
-          })
-        }
-      }
-    }
-
-    const handleKeyDown = (e) => {
-      if (e.key === "ArrowUp" || e.key === "ArrowDown") {
-        e.preventDefault()
-        const sections = document.querySelectorAll("section")
-        const currentSection = document
-          .elementFromPoint(window.innerWidth / 2, window.innerHeight / 2)
-          ?.closest("section")
-
-        if (!currentSection) return
-
-        const currentIndex = Array.from(sections).indexOf(currentSection)
-        const nextIndex =
-          e.key === "ArrowDown"
-            ? Math.min(currentIndex + 1, sections.length - 1)
-            : Math.max(currentIndex - 1, 0)
-
-        sections[nextIndex]?.scrollIntoView({ behavior: "smooth" })
-      }
-    }
-
-    window.addEventListener("keydown", handleKeyDown)
-    return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [])
 
   const handleChange = (field, value) => {
+    setFormData((prev) => ({ ...prev, [field]: value }))
+  }
+
+  const handleRangeChange = (range, field, value) => {
     setFormData((prev) => ({
       ...prev,
-      [field]: value,
+      [range]: { ...prev[range], [field]: value },
     }))
   }
+  const handleSearch = () => {
+    const path =
+      formData.propertyType === "Plot"
+        ? "/properties/plots"
+        : "/properties/houses"
 
-  const handleRangeChange = (field, subField, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: {
-        ...prev[field],
-        [subField]: value,
-      },
-    }))
-  }
+    const params = []
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // Handle form submission
-    console.log(formData)
-  }
+    params.push(`type=${formData.propertyType}`)
 
-  const backgroundVariants = {
-    hidden: { scale: 0, opacity: 0 },
-    visible: {
-      scale: 1,
-      opacity: 1,
-      transition: {
-        duration: 1,
-        ease: "easeOut",
-      },
-    },
-  }
+    if (formData.propertyType === "Plot" && formData.location) {
+      params.push(`area=${encodeURIComponent(formData.location)}`)
+    } else if (formData.location) {
+      params.push(`house_location=${encodeURIComponent(formData.location)}`)
+    }
 
-  const titleVariants = {
-    hidden: { y: -100, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut",
-      },
-    },
-  }
+    if (formData.sizeRange.min) {
+      params.push(`min_size=${formData.sizeRange.min}`)
+    }
+    if (formData.sizeRange.max) {
+      params.push(`max_size=${formData.sizeRange.max}`)
+    }
+    if (formData.priceRange.min) {
+      params.push(`min_price=${formData.priceRange.min}`)
+    }
+    if (formData.priceRange.max) {
+      params.push(`max_price=${formData.priceRange.max}`)
+    }
 
-  const buyButtonVariants = {
-    hidden: { x: "20vw", opacity: 0 },
-    visible: {
-      x: 0,
-      opacity: 1,
-      transition: {
-        duration: 1.8,
-        ease: [0.2, 0.8, 0.2, 1],
-      },
-    },
-  }
+    // Always add pool
+    params.push(`pool=all`)
 
-  const rentButtonVariants = {
-    hidden: { x: "-20vw", opacity: 0 },
-    visible: {
-      x: 0,
-      opacity: 1,
-      transition: {
-        duration: 1.8,
-        ease: [0.2, 0.8, 0.2, 1],
-      },
-    },
-  }
+    const queryString = params.join("&")
 
-  const searchRowVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut",
-      },
-    },
-  }
-
-  const dropdownVariants = {
-    hidden: { scale: 0, rotate: -10 },
-    visible: {
-      scale: 1,
-      rotate: 0,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut",
-      },
-    },
-  }
-
-  const moreOptionsVariants = {
-    hidden: { height: 0, opacity: 0 },
-    visible: {
-      height: "auto",
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut",
-      },
-    },
-    exit: {
-      height: 0,
-      opacity: 0,
-      transition: {
-        duration: 0.3,
-        ease: "easeIn",
-      },
-    },
-  }
-
-  const rangeInputVariants = {
-    hidden: { scale: 0, y: 20 },
-    visible: {
-      scale: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut",
-      },
-    },
+    router.push(`${path}?${queryString}`)
   }
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden">
-      <Background type="GLOBE" color={0x3f51b5} />
-      <div className="absolute inset-0 bg-black/50 z-0" />
+    <section className="relative min-h-screen w-full overflow-hidden">
+      <Background type="GLOBE" color={0x1a1a1a} />
+      {/* <div className="absolute inset-0 bg-black/50 z-0" /> */}
 
-      <div className="relative z-10 min-h-screen flex flex-col items-center  justify-center">
-        <div className="w-full md:w-[43%] h-auto md:h-[40%] flex flex-col items-center justify-cennter">
-          <motion.h1
-            variants={titleVariants}
-            initial="hidden"
-            animate="visible"
-            className="text-xl md:text-3xl font-bold text-center mb-6 text-gray-800 dark:text-white">
-            Find Your Perfect Property
-          </motion.h1>
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center pt-16 md:pt-20 pb-15">
+        <motion.h1
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          className="text-xl md:text-xl font-bold text-center mb-5 text-white">
+          Find Your Property
+        </motion.h1>
 
-          <div className="flex justify-center gap-4 mb-6">
-            <motion.button
-              variants={rentButtonVariants}
-              initial="hidden"
-              animate="visible"
-              onClick={() => handleChange("type", "rent")}
-              className={`px-6 py-2 text-sm md:text-base rounded-full transition-all duration-100 shadow-lg ${
-                formData.type === "rent"
-                  ? "bg-primary text-white shadow-primary/50"
-                  : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-              }`}>
-              Rent
-            </motion.button>
-            <motion.button
-              variants={buyButtonVariants}
-              initial="hidden"
-              animate="visible"
-              onClick={() => handleChange("type", "buy")}
-              className={`px-6 py-2 text-sm md:text-base rounded-full transition-all duration-100 shadow-lg ${
-                formData.type === "buy"
-                  ? "bg-primary text-white shadow-primary/50"
-                  : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-              }`}>
-              Buy
-            </motion.button>
-          </div>
+        {/* Mobile View */}
+        <div className="md:hidden w-full max-w-4xl bg-white/10 backdrop-blur-md rounded-lg p-5 mb-40">
+          <div className="grid grid-cols-1 gap-4">
+            <div>
+              <label className="block text-xs font-medium text-white mb-1">
+                Property Type
+              </label>
+              <select
+                value={formData.propertyType}
+                onChange={(e) => handleChange("propertyType", e.target.value)}
+                className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-sm">
+                {propertyTypes.map((type) => (
+                  <option
+                    key={type}
+                    value={type}
+                    className="text-black text-sm">
+                    {type}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <motion.div
-            variants={searchRowVariants}
-            initial="hidden"
-            animate="visible"
-            className="relative z-10 bg-white/90 dark:bg-gray-800/90 backdrop-blur-lg rounded-2xl p-4 w-full">
-            {/* Mobile View */}
-            <div className="flex flex-col items-center gap-4 md:hidden">
-              <motion.div
-                variants={dropdownVariants}
-                initial="hidden"
-                animate="visible"
-                className="w-[80%]">
-                <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Property Type
-                </label>
-                <ModernDropdown
-                  options={propertyTypes}
-                  value={formData.propertyType}
-                  onChange={(value) => handleChange("propertyType", value)}
-                  placeholder="Select Type"
-                />
-              </motion.div>
-              <motion.div
-                variants={dropdownVariants}
-                initial="hidden"
-                animate="visible"
-                className="w-[80%]">
-                <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Location
-                </label>
-                <ModernDropdown
-                  options={locations}
-                  value={formData.location}
-                  onChange={(value) => handleChange("location", value)}
-                  placeholder="Select Location"
-                />
-              </motion.div>
-              <motion.div
-                variants={dropdownVariants}
-                initial="hidden"
-                animate="visible"
-                className="w-[80%]">
-                <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Min Size
+            <div>
+              <label className="block text-xs font-medium text-white mb-1">
+                Location
+              </label>
+              <select
+                value={formData.location}
+                onChange={(e) => handleChange("location", e.target.value)}
+                className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary">
+                <option value="" className="text-black text-sm">
+                  Select Location
+                </option>
+                {locations.map((loc) => (
+                  <option key={loc} value={loc} className="text-black text-sm">
+                    {loc}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-medium text-white mb-1">
+                  Min Size (sq ft)
                 </label>
                 <input
                   type="number"
@@ -309,17 +148,13 @@ export default function PropertySearch() {
                   onChange={(e) =>
                     handleRangeChange("sizeRange", "min", e.target.value)
                   }
-                  className="w-full p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                  placeholder="Min"
+                  className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                  placeholder="Min size"
                 />
-              </motion.div>
-              <motion.div
-                variants={dropdownVariants}
-                initial="hidden"
-                animate="visible"
-                className="w-[80%]">
-                <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Max Size
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-white mb-1">
+                  Max Size (sq ft)
                 </label>
                 <input
                   type="number"
@@ -327,16 +162,15 @@ export default function PropertySearch() {
                   onChange={(e) =>
                     handleRangeChange("sizeRange", "max", e.target.value)
                   }
-                  className="w-full p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                  placeholder="Max"
+                  className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                  placeholder="Max size"
                 />
-              </motion.div>
-              <motion.div
-                variants={dropdownVariants}
-                initial="hidden"
-                animate="visible"
-                className="w-[80%]">
-                <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-medium text-white mb-1">
                   Min Price
                 </label>
                 <input
@@ -345,16 +179,12 @@ export default function PropertySearch() {
                   onChange={(e) =>
                     handleRangeChange("priceRange", "min", e.target.value)
                   }
-                  className="w-full p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                  placeholder="Min"
+                  className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                  placeholder="Min price"
                 />
-              </motion.div>
-              <motion.div
-                variants={dropdownVariants}
-                initial="hidden"
-                animate="visible"
-                className="w-[80%]">
-                <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-white mb-1">
                   Max Price
                 </label>
                 <input
@@ -363,179 +193,209 @@ export default function PropertySearch() {
                   onChange={(e) =>
                     handleRangeChange("priceRange", "max", e.target.value)
                   }
-                  className="w-full p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                  placeholder="Max"
+                  className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                  placeholder="Max price"
                 />
-              </motion.div>
+              </div>
+            </div>
+
+            <div className="mt-6">
               <motion.button
-                variants={dropdownVariants}
-                initial="hidden"
-                animate="visible"
-                type="submit"
-                className="w-[80%] px-6 py-2 text-sm bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors duration-200">
-                Find
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleSearch}
+                disabled={loading}
+                className="w-full px-6 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-xs">
+                {loading ? (
+                  <div className="flex items-center gap-2">
+                    <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+                    <span>Searching...</span>
+                  </div>
+                ) : (
+                  "Find Properties"
+                )}
               </motion.button>
             </div>
+          </div>
+        </div>
 
-            {/* Desktop View */}
-            <div className="hidden md:block">
-              <div className="flex items-center gap-5">
-                <motion.div
-                  variants={dropdownVariants}
-                  initial="hidden"
-                  animate="visible"
-                  className="w-1/4">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Property Type
-                  </label>
-                  <ModernDropdown
-                    options={propertyTypes}
-                    value={formData.propertyType}
-                    onChange={(value) => handleChange("propertyType", value)}
-                    placeholder="Select Type"
-                  />
-                </motion.div>
-                <motion.div
-                  variants={dropdownVariants}
-                  initial="hidden"
-                  animate="visible"
-                  className="w-1/3">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Location
-                  </label>
-                  <ModernDropdown
-                    options={locations}
-                    value={formData.location}
-                    onChange={(value) => handleChange("location", value)}
-                    placeholder="Select Location"
-                  />
-                </motion.div>
-                <motion.button
-                  variants={dropdownVariants}
-                  initial="hidden"
-                  animate="visible"
-                  type="submit"
-                  className="px-6 py-2 text-sm bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors duration-200 self-end">
-                  Find
-                </motion.button>
-              </div>
+        {/* Desktop View */}
+        <div className="hidden md:block w-full max-w-lg bg-white/10 backdrop-blur-md rounded-lg p-4 mb-40">
+          <div className="flex items-center gap-5">
+            <motion.div
+              variants={dropdownVariants}
+              initial="hidden"
+              animate="visible"
+              className="w-[20%]">
+              <label className="block text-xs font-medium text-white mb-1">
+                Property Type
+              </label>
+              <select
+                value={formData.propertyType}
+                onChange={(e) => handleChange("propertyType", e.target.value)}
+                className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-[12px]">
+                {propertyTypes.map((type) => (
+                  <option
+                    key={type}
+                    value={type}
+                    className="text-black text-[12px]">
+                    {type}
+                  </option>
+                ))}
+              </select>
+            </motion.div>
+            <motion.div
+              variants={dropdownVariants}
+              initial="hidden"
+              animate="visible"
+              // className="w-1/3"
+            >
+              <label className="block text-xs font-medium text-white mb-1">
+                Location
+              </label>
+              <select
+                value={formData.location}
+                onChange={(e) => handleChange("location", e.target.value)}
+                className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-[12px]">
+                <option value="" className="text-black text-[12px]">
+                  Select Location
+                </option>
+                {locations.map((loc) => (
+                  <option
+                    key={loc}
+                    value={loc}
+                    className="text-black text-[12px]">
+                    {loc}
+                  </option>
+                ))}
+              </select>
+            </motion.div>
+            <button
+              onClick={handleSearch}
+              disabled={loading}
+              className="animated-hover-btn flex self-end justify-center items-center px-6 py-2 text-sm bg-[#33a137] text-white rounded-lg hover:bg-[#f7b928] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+              {loading ? (
+                <div className="flex items-center gap-2">
+                  <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+                  <span>Searching...</span>
+                </div>
+              ) : (
+                <span>Find</span>
+              )}
+            </button>
 
-              <div className="mt-4 text-center">
-                <motion.button
-                  variants={dropdownVariants}
-                  initial="hidden"
-                  animate="visible"
-                  onClick={() => setShowMoreOptions(!showMoreOptions)}
-                  className="text-sm text-primary hover:text-primary-dark transition-colors duration-200">
-                  {showMoreOptions ? "Hide Options" : "More Options"}
-                </motion.button>
-              </div>
+            {/* <motion.button
+              variants={dropdownVariants}
+              initial="hidden"
+              animate="visible"
+              onClick={handleSearch}
+              className="px-6 py-2 text-sm bg-[#33a137] text-white rounded-lg hover:bg-[#f7b928] transition-colors duration-200 self-end">
+              Find
+            </motion.button> */}
+          </div>
 
-              <AnimatePresence>
-                {showMoreOptions && (
+          <div className="mt-2 text-left">
+            <motion.button
+              variants={dropdownVariants}
+              initial="hidden"
+              animate="visible"
+              onClick={() => setShowMoreOptions(!showMoreOptions)}
+              className="text-[10.5px] text-white hover:text-primary transition-colors duration-200">
+              {showMoreOptions ? "🔼 Hide Options" : "🔽 More Options"}
+            </motion.button>
+          </div>
+
+          <AnimatePresence>
+            {showMoreOptions && (
+              <motion.div
+                variants={moreOptionsVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                className="mt-4">
+                <div className="flex items-center gap-4">
                   <motion.div
-                    variants={moreOptionsVariants}
+                    variants={rangeInputVariants}
                     initial="hidden"
                     animate="visible"
-                    exit="exit"
-                    className="mt-4">
-                    <div className="flex items-center gap-4">
-                      <motion.div
-                        variants={rangeInputVariants}
-                        initial="hidden"
-                        animate="visible"
-                        className="w-1/5">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Min Size
-                        </label>
-                        <input
-                          type="number"
-                          value={formData.sizeRange.min}
-                          onChange={(e) =>
-                            handleRangeChange(
-                              "sizeRange",
-                              "min",
-                              e.target.value
-                            )
-                          }
-                          className="w-full p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                          placeholder="Min"
-                        />
-                      </motion.div>
-                      <motion.div
-                        variants={rangeInputVariants}
-                        initial="hidden"
-                        animate="visible"
-                        className="w-1/5">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Max Size
-                        </label>
-                        <input
-                          type="number"
-                          value={formData.sizeRange.max}
-                          onChange={(e) =>
-                            handleRangeChange(
-                              "sizeRange",
-                              "max",
-                              e.target.value
-                            )
-                          }
-                          className="w-full p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                          placeholder="Max"
-                        />
-                      </motion.div>
-                      <motion.div
-                        variants={rangeInputVariants}
-                        initial="hidden"
-                        animate="visible"
-                        className="w-1/5">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Min Price
-                        </label>
-                        <input
-                          type="number"
-                          value={formData.priceRange.min}
-                          onChange={(e) =>
-                            handleRangeChange(
-                              "priceRange",
-                              "min",
-                              e.target.value
-                            )
-                          }
-                          className="w-full p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                          placeholder="Min"
-                        />
-                      </motion.div>
-                      <motion.div
-                        variants={rangeInputVariants}
-                        initial="hidden"
-                        animate="visible"
-                        className="w-1/5">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Max Price
-                        </label>
-                        <input
-                          type="number"
-                          value={formData.priceRange.max}
-                          onChange={(e) =>
-                            handleRangeChange(
-                              "priceRange",
-                              "max",
-                              e.target.value
-                            )
-                          }
-                          className="w-full p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                          placeholder="Max"
-                        />
-                      </motion.div>
-                    </div>
+                    // className="w-1/5"
+                  >
+                    <label className="block text-[11px] font-medium text-white mb-1">
+                      Min Size
+                    </label>
+                    <input
+                      type="number"
+                      value={formData.sizeRange.min}
+                      onChange={(e) =>
+                        handleRangeChange("sizeRange", "min", e.target.value)
+                      }
+                      className="w-full p-2 text-[12px] bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="Min"
+                    />
                   </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </motion.div>
+                  <motion.div
+                    variants={rangeInputVariants}
+                    initial="hidden"
+                    animate="visible"
+                    // className="w-1/5"
+                  >
+                    <label className="block text-[11px] font-medium text-white mb-1">
+                      Max Size
+                    </label>
+                    <input
+                      type="number"
+                      value={formData.sizeRange.max}
+                      onChange={(e) =>
+                        handleRangeChange("sizeRange", "max", e.target.value)
+                      }
+                      className="w-full p-2 text-[12px] bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="Max"
+                    />
+                  </motion.div>
+                  <motion.div
+                    variants={rangeInputVariants}
+                    initial="hidden"
+                    animate="visible"
+                    // className="w-1/5"
+                  >
+                    <label className="block text-[11px] font-medium text-white mb-1">
+                      Min Price
+                    </label>
+                    <input
+                      type="number"
+                      value={formData.priceRange.min}
+                      onChange={(e) =>
+                        handleRangeChange("priceRange", "min", e.target.value)
+                      }
+                      className="w-full p-2 text-[12px] bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="Min"
+                    />
+                  </motion.div>
+                  <motion.div
+                    variants={rangeInputVariants}
+                    initial="hidden"
+                    animate="visible"
+                    // className="w-1/5"
+                  >
+                    <label className="block text-[11px] font-medium text-white mb-1">
+                      Max Price
+                    </label>
+                    <input
+                      type="number"
+                      value={formData.priceRange.max}
+                      onChange={(e) =>
+                        handleRangeChange("priceRange", "max", e.target.value)
+                      }
+                      className="w-full p-2 text-[12px] bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="Max"
+                    />
+                  </motion.div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

@@ -100,12 +100,12 @@ export default function NavBar() {
                 </motion.div>
               </Link>
               <div className="md:hidden flex items-center gap-4">
-                <button
+                {/* <button
                   onClick={toggleTheme}
                   aria-label="Toggle Theme"
                   className="p-2 rounded-full bg-primary/10 dark:bg-primary/20 text-primary dark:text-white hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors duration-200">
                   {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-                </button>
+                </button> */}
                 <button
                   className={`p-2 rounded-md text-primary dark:text-white outline-none focus:border-primary focus:border ${
                     scrolled
@@ -145,7 +145,7 @@ export default function NavBar() {
                         y: rect.y + rect.height / 2,
                       })
                     }}
-                    className="text-base py-2 px-4 text-center border-b md:border-b-0 border-gray-200 dark:border-gray-700 md:border-0 md:flex md:items-center h-full relative z-10">
+                    className="text-xs py-2 px-4 text-center border-b md:border-b-0 border-gray-200 dark:border-gray-700 md:border-0 md:flex md:items-center h-full relative z-10">
                     <Link
                       href={item.href}
                       className={`${

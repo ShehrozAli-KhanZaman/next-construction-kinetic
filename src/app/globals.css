@@ -255,3 +255,37 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+.animated-hover-btn {
+  position: relative;
+  overflow: hidden;
+  padding: 0.5rem 1.5rem;
+  font-size: 0.875rem;
+  color: white;
+  background-color: #33a137;
+  /* border-radius: 0.5rem; */
+  transition: background-color 0.3s ease-in-out;
+}
+/* .animated-hover-btn {
+  @apply px-6 py-2 text-sm bg-[#33a137] text-white rounded-lg transition-colors duration-200 relative overflow-hidden;
+} */
+.animated-hover-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #052ba8 40%, #04f70c 100%);
+  /* rgb(34, 32, 32) */
+  transform: translate(-100%, 100%);
+  transition: transform 0.5s ease-in-out;
+  z-index: 0;
+}
+
+.animated-hover-btn:hover::before {
+  transform: translate(0, 0);
+}
+
+.animated-hover-btn span,
+.animated-hover-btn {
+  position: relative;
+  z-index: 1;
+}
