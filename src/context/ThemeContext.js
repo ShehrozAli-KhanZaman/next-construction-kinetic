@@ -9,12 +9,13 @@ export function ThemeProvider({ children }) {
 
   // Initialize theme from localStorage if available
   useEffect(() => {
-    const storedTheme = localStorage.getItem("theme")
-    if (storedTheme) {
-      setTheme(storedTheme)
-    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setTheme("dark")
-    }
+    setTheme("dark")
+    // const storedTheme = localStorage.getItem("theme")
+    // if (storedTheme) {
+    //   setTheme(storedTheme)
+    // } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    //   setTheme("dark")
+    // }
   }, [])
 
   // Update HTML class when theme changes

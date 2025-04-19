@@ -154,36 +154,36 @@ export default function PlotsPage() {
                     } sticky top-0 z-10`}>
                     <tr className="text-sm font-semibold">
                       <th
-                        className="px-4 py-3 text-left cursor-pointer"
+                        className="px-4 py-3 text-center cursor-pointer"
                         onClick={() => handleSort("prop_create_date")}>
                         Date{" "}
                         {sortConfig.key === "prop_create_date" &&
                           (sortConfig.direction === "asc" ? "↑" : "↓")}
                       </th>
                       <th
-                        className="px-4 py-3 text-left cursor-pointer"
+                        className="px-4 py-3 text-center cursor-pointer"
                         onClick={() => handleSort("prop_address")}>
                         Plot No{" "}
                         {sortConfig.key === "prop_address" &&
                           (sortConfig.direction === "asc" ? "↑" : "↓")}
                       </th>
                       <th
-                        className="px-4 py-3 text-left cursor-pointer"
+                        className="px-4 py-3 text-center cursor-pointer"
                         onClick={() => handleSort("prop_price")}>
                         Price{" "}
                         {sortConfig.key === "prop_price" &&
                           (sortConfig.direction === "asc" ? "↑" : "↓")}
                       </th>
                       <th
-                        className="px-4 py-3 text-left cursor-pointer"
+                        className="px-4 py-3 text-center cursor-pointer"
                         onClick={() => handleSort("prop_size")}>
                         Size{" "}
                         {sortConfig.key === "prop_size" &&
                           (sortConfig.direction === "asc" ? "↑" : "↓")}
                       </th>
-                      <th className="px-4 py-3 text-left">Type</th>
-                      <th className="px-4 py-3 text-left">Remarks</th>
-                      <th className="px-4 py-3 text-left">Details</th>
+                      <th className="px-4 py-3 text-center">Type</th>
+                      <th className="px-4 py-3 text-center">Remarks</th>
+                      <th className="px-4 py-3 text-center">Details</th>
                     </tr>
                   </thead>
 
@@ -193,7 +193,7 @@ export default function PlotsPage() {
                       isDark
                         ? "divide-gray-700 text-gray-300"
                         : "divide-gray-200 text-gray-700"
-                    }`}>
+                    } text-center`}>
                     {sortedPlots.map((plot, index) => (
                       <tr
                         key={index}

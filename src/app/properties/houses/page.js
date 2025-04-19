@@ -171,44 +171,44 @@ export default function HousesPage() {
                     }`}>
                     <tr className="text-sm font-semibold">
                       <th
-                        className="px-4 py-3 text-left cursor-pointer"
+                        className="px-4 py-3 text-center cursor-pointer"
                         onClick={() => handleSort("house_date")}>
                         Date{" "}
                         {sortConfig.key === "house_date" &&
                           (sortConfig.direction === "asc" ? "↑" : "↓")}
                       </th>
                       {/* <th
-                        className="px-4 py-3 text-left cursor-pointer"
+                        className="px-4 py-3 text-center cursor-pointer"
                         onClick={() => handleSort("house_location")}>
                         Area{" "}
                         {sortConfig.key === "house_location" &&
                           (sortConfig.direction === "asc" ? "↑" : "↓")}
                       </th> */}
                       <th
-                        className="px-4 py-3 text-left cursor-pointer"
+                        className="px-4 py-3 text-center cursor-pointer"
                         onClick={() => handleSort("house_number")}>
                         House No{" "}
                         {sortConfig.key === "house_number" &&
                           (sortConfig.direction === "asc" ? "↑" : "↓")}
                       </th>
                       <th
-                        className="px-4 py-3 text-left cursor-pointer"
+                        className="px-4 py-3 text-center cursor-pointer"
                         onClick={() => handleSort("house_price")}>
                         Price{" "}
                         {sortConfig.key === "house_price" &&
                           (sortConfig.direction === "asc" ? "↑" : "↓")}
                       </th>
                       <th
-                        className="px-4 py-3 text-left cursor-pointer"
+                        className="px-4 py-3 text-center cursor-pointer"
                         onClick={() => handleSort("house_size")}>
                         Size{" "}
                         {sortConfig.key === "house_size" &&
                           (sortConfig.direction === "asc" ? "↑" : "↓")}
                       </th>
-                      <th className="px-4 py-3 text-left">Beds</th>
-                      <th className="px-4 py-3 text-left">Baths</th>
-                      <th className="px-4 py-3 text-left">Old/New</th>
-                      <th className="px-4 py-3 text-left">Details</th>
+                      <th className="px-4 py-3 text-center">Beds</th>
+                      <th className="px-4 py-3 text-center">Baths</th>
+                      <th className="px-4 py-3 text-center">Old/New</th>
+                      <th className="px-4 py-3 text-center">Details</th>
                     </tr>
                   </thead>
 
@@ -225,7 +225,7 @@ export default function HousesPage() {
                             : index % 2 === 0
                             ? "bg-white hover:bg-gray-100"
                             : "bg-gray-100 hover:bg-gray-200"
-                        }`}>
+                        } text-center`}>
                         <td className="px-4 py-3">
                           {new Date(house.house_date).toLocaleDateString()}
                         </td>
