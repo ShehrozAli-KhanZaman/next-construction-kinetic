@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation"
 import { HouseDataApi } from "@/utils/propertyApi"
 import Navbar from "@/components/Navbar"
 import { formatPrice, formatSize } from "@/utils/formatUtils"
+import { Moon, Sun } from "lucide-react"
 
 export default function HousesPage() {
   const searchParams = useSearchParams()
@@ -109,11 +110,19 @@ export default function HousesPage() {
     }
   }
 
+  const [tableTheme, setTableTheme] = useState("dark")
+
+  const toggleTableTheme = () => {
+    setTableTheme((prev) => (prev === "dark" ? "light" : "dark"))
+  }
+
+  const isDark = tableTheme === "dark"
+
   return (
     <div className="min-h-screen bg-gray-900">
-      <Navbar />
-      <div className="pt-20 px-4">
-        <div className="max-w-7xl mx-auto">
+      {/* <Navbar /> */}
+      <div className="pt-20 px-1">
+        <div className="max-w-7xl">
           <div className="bg-gray-800 rounded-lg shadow-sm overflow-hidden">
             {loading ? (
               <div className="flex justify-center items-center h-96">
@@ -123,100 +132,127 @@ export default function HousesPage() {
               <div className="p-4 text-center text-red-400">{error}</div>
             ) : (
               <div className="overflow-x-auto">
-                <div className="min-w-full">
-                  {/* Table Header */}
-                  <div className="bg-gray-100 border-b border-gray-200">
-                    <div className="grid grid-cols-9 gap-4 p-4 text-sm font-medium text-gray-700">
-                      <div
-                        className="flex items-center cursor-pointer"
-                        onClick={() => handleSort("house_date")}>
-                        <span>Date</span>
-                        {sortConfig.key === "house_date" && (
-                          <span className="ml-1">
-                            {sortConfig.direction === "asc" ? "↑" : "↓"}
-                          </span>
-                        )}
-                      </div>
-                      <div
-                        className="flex items-center cursor-pointer"
-                        onClick={() => handleSort("house_location")}>
-                        <span>Area</span>
-                        {sortConfig.key === "house_location" && (
-                          <span className="ml-1">
-                            {sortConfig.direction === "asc" ? "↑" : "↓"}
-                          </span>
-                        )}
-                      </div>
-                      <div
-                        className="flex items-center cursor-pointer"
-                        onClick={() => handleSort("house_number")}>
-                        <span>House No</span>
-                        {sortConfig.key === "house_number" && (
-                          <span className="ml-1">
-                            {sortConfig.direction === "asc" ? "↑" : "↓"}
-                          </span>
-                        )}
-                      </div>
-                      <div
-                        className="flex items-center cursor-pointer"
-                        onClick={() => handleSort("house_price")}>
-                        <span>Price</span>
-                        {sortConfig.key === "house_price" && (
-                          <span className="ml-1">
-                            {sortConfig.direction === "asc" ? "↑" : "↓"}
-                          </span>
-                        )}
-                      </div>
-                      <div
-                        className="flex items-center cursor-pointer"
-                        onClick={() => handleSort("house_size")}>
-                        <span>Size</span>
-                        {sortConfig.key === "house_size" && (
-                          <span className="ml-1">
-                            {sortConfig.direction === "asc" ? "↑" : "↓"}
-                          </span>
-                        )}
-                      </div>
-                      <div className="flex items-center">
-                        <span>Beds</span>
-                      </div>
-                      <div className="flex items-center">
-                        <span>Baths</span>
-                      </div>
-                      <div className="flex items-center">
-                        <span>Old/New</span>
-                      </div>
-                      <div className="flex items-center">
-                        <span>Details</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Table Body */}
-                  <div className="divide-y divide-gray-200">
-                    {sortedHouses.map((house, index) => (
-                      <div
-                        key={index}
-                        className="grid grid-cols-9 gap-4 p-4 text-sm text-gray-900 hover:bg-gray-50">
-                        <div>
-                          {new Date(house.house_date).toLocaleDateString()}
-                        </div>
-                        <div>{house.house_location}</div>
-                        <div>{house.house_number}</div>
-                        <div>{formatPrice(house.house_price)}</div>
-                        <div>{formatSize(house.house_size)}</div>
-                        <div>{house.house_beds}</div>
-                        <div>{house.house_baths}</div>
-                        <div>{house.house_type}</div>
-                        <div>
-                          <button className="text-primary hover:text-primary-dark">
-                            View Details
-                          </button>
-                        </div>
-                      </div>
-                    ))}
+                {/* Header with toggle */}
+                <div className="relative mb-6">
+                  <h2 className="text-xl font-semibold text-white text-center py-3 shadow-md bg-gradient-to-r from-purple-500 via-blue-500 to-teal-500 rounded-lg">
+                    House Listings
+                  </h2>
+                  <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center space-x-2 ml-35">
+                    <button
+                      onClick={toggleTableTheme}
+                      className="flex items-center justify-center px-4 py-2  text-white hover:bg-primary/80 rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-110">
+                      {isDark ? (
+                        <Sun
+                          size={20}
+                          className="transition-transform duration-300 ease-in-out transform hover:rotate-180"
+                        />
+                      ) : (
+                        <Moon
+                          size={20}
+                          className="transition-transform duration-300 ease-in-out transform hover:rotate-180"
+                        />
+                      )}
+                    </button>
                   </div>
                 </div>
+
+                <table
+                  className={`min-w-full ${
+                    isDark
+                      ? "bg-gray-900 text-white"
+                      : "bg-white text-gray-900 border border-gray-300"
+                  } rounded-lg shadow-md overflow-hidden`}>
+                  {/* Table Head */}
+                  <thead
+                    className={`sticky top-0 z-10 ${
+                      isDark
+                        ? "bg-gray-800 text-gray-300"
+                        : "bg-gray-100 text-gray-700"
+                    }`}>
+                    <tr className="text-sm font-semibold">
+                      <th
+                        className="px-4 py-3 text-left cursor-pointer"
+                        onClick={() => handleSort("house_date")}>
+                        Date{" "}
+                        {sortConfig.key === "house_date" &&
+                          (sortConfig.direction === "asc" ? "↑" : "↓")}
+                      </th>
+                      {/* <th
+                        className="px-4 py-3 text-left cursor-pointer"
+                        onClick={() => handleSort("house_location")}>
+                        Area{" "}
+                        {sortConfig.key === "house_location" &&
+                          (sortConfig.direction === "asc" ? "↑" : "↓")}
+                      </th> */}
+                      <th
+                        className="px-4 py-3 text-left cursor-pointer"
+                        onClick={() => handleSort("house_number")}>
+                        House No{" "}
+                        {sortConfig.key === "house_number" &&
+                          (sortConfig.direction === "asc" ? "↑" : "↓")}
+                      </th>
+                      <th
+                        className="px-4 py-3 text-left cursor-pointer"
+                        onClick={() => handleSort("house_price")}>
+                        Price{" "}
+                        {sortConfig.key === "house_price" &&
+                          (sortConfig.direction === "asc" ? "↑" : "↓")}
+                      </th>
+                      <th
+                        className="px-4 py-3 text-left cursor-pointer"
+                        onClick={() => handleSort("house_size")}>
+                        Size{" "}
+                        {sortConfig.key === "house_size" &&
+                          (sortConfig.direction === "asc" ? "↑" : "↓")}
+                      </th>
+                      <th className="px-4 py-3 text-left">Beds</th>
+                      <th className="px-4 py-3 text-left">Baths</th>
+                      <th className="px-4 py-3 text-left">Old/New</th>
+                      <th className="px-4 py-3 text-left">Details</th>
+                    </tr>
+                  </thead>
+
+                  {/* Table Body */}
+                  <tbody>
+                    {sortedHouses.map((house, index) => (
+                      <tr
+                        key={index}
+                        className={`text-sm transition-all ${
+                          isDark
+                            ? index % 2 === 0
+                              ? "bg-gray-900 hover:bg-gray-800"
+                              : "bg-gray-800 hover:bg-gray-700"
+                            : index % 2 === 0
+                            ? "bg-white hover:bg-gray-100"
+                            : "bg-gray-100 hover:bg-gray-200"
+                        }`}>
+                        <td className="px-4 py-3">
+                          {new Date(house.house_date).toLocaleDateString()}
+                        </td>
+                        {/* <td className="px-4 py-3">{house.house_location}</td> */}
+                        <td className="px-4 py-3">{house.house_number}</td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          {formatPrice(house.house_price)}
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          {formatSize(house.house_size)}
+                        </td>
+                        <td className="px-4 py-3">{house.house_beds}</td>
+                        <td className="px-4 py-3">{house.house_baths}</td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          {house.house_type}
+                        </td>
+                        <td className="px-4 py-3">
+                          <a
+                            href="tel:+923204300002"
+                            className="text-primary hover:underline transition duration-150 whitespace-nowrap">
+                            M. Farhan Ilyas
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )}
 

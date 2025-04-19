@@ -5,7 +5,7 @@ import { createContext, useContext, useEffect, useState } from "react"
 const ThemeContext = createContext()
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState("light")
+  const [theme, setTheme] = useState("dark")
 
   // Initialize theme from localStorage if available
   useEffect(() => {

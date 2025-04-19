@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useRouter } from "next/navigation"
 import Background from "@/components/Background"
 import { locations } from "@/lib/location"
+import { toast, ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 const propertyTypes = ["Plot", "House"]
 
@@ -46,47 +48,76 @@ export default function PropertySearch() {
     }))
   }
   const handleSearch = () => {
-    const path =
-      formData.propertyType === "Plot"
-        ? "/properties/plots"
-        : "/properties/houses"
+    setLoading(true)
+    try {
+      if (!formData.location) {
+        toast.error("Please select a location first.", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        })
+        return // Stop the search if location is not selected
+      }
 
-    const params = []
+      const path =
+        formData.propertyType === "Plot"
+          ? "/properties/plots"
+          : "/properties/houses"
 
-    params.push(`type=${formData.propertyType}`)
+      const params = []
 
-    if (formData.propertyType === "Plot" && formData.location) {
-      params.push(`area=${encodeURIComponent(formData.location)}`)
-    } else if (formData.location) {
-      params.push(`house_location=${encodeURIComponent(formData.location)}`)
+      params.push(`type=${formData.propertyType}`)
+
+      if (formData.propertyType === "Plot" && formData.location) {
+        params.push(`area=${encodeURIComponent(formData.location)}`)
+      } else if (formData.location) {
+        params.push(`house_location=${encodeURIComponent(formData.location)}`)
+      }
+
+      if (formData.sizeRange.min) {
+        params.push(`min_size=${formData.sizeRange.min}`)
+      }
+      if (formData.sizeRange.max) {
+        params.push(`max_size=${formData.sizeRange.max}`)
+      }
+      if (formData.priceRange.min) {
+        params.push(`min_price=${formData.priceRange.min}`)
+      }
+      if (formData.priceRange.max) {
+        params.push(`max_price=${formData.priceRange.max}`)
+      }
+
+      // Always add pool
+      params.push(`pool=all`)
+
+      const queryString = params.join("&")
+
+      router.push(`${path}?${queryString}`)
+    } catch (error) {
+      toast.error("Please Try Again!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      })
+    } finally {
+      setLoading(false)
     }
-
-    if (formData.sizeRange.min) {
-      params.push(`min_size=${formData.sizeRange.min}`)
-    }
-    if (formData.sizeRange.max) {
-      params.push(`max_size=${formData.sizeRange.max}`)
-    }
-    if (formData.priceRange.min) {
-      params.push(`min_price=${formData.priceRange.min}`)
-    }
-    if (formData.priceRange.max) {
-      params.push(`max_price=${formData.priceRange.max}`)
-    }
-
-    // Always add pool
-    params.push(`pool=all`)
-
-    const queryString = params.join("&")
-
-    router.push(`${path}?${queryString}`)
   }
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
       <Background type="GLOBE" color={0x1a1a1a} />
       {/* <div className="absolute inset-0 bg-black/50 z-0" /> */}
-
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center pt-16 md:pt-20 pb-15">
         <motion.h1
           initial={{ y: -50, opacity: 0 }}
@@ -276,8 +307,8 @@ export default function PropertySearch() {
               className="animated-hover-btn flex self-end justify-center items-center px-6 py-2 text-sm bg-[#33a137] text-white rounded-lg hover:bg-[#f7b928] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
               {loading ? (
                 <div className="flex items-center gap-2">
-                  <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
-                  <span>Searching...</span>
+                  <div className="animate-spin rounded-full h-2 w-2 border-t-2 border-b-2 border-white"></div>
+                  <span>finding...</span>
                 </div>
               ) : (
                 <span>Find</span>

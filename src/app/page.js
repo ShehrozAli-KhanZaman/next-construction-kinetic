@@ -21,6 +21,7 @@ import SectionWrapper from "@/components/SectionWrapper"
 import FeaturedProperties from "@/components/sections/FeaturedProperties"
 // import AboutUs from "@/components/sections/About"
 import Contact from "@/components/sections/Contact"
+import { ToastContainer } from "react-toastify"
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState(0)
@@ -84,6 +85,7 @@ export default function Home() {
 
     window.addEventListener("wheel", handleWheel, { passive: false })
     return () => window.removeEventListener("wheel", handleWheel)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -96,6 +98,7 @@ export default function Home() {
           {welcomeMessage}
         </motion.div>
       )} */}
+      <ToastContainer />
       <AnimatePresence mode="wait">
         {sections.map((section, index) => (
           <AnimatedSection
