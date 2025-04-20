@@ -3,17 +3,18 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
 import Background from "@/components/Background"
+import emailjs from "emailjs-com"
 
 export default function CostCalculator() {
   const [formData, setFormData] = useState({
     houseSize: "",
-    location: "",
-    floors: "",
-    beds: "",
-    baths: "",
-    kitchens: "",
-    type: "",
-    finishings: "",
+    location: "dha",
+    floors: "1-floor",
+    beds: "2-beds",
+    baths: "2-baths",
+    kitchens: "1-kitchen",
+    type: "single-family",
+    finishings: "basic",
     notes: "",
     phone: "",
   })
@@ -29,46 +30,35 @@ export default function CostCalculator() {
     e.preventDefault()
     setIsSubmitted(true)
 
-    try {
-      const response = await fetch("/api/send-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          to: "shehrozalikhanzaman@gmail.com",
-          subject: "New Quotation Request",
-          text: `
-            House Size: ${formData.houseSize}
-            Location: ${formData.location}
-            Floors: ${formData.floors}
-            Beds: ${formData.beds}
-            Baths: ${formData.baths}
-            Kitchens: ${formData.kitchens}
-            Type: ${formData.type}
-            Finishings: ${formData.finishings}
-            Notes: ${formData.notes}
-            Phone: ${formData.phone}
-          `,
-        }),
-      })
+    const templateParams = {
+      houseSize: formData.houseSize,
+      location: formData.location,
+      floors: formData.floors,
+      beds: formData.beds,
+      baths: formData.baths,
+      kitchens: formData.kitchens,
+      type: formData.type,
+      finishings: formData.finishings,
+      notes: formData.notes,
+      phone: formData.phone,
+    }
 
-      if (!response.ok) {
-        throw new Error("Failed to send email")
-      }
+    try {
+      const result = await emailjs.send(
+        "service_nar3pyc", // Service ID
+        "template_9gbai9h", // Template ID
+        templateParams,
+        "OPtAKYuroNBRiNBLT" // Public Key
+      )
+      console.log("Email successfully sent!", result.text)
     } catch (error) {
-      console.error("Error sending email:", error)
+      console.error("Email send error:", error)
     }
   }
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
   }
 
   const itemVariants = {
@@ -77,237 +67,250 @@ export default function CostCalculator() {
   }
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden">
-      <Background type="NET" color={0x3498db} />
+    <section className="relative w-full min-h-screen overflow-hidden">
+      {/* <Background type="NET" color={0x3498db} /> */}
       <div className="absolute inset-0 bg-black/50 z-0" />
-
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center pt-16 md:pt-20">
-        <motion.h1
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="text-3xl md:text-4xl font-bold text-center mb-8 text-white">
-          Cost Calculator
-        </motion.h1>
-
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center  px-4 md:px-5">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8">
-          <motion.h1
-            variants={itemVariants}
-            className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-8">
-            Get a Quotation
-          </motion.h1>
-
-          {isSubmitted ? (
+          className="w-full max-w-7xl bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
+          {/* Left Form Section */}
+          {/* Left Quotation Form Section */}
+          <div className="w-full md:w-1/2 relative p-4 md:p-6 max-h-[90vh] overflow-auto flex flex-col justify-center items-center">
+            {/* Background Glow */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="text-center">
-              <div className="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg
-                  className="w-8 h-8 text-green-600 dark:text-green-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              </div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                Request Submitted
-              </h2>
-              <p className="text-gray-700 dark:text-gray-300">
-                We'll get back to you shortly with a detailed quotation.
-              </p>
-            </motion.div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
+              className="absolute w-72 h-72 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 opacity-30 blur-3xl rounded-full -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 1.2, ease: "easeOut" }}
+            />
+
+            <motion.h2
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="text-xl font-bold text-gray-900 dark:text-white mb-4 text-center">
+              Get a Quotation
+            </motion.h2>
+
+            {isSubmitted ? (
               <motion.div
-                variants={itemVariants}
-                className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    House Size
-                  </label>
-                  <select
-                    name="houseSize"
-                    value={formData.houseSize}
-                    onChange={handleChange}
-                    required
-                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-                    <option value="">Select Size</option>
-                    <option value="5-marla">5 Marla</option>
-                    <option value="10-marla">10 Marla</option>
-                    <option value="1-kanal">1 Kanal</option>
-                    <option value="2-kanal">2 Kanal</option>
-                  </select>
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6 }}
+                className="text-center mt-8">
+                <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <svg
+                    className="w-6 h-6 text-green-600 dark:text-green-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
                 </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Location
-                  </label>
-                  <select
-                    name="location"
-                    value={formData.location}
-                    onChange={handleChange}
-                    required
-                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-                    <option value="">Select Location</option>
-                    <option value="dha">DHA</option>
-                    <option value="bahria">Bahria Town</option>
-                    <option value="gulberg">Gulberg</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Number of Floors
-                  </label>
-                  <select
-                    name="floors"
-                    value={formData.floors}
-                    onChange={handleChange}
-                    required
-                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-                    <option value="">Select Floors</option>
-                    <option value="1">1 Floor</option>
-                    <option value="2">2 Floors</option>
-                    <option value="3">3 Floors</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Number of Beds
-                  </label>
-                  <select
-                    name="beds"
-                    value={formData.beds}
-                    onChange={handleChange}
-                    required
-                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-                    <option value="">Select Beds</option>
-                    <option value="2">2 Beds</option>
-                    <option value="3">3 Beds</option>
-                    <option value="4">4 Beds</option>
-                    <option value="5">5 Beds</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Number of Baths
-                  </label>
-                  <select
-                    name="baths"
-                    value={formData.baths}
-                    onChange={handleChange}
-                    required
-                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-                    <option value="">Select Baths</option>
-                    <option value="2">2 Baths</option>
-                    <option value="3">3 Baths</option>
-                    <option value="4">4 Baths</option>
-                    <option value="5">5 Baths</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Number of Kitchens
-                  </label>
-                  <select
-                    name="kitchens"
-                    value={formData.kitchens}
-                    onChange={handleChange}
-                    required
-                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-                    <option value="">Select Kitchens</option>
-                    <option value="1">1 Kitchen</option>
-                    <option value="2">2 Kitchens</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Type
-                  </label>
-                  <select
-                    name="type"
-                    value={formData.type}
-                    onChange={handleChange}
-                    required
-                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-                    <option value="">Select Type</option>
-                    <option value="single-family">Single Family</option>
-                    <option value="duplex">Duplex</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Finishings
-                  </label>
-                  <select
-                    name="finishings"
-                    value={formData.finishings}
-                    onChange={handleChange}
-                    required
-                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-                    <option value="">Select Finishings</option>
-                    <option value="basic">Basic</option>
-                    <option value="standard">Standard</option>
-                    <option value="premium">Premium</option>
-                    <option value="luxury">Luxury</option>
-                  </select>
-                </div>
-
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Additional Notes
-                  </label>
-                  <textarea
-                    name="notes"
-                    value={formData.notes}
-                    onChange={handleChange}
-                    rows="3"
-                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  />
-                </div>
-
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                    placeholder="Enter your phone number"
-                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  />
-                </div>
+                <h2 className="text-sm font-bold text-gray-900 dark:text-white mb-1">
+                  Request Submitted
+                </h2>
+                <p className="text-xs text-gray-700 dark:text-gray-300">
+                  We will get back to you shortly with a detailed quotation.
+                </p>
               </motion.div>
+            ) : (
+              <motion.form
+                onSubmit={handleSubmit}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.7, ease: "easeOut" }}
+                className="space-y-4 w-full">
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, duration: 0.6 }}
+                  className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {[
+                    {
+                      label: "House Size",
+                      name: "houseSize",
+                      options: [
+                        "3 Marla",
+                        "5 Marla",
+                        "8 Marla",
+                        "10 Marla",
+                        "1 Kanal",
+                        "2 Kanal",
+                      ],
+                    },
+                    {
+                      label: "Location",
+                      name: "location",
+                      options: [
+                        "DHA",
+                        "LDA",
+                        "Bahria Town",
+                        "Gulberg",
+                        "Cooperative society",
+                      ],
+                    },
+                    {
+                      label: "Number of Floors",
+                      name: "floors",
+                      options: ["1 Floor", "2 Floors", "3 Floors", "4 Floors"],
+                    },
+                    {
+                      label: "Number of Beds",
+                      name: "beds",
+                      options: [
+                        "2 Beds",
+                        "3 Beds",
+                        "4 Beds",
+                        "5 Beds",
+                        "6 Beds",
+                        "7 Beds",
+                        "8 Beds",
+                        "9 Beds",
+                        "10 Beds",
+                      ],
+                    },
+                    {
+                      label: "Number of Baths",
+                      name: "baths",
+                      options: ["2 Baths", "3 Baths", "4 Baths", "5 Baths"],
+                    },
+                    {
+                      label: "Number of Kitchens",
+                      name: "kitchens",
+                      options: ["1 Kitchen", "2 Kitchens", "3 Kitchens"],
+                    },
+                    {
+                      label: "Type",
+                      name: "type",
+                      options: ["Single Family", "Duplex"],
+                    },
+                    {
+                      label: "Finishings",
+                      name: "finishings",
+                      options: ["Basic", "Standard", "Premium", "Luxury"],
+                    },
+                  ].map((field) => (
+                    <div key={field.name} className="col-span-1">
+                      <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        {field.label}
+                      </label>
+                      <select
+                        name={field.name}
+                        value={formData[field.name]}
+                        onChange={handleChange}
+                        required={field.name === "houseSize"}
+                        className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                        <option value="">
+                          {field.name === "houseSize"
+                            ? `Select ${field.label}`
+                            : "Select an option"}
+                        </option>
+                        {field.options.map((opt) => (
+                          <option
+                            key={opt}
+                            value={opt.toLowerCase().replace(/\s/g, "-")}>
+                            {opt}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  ))}
+                </motion.div>
 
-              <motion.div variants={itemVariants} className="text-center">
-                <button
-                  type="submit"
-                  className="px-8 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg font-medium transition-colors">
-                  Get Quotation
-                </button>
-              </motion.div>
-            </form>
-          )}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5, duration: 0.6 }}
+                  className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Additional Notes
+                    </label>
+                    <input
+                      name="notes"
+                      value={formData.notes}
+                      onChange={handleChange}
+                      type="text"
+                      placeholder="Enter some additional notes"
+                      className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      required
+                      placeholder="Enter your phone number"
+                      className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    />
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6, duration: 0.6 }}
+                  className="text-center">
+                  <button
+                    type="submit"
+                    className="px-4 py-2 text-xs bg-primary hover:bg-primary-dark text-white rounded-md font-medium transition-all duration-300">
+                    Get Quotation
+                  </button>
+                </motion.div>
+              </motion.form>
+            )}
+          </div>
+
+          {/* Right Info Section - Hidden on mobile */}
+          <div className="hidden md:flex w-full md:w-1/2 relative bg-gray-100 dark:bg-gray-900 p-6 md:p-8 flex-col justify-center items-center text-center max-h-[90vh] overflow-hidden">
+            {/* Decorative Background Glow Ring */}
+            <motion.div
+              className="absolute w-72 h-72 bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 opacity-30 blur-3xl rounded-full -z-10"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 1.2, ease: "easeOut" }}
+            />
+
+            {/* Floating content card */}
+            <motion.div
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 md:p-8 max-w-md"
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 1, ease: "easeOut" }}>
+              <motion.h3
+                className="text-2xl font-extrabold text-gray-800 dark:text-white mb-4"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.6 }}>
+                Why Choose Us?
+              </motion.h3>
+              <motion.p
+                className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.6 }}>
+                Get instant quotes based on accurate specifications. Our team
+                will reach out with precise cost estimates based on your inputs.
+                <br />
+                Fast, simple, and effective.
+              </motion.p>
+            </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>
