@@ -93,7 +93,7 @@ export default function Home() {
       ref={containerRef}
       className="relative w-full h-screen overflow-hidden touch-none">
       <ToastContainer />
-      <AnimatePresence>
+      <AnimatePresence mode="sync">
         {sections.map((section, index) => {
           const Component = section.component
           return (

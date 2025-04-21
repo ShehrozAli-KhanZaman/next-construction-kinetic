@@ -1,17 +1,20 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import Background from "@/components/Background"
+import { saveAs } from "file-saver"
 
 const layouts = [
   {
     id: 1,
+    size: "3 Marla",
     title: "3 Marla Modern Design",
     description:
       "Contemporary 3 marla house design with efficient space utilization",
     image: "/images/layouts/3marla.jpg",
+    pdf: "/pdfs/3marla.pdf",
     features: [
       "2 Bedrooms",
       "1 Bathroom",
@@ -22,9 +25,11 @@ const layouts = [
   },
   {
     id: 2,
+    size: "5 Marla",
     title: "5 Marla Classic Design",
     description: "Traditional 5 marla house layout with family-oriented spaces",
     image: "/images/layouts/5marla.jpg",
+    pdf: "/pdfs/5marla.pdf",
     features: [
       "3 Bedrooms",
       "2 Bathrooms",
@@ -35,9 +40,11 @@ const layouts = [
   },
   {
     id: 3,
+    size: "10 Marla",
     title: "10 Marla Luxury Villa",
     description: "Luxurious 10 marla villa design with premium finishes",
     image: "/images/layouts/10marla.jpg",
+    pdf: "/pdfs/10marla.pdf",
     features: [
       "4 Bedrooms",
       "3 Bathrooms",
@@ -53,27 +60,44 @@ const layouts = [
 const HouseLayouts = () => {
   const [selectedLayout, setSelectedLayout] = useState(null)
 
+  // Commented size filtering logic
+  /*
+  const [selectedSize, setSelectedSize] = useState("All")
+  const sizes = ["All", "3 Marla", "5 Marla", "10 Marla"]
+  const filteredLayouts = selectedSize === "All" ? layouts : layouts.filter((l) => l.size === selectedSize)
+  */
+  const filteredLayouts = layouts // Using full layout list since size filter is disabled
+
+  useEffect(() => {
+    document.body.style.overflow = selectedLayout ? "hidden" : "auto"
+    const handleEsc = (e) => {
+      if (e.key === "Escape") closeLayout()
+    }
+    window.addEventListener("keydown", handleEsc)
+    return () => {
+      window.removeEventListener("keydown", handleEsc)
+      document.body.style.overflow = "auto"
+    }
+  }, [selectedLayout])
+
+  const openLayout = (layout) => setSelectedLayout(layout)
+  const closeLayout = () => setSelectedLayout(null)
+
+  const handleDownload = (layout) => {
+    saveAs(layout.pdf, `${layout.title}.pdf`)
+  }
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
+      transition: { staggerChildren: 0.2 },
     },
   }
 
   const itemVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0 },
-  }
-
-  const openLayout = (layout) => {
-    setSelectedLayout(layout)
-  }
-
-  const closeLayout = () => {
-    setSelectedLayout(null)
   }
 
   return (
@@ -86,125 +110,88 @@ const HouseLayouts = () => {
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
-          className="text-3xl md:text-4xl font-bold text-center mb-8 text-white">
+          className="text-xs font-bold text-center mb-6 text-white uppercase tracking-wider">
           House Layouts
         </motion.h1>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true }}
-          className="text-center mb-16 relative">
-          <motion.div
-            initial={{ scale: 0, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="w-20 h-20 bg-secondary/20 dark:bg-secondary/10 rounded-full absolute -top-10 -left-10 lg:left-[15%] z-0"
-          />
+        {/* Dropdown removed for now */}
+        {/* 
+        <div className="mb-4">
+          <select
+            value={selectedSize}
+            onChange={(e) => setSelectedSize(e.target.value)}
+            className="text-sm px-3 py-2 rounded-md bg-white shadow-md">
+            {sizes.map((size) => (
+              <option key={size} value={size}>
+                {size}
+              </option>
+            ))}
+          </select>
+        </div>
+        */}
 
-          <motion.div
-            initial={{ scale: 0, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="w-32 h-32 bg-primary/10 dark:bg-primary/5 rounded-full absolute -bottom-16 -right-10 lg:right-[15%] z-0"
-          />
-
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="inline-block bg-secondary/10 dark:bg-secondary/20 text-secondary dark:text-secondary px-4 py-1 rounded-full text-sm font-medium mb-4">
-            Architectural Designs
-          </motion.span>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold mb-4 text-gray-800 dark:text-white">
-            House <span className="text-primary">Layout</span> Designs
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Explore our collection of carefully crafted architectural designs
-            for different plot sizes
-          </motion.p>
-        </motion.div>
-
+        {/* Responsive Grid: row on desktop, list on mobile */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {layouts.map((layout, index) => (
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto px-4">
+          {filteredLayouts.map((layout, index) => (
             <motion.div
               key={layout.id}
               variants={itemVariants}
               custom={index}
-              whileHover={{ y: -10, transition: { duration: 0.3 } }}
-              className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="relative h-56 overflow-hidden">
+              whileHover={{ y: -5, scale: 1.02, filter: "brightness(1.05)" }}
+              className="cursor-pointer bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow hover:shadow-md transition-all duration-300"
+              onClick={() => openLayout(layout)}>
+              <div className="relative h-32 md:h-40">
                 <Image
                   src={layout.image}
                   alt={layout.title}
                   fill
-                  className="object-cover transition-transform duration-700 hover:scale-110"
+                  className="object-cover"
+                  priority
+                  placeholder="blur"
+                  blurDataURL="/images/layouts/placeholder.jpg"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                <div className="absolute bottom-4 left-4 right-4">
-                  <h3 className="text-xl font-semibold text-white">
-                    {layout.title}
-                  </h3>
-                </div>
               </div>
-              <div className="p-6">
-                <p className="text-gray-600 dark:text-gray-300 mb-4">
+              <div className="p-3">
+                <h3 className="text-sm font-semibold text-gray-800 dark:text-white mb-1">
+                  {layout.title}
+                </h3>
+                <p className="text-xs text-gray-600 dark:text-gray-300 mb-2">
                   {layout.description}
                 </p>
-                <div className="flex gap-2 flex-wrap mb-4">
-                  {layout.features.slice(0, 3).map((feature, i) => (
+                <div className="flex gap-1 flex-wrap mb-2">
+                  {layout.features.slice(0, 2).map((feature, i) => (
                     <span
                       key={i}
-                      className="inline-block text-xs px-2 py-1 bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary/90 rounded-full">
+                      className="text-xs px-2 py-0.5 bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary/90 rounded-full">
                       {feature}
                     </span>
                   ))}
-                  {layout.features.length > 3 && (
-                    <span className="inline-block text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full">
-                      +{layout.features.length - 3} more
+                  {layout.features.length > 2 && (
+                    <span className="text-xs px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full">
+                      +{layout.features.length - 2} more
                     </span>
                   )}
                 </div>
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  onClick={() => openLayout(layout)}
-                  className="w-full py-3 bg-secondary hover:bg-secondary/90 text-gray-900 rounded-md font-medium shadow-sm transition-colors duration-300">
-                  View Details
-                </motion.button>
               </div>
             </motion.div>
           ))}
         </motion.div>
       </div>
 
-      {/* Modal for layout details */}
+      {/* Modal section remains unchanged */}
       {selectedLayout && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) closeLayout()
+          }}
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
@@ -218,6 +205,9 @@ const HouseLayouts = () => {
                   alt={selectedLayout.title}
                   fill
                   className="object-cover"
+                  priority
+                  placeholder="blur"
+                  blurDataURL="/images/layouts/placeholder.jpg"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
               </div>
@@ -285,12 +275,19 @@ const HouseLayouts = () => {
                   </ul>
                 </div>
 
-                <div className="flex justify-end mt-8">
+                <div className="flex justify-between mt-8">
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => handleDownload(selectedLayout)}
+                    className="px-6 py-2 bg-primary text-white rounded-md font-medium shadow-sm hover:bg-primary/80 transition">
+                    Download PDF
+                  </motion.button>
                   <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     onClick={closeLayout}
-                    className="px-6 py-2 bg-secondary hover:bg-secondary/90 text-gray-900 rounded-md font-medium shadow-sm">
+                    className="px-6 py-2 bg-gray-300 hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 rounded-md font-medium shadow-sm">
                     Close
                   </motion.button>
                 </div>
