@@ -7,6 +7,7 @@ import Background from "@/components/Background"
 import { locations } from "@/lib/location"
 import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import SelectableButtonGroup from "../ui/SelectableButtonGroup"
 
 const propertyTypes = ["Plot", "House"]
 
@@ -29,12 +30,14 @@ const rangeInputVariants = {
 export default function PropertySearch() {
   const router = useRouter()
   const [showMoreOptions, setShowMoreOptions] = useState(false)
+  const [showMobileOptions, setShowMobileOptions] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [selectedId, setSelectedId] = useState(1)
   const [formData, setFormData] = useState({
     propertyType: "Plot",
     location: "",
     sizeRange: { min: "", max: "" },
-    priceRange: { min: "", max: "" },
+    priceRange: { min: "0", max: "90000000000000000" },
   })
 
   const handleChange = (field, value) => {
@@ -50,24 +53,36 @@ export default function PropertySearch() {
   const handleSearch = () => {
     setLoading(true)
     try {
-      if (!formData.location) {
-        toast.error("Please select a location first.", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        })
-        return // Stop the search if location is not selected
-      }
+      // if (
+      //   !formData.location &&
+      //   formData.propertyType === "House" &&
+      //   selectedId === 1
+      // ) {
+      //   toast.error("Please select a location first.", {
+      //     position: "top-center",
+      //     autoClose: 5000,
+      //     hideProgressBar: false,
+      //     closeOnClick: true,
+      //     pauseOnHover: true,
+      //     draggable: true,
+      //     progress: undefined,
+      //     theme: "dark",
+      //   })
+      //   return // Stop the search if location is not selected
+      // }
 
-      const path =
+      let path =
         formData.propertyType === "Plot"
           ? "/properties/plots"
           : "/properties/houses"
+
+      // If RENT is selected
+      if (selectedId === 2) {
+        path =
+          formData.propertyType === "Plot"
+            ? "/properties/rent"
+            : "/properties/rent"
+      }
 
       const params = []
 
@@ -113,6 +128,27 @@ export default function PropertySearch() {
       setLoading(false)
     }
   }
+  const handleOptionA = () =>
+    new Promise(() => {
+      setSelectedId(1)
+    })
+
+  const handleOptionB = () =>
+    new Promise(() => {
+      setSelectedId(2)
+    })
+
+  const handleOptionC = () =>
+    new Promise((resolve) => {
+      console.log("Option C selected")
+      setTimeout(resolve, 1000)
+    })
+
+  const buttons = [
+    { id: 1, label: "BUY", onPress: handleOptionA },
+    { id: 2, label: "RENT", onPress: handleOptionB },
+    // { id: 3, label: "Option C", onPress: handleOptionC },
+  ]
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
@@ -127,9 +163,14 @@ export default function PropertySearch() {
           Find Your Property
         </motion.h1>
 
+        <div className="bg-black flex justify-center items-center">
+          <SelectableButtonGroup buttons={buttons} initialSelectedId={1} />
+        </div>
+
         {/* Mobile View */}
         <div className="md:hidden w-full max-w-4xl bg-white/10 backdrop-blur-md rounded-lg p-5 mb-40">
           <div className="grid grid-cols-1 gap-4">
+            {/* Property Type */}
             <div>
               <label className="block text-xs font-medium text-white mb-1">
                 Property Type
@@ -149,6 +190,7 @@ export default function PropertySearch() {
               </select>
             </div>
 
+            {/* Location */}
             <div>
               <label className="block text-xs font-medium text-white mb-1">
                 Location
@@ -156,7 +198,7 @@ export default function PropertySearch() {
               <select
                 value={formData.location}
                 onChange={(e) => handleChange("location", e.target.value)}
-                className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary">
+                className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-sm">
                 <option value="" className="text-black text-sm">
                   Select Location
                 </option>
@@ -168,70 +210,89 @@ export default function PropertySearch() {
               </select>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-medium text-white mb-1">
-                  Min Size (sq ft)
-                </label>
-                <input
-                  type="number"
-                  value={formData.sizeRange.min}
-                  onChange={(e) =>
-                    handleRangeChange("sizeRange", "min", e.target.value)
-                  }
-                  className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-sm"
-                  placeholder="Min size"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-white mb-1">
-                  Max Size (sq ft)
-                </label>
-                <input
-                  type="number"
-                  value={formData.sizeRange.max}
-                  onChange={(e) =>
-                    handleRangeChange("sizeRange", "max", e.target.value)
-                  }
-                  className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-sm"
-                  placeholder="Max size"
-                />
-              </div>
-            </div>
+            {/* Toggle more options */}
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-medium text-white mb-1">
-                  Min Price
-                </label>
-                <input
-                  type="number"
-                  value={formData.priceRange.min}
-                  onChange={(e) =>
-                    handleRangeChange("priceRange", "min", e.target.value)
-                  }
-                  className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-sm"
-                  placeholder="Min price"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-white mb-1">
-                  Max Price
-                </label>
-                <input
-                  type="number"
-                  value={formData.priceRange.max}
-                  onChange={(e) =>
-                    handleRangeChange("priceRange", "max", e.target.value)
-                  }
-                  className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-sm"
-                  placeholder="Max price"
-                />
-              </div>
-            </div>
-
-            <div className="mt-6">
+            <div className="text-left">
               <motion.button
+                variants={dropdownVariants}
+                initial="hidden"
+                animate="visible"
+                onClick={() => setShowMobileOptions((v) => !v)}
+                className="text-[10.5px] text-white hover:text-primary transition-colors duration-200">
+                {showMobileOptions ? "🔼 Hide Options" : "🔽 More Options"}
+              </motion.button>
+            </div>
+
+            {/* Size & Price (collapsed by default) */}
+            {showMobileOptions && (
+              <>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-medium text-white mb-1">
+                      Min Size (sq ft)
+                    </label>
+                    <input
+                      type="number"
+                      value={formData.sizeRange.min}
+                      onChange={(e) =>
+                        handleRangeChange("sizeRange", "min", e.target.value)
+                      }
+                      className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                      placeholder="Min size"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-white mb-1">
+                      Max Size (sq ft)
+                    </label>
+                    <input
+                      type="number"
+                      value={formData.sizeRange.max}
+                      onChange={(e) =>
+                        handleRangeChange("sizeRange", "max", e.target.value)
+                      }
+                      className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                      placeholder="Max size"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-medium text-white mb-1">
+                      Min Price
+                    </label>
+                    <input
+                      type="number"
+                      value={formData.priceRange.min}
+                      onChange={(e) =>
+                        handleRangeChange("priceRange", "min", e.target.value)
+                      }
+                      className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                      placeholder="Min price"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-white mb-1">
+                      Max Price
+                    </label>
+                    <input
+                      type="number"
+                      value={formData.priceRange.max}
+                      onChange={(e) =>
+                        handleRangeChange("priceRange", "max", e.target.value)
+                      }
+                      className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                      placeholder="Max price"
+                    />
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* Search Button */}
+            <div className="flex justify-center">
+              {/* <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleSearch}
@@ -243,9 +304,22 @@ export default function PropertySearch() {
                     <span>Searching...</span>
                   </div>
                 ) : (
-                  "Find Properties"
+                  "Find"
                 )}
-              </motion.button>
+              </motion.button> */}
+              <button
+                onClick={handleSearch}
+                disabled={loading}
+                className="animated-hover-btn flex self-center justify-center items-center px-6 py-2 text-sm bg-[#33a137] text-white rounded-lg hover:bg-[#f7b928] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                {loading ? (
+                  <div className="flex items-center gap-2">
+                    <div className="animate-spin rounded-full h-2 w-2 border-t-2 border-b-2 border-white"></div>
+                    <span>finding...</span>
+                  </div>
+                ) : (
+                  <span>Find</span>
+                )}
+              </button>
             </div>
           </div>
         </div>

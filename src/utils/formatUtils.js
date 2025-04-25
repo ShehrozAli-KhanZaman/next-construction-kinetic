@@ -10,12 +10,12 @@ export const formatPrice = (price) => {
   // Convert to lakhs if price is 1 lakh or more
   if (price >= 100000) {
     const lakhs = price / 100000
-    return `${lakhs.toFixed(2)} Lac`
+    return `${lakhs.toFixed(0)} Lac`
   }
 
   // For smaller amounts, show in thousands
   const thousands = price / 1000
-  return `${thousands.toFixed(2)} Thousand`
+  return `${thousands.toFixed(0)} Thousand`
 }
 
 export const formatSize = (size) => {

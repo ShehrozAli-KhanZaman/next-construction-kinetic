@@ -6,6 +6,8 @@ import { HouseDataApi } from "@/utils/propertyApi"
 import Navbar from "@/components/Navbar"
 import { formatPrice, formatSize } from "@/utils/formatUtils"
 import { Moon, Sun } from "lucide-react"
+import ContactButtons from "@/components/ui/ContactButtons"
+import PaginationControls from "@/components/ui/PaginationControls"
 
 export default function HousesPage() {
   const searchParams = useSearchParams()
@@ -25,16 +27,34 @@ export default function HousesPage() {
     const fetchHouses = async () => {
       try {
         setLoading(true)
-        const params = {
-          house_location: searchParams.get("house_location") || "",
-          size_min: searchParams.get("min_size") || "",
-          size_max: searchParams.get("max_size") || "",
-          price_min: searchParams.get("min_price") || "",
-          price_max: searchParams.get("max_price") || "",
-          pool: searchParams.get("pool") || "all",
-          page: currentPage,
+        // const params = {
+        //   house_location: searchParams.get("house_location") || "",
+        //   size_min: searchParams.get("min_size") || "",
+        //   size_max: searchParams.get("max_size") || "",
+        //   price_min: searchParams.get("min_price") || "",
+        //   price_max: searchParams.get("max_price") || "",
+        //   pool: searchParams.get("pool") || "all",
+        //   page: currentPage,
+        // }
+        const paramMap = {
+          house_location: "house_location",
+          size_min: "min_size",
+          size_max: "max_size",
+          price_min: "min_price",
+          price_max: "max_price",
+          pool: "all",
         }
 
+        const params = Object.entries(paramMap).reduce(
+          (acc, [key, param]) => {
+            const value = searchParams.get(param)
+            if (value !== null && value !== "") {
+              acc[key] = value
+            }
+            return acc
+          },
+          { page: currentPage }
+        )
         const result = await HouseDataApi(params)
 
         if (result && result.data && result.data.prop_page) {
@@ -227,7 +247,9 @@ export default function HousesPage() {
                             : "bg-gray-100 hover:bg-gray-200"
                         } text-center`}>
                         <td className="px-4 py-3">
-                          {new Date(house.house_date).toLocaleDateString()}
+                          {new Date(
+                            house.house_last_updated
+                          ).toLocaleDateString()}
                         </td>
                         {/* <td className="px-4 py-3">{house.house_location}</td> */}
                         <td className="px-4 py-3">{house.house_number}</td>
@@ -243,11 +265,15 @@ export default function HousesPage() {
                           {house.house_type}
                         </td>
                         <td className="px-4 py-3">
-                          <a
+                          <ContactButtons
+                            propertyType={"HOUSE"}
+                            propertyId={house.house_id}
+                          />
+                          {/* <a
                             href="tel:+923204300002"
                             className="text-primary hover:underline transition duration-150 whitespace-nowrap">
                             M. Farhan Ilyas
-                          </a>
+                          </a> */}
                         </td>
                       </tr>
                     ))}
@@ -258,33 +284,39 @@ export default function HousesPage() {
 
             {/* Pagination */}
             {totalItems > itemsPerPage && (
-              <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200">
-                <div className="flex-1 flex justify-between items-center">
-                  <button
-                    onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
-                    className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
-                      currentPage === 1
-                        ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                        : "bg-white text-gray-700 hover:bg-gray-50"
-                    }`}>
-                    Previous
-                  </button>
-                  <span className="text-sm text-gray-700">
-                    Page {currentPage} of {totalPages}
-                  </span>
-                  <button
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                    className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
-                      currentPage === totalPages
-                        ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                        : "bg-white text-gray-700 hover:bg-gray-50"
-                    }`}>
-                    Next
-                  </button>
-                </div>
-              </div>
+              <PaginationControls
+                currentPage={currentPage}
+                totalPages={totalPages}
+                handlePreviousPage={handlePreviousPage}
+                handleNextPage={handleNextPage}
+              />
+              // <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200">
+              //   <div className="flex-1 flex justify-between items-center">
+              //     <button
+              //       onClick={handlePreviousPage}
+              //       disabled={currentPage === 1}
+              //       className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
+              //         currentPage === 1
+              //           ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+              //           : "bg-white text-gray-700 hover:bg-gray-50"
+              //       }`}>
+              //       Previous
+              //     </button>
+              //     <span className="text-sm text-gray-700">
+              //       Page {currentPage} of {totalPages}
+              //     </span>
+              //     <button
+              //       onClick={handleNextPage}
+              //       disabled={currentPage === totalPages}
+              //       className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
+              //         currentPage === totalPages
+              //           ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+              //           : "bg-white text-gray-700 hover:bg-gray-50"
+              //       }`}>
+              //       Next
+              //     </button>
+              //   </div>
+              // </div>
             )}
           </div>
         </div>
