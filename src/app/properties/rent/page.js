@@ -61,15 +61,6 @@ export default function RentListingsPage() {
           { page: currentPage }
         )
 
-        // const params = {
-        //   rent_location: searchParams.get("area") || "",
-        //   size_min: searchParams.get("min_size") || "",
-        //   size_max: searchParams.get("max_size") || "",
-        //   price_min: searchParams.get("min_price") || "",
-        //   price_max: searchParams.get("max_price") || "",
-        //   page: currentPage,
-        // }
-
         const result = await RentDataApi(params)
 
         if (
@@ -143,11 +134,11 @@ export default function RentListingsPage() {
               Rent Listings
             </h2>
             <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center gap-2 px-2">
-              {/* <button
+              <button
                 onClick={() => setFiltersVisible(!filtersVisible)}
                 className="px-4 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
                 <Filter size={20} />
-              </button> */}
+              </button>
               <button
                 onClick={toggleTableTheme}
                 className="px-4 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
@@ -164,7 +155,7 @@ export default function RentListingsPage() {
                 value={filters.rent_location}
                 onChange={handleFilterChange}
                 placeholder="Location"
-                className="px-2 py-1 rounded-md"
+                className="px-2 py-1 rounded-md text-black"
               />
               <input
                 type="number"
@@ -172,7 +163,7 @@ export default function RentListingsPage() {
                 value={filters.min_price}
                 onChange={handleFilterChange}
                 placeholder="Min Price"
-                className="px-2 py-1 rounded-md"
+                className="px-2 py-1 rounded-md text-black"
               />
               <input
                 type="number"
@@ -180,7 +171,7 @@ export default function RentListingsPage() {
                 value={filters.max_price}
                 onChange={handleFilterChange}
                 placeholder="Max Price"
-                className="px-2 py-1 rounded-md"
+                className="px-2 py-1 rounded-md text-black"
               />
               <input
                 type="number"
@@ -188,7 +179,7 @@ export default function RentListingsPage() {
                 value={filters.min_size}
                 onChange={handleFilterChange}
                 placeholder="Min Size"
-                className="px-2 py-1 rounded-md"
+                className="px-2 py-1 rounded-md text-black"
               />
               <input
                 type="number"
@@ -196,7 +187,7 @@ export default function RentListingsPage() {
                 value={filters.max_size}
                 onChange={handleFilterChange}
                 placeholder="Max Size"
-                className="px-2 py-1 rounded-md"
+                className="px-2 py-1 rounded-md text-black"
               />
             </div>
           )}
@@ -283,11 +274,6 @@ export default function RentListingsPage() {
                       <td className="px-4 py-3">{rent.rent_baths}</td>
                       <td className="px-4 py-3">{rent.rent_type}</td>
                       <td className="px-4 py-3 whitespace-nowrap">
-                        {/* <a
-                          href={`tel:${rent.rent_phone_no}`}
-                          className="text-primary hover:underline">
-                          {rent.rent_phone_no}
-                        </a> */}
                         <ContactButtons
                           propertyType={"RENT"}
                           propertyId={rent.rent_number}
@@ -307,63 +293,6 @@ export default function RentListingsPage() {
               handlePreviousPage={handlePreviousPage}
               handleNextPage={handleNextPage}
             />
-            // <div className="flex justify-between items-center px-4 py-3 bg-white border-t border-gray-200 rounded-2xl shadow-lg mt-6 sm:flex-nowrap flex-wrap">
-            //   {/* Previous Button */}
-            //   <button
-            //     onClick={handlePreviousPage}
-            //     disabled={currentPage === 1}
-            //     className={`transition-all duration-300 flex items-center gap-3 px-5 py-3 rounded-full text-sm font-semibold tracking-wide ${
-            //       currentPage === 1
-            //         ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-            //         : "bg-gradient-to-r from-purple-600 to-indigo-500 text-white shadow-lg hover:scale-105 hover:brightness-110"
-            //     }`}>
-            //     <svg
-            //       xmlns="http://www.w3.org/2000/svg"
-            //       className="h-5 w-5"
-            //       fill="none"
-            //       viewBox="0 0 24 24"
-            //       stroke="currentColor">
-            //       <path
-            //         strokeLinecap="round"
-            //         strokeLinejoin="round"
-            //         strokeWidth={2}
-            //         d="M15 19l-7-7 7-7"
-            //       />
-            //     </svg>
-            //     <span className="hidden sm:inline">Previous</span>
-            //   </button>
-
-            //   {/* Centered Page Info */}
-            //   <span className="text-gray-700 text-sm font-medium tracking-wide text-center flex-1 mt-2 sm:mt-0 sm:w-auto">
-            //     Page <strong className="text-purple-600">{currentPage}</strong>{" "}
-            //     of <strong className="text-purple-600">{totalPages}</strong>
-            //   </span>
-
-            //   {/* Next Button */}
-            //   <button
-            //     onClick={handleNextPage}
-            //     disabled={currentPage === totalPages}
-            //     className={`transition-all duration-300 flex items-center gap-3 px-5 py-3 rounded-full text-sm font-semibold tracking-wide ${
-            //       currentPage === totalPages
-            //         ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-            //         : "bg-gradient-to-r from-purple-600 to-indigo-500 text-white shadow-lg hover:scale-105 hover:brightness-110"
-            //     }`}>
-            //     <span className="hidden sm:inline">Next</span>
-            //     <svg
-            //       xmlns="http://www.w3.org/2000/svg"
-            //       className="h-5 w-5"
-            //       fill="none"
-            //       viewBox="0 0 24 24"
-            //       stroke="currentColor">
-            //       <path
-            //         strokeLinecap="round"
-            //         strokeLinejoin="round"
-            //         strokeWidth={2}
-            //         d="M9 5l7 7-7 7"
-            //       />
-            //     </svg>
-            //   </button>
-            // </div>
           )}
         </div>
       </div>

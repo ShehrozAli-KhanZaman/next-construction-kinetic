@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { HouseDataApi } from "@/utils/propertyApi"
-import Navbar from "@/components/Navbar"
 import { formatPrice, formatSize } from "@/utils/formatUtils"
 import { Moon, Sun } from "lucide-react"
 import ContactButtons from "@/components/ui/ContactButtons"
@@ -27,15 +26,6 @@ export default function HousesPage() {
     const fetchHouses = async () => {
       try {
         setLoading(true)
-        // const params = {
-        //   house_location: searchParams.get("house_location") || "",
-        //   size_min: searchParams.get("min_size") || "",
-        //   size_max: searchParams.get("max_size") || "",
-        //   price_min: searchParams.get("min_price") || "",
-        //   price_max: searchParams.get("max_price") || "",
-        //   pool: searchParams.get("pool") || "all",
-        //   page: currentPage,
-        // }
         const paramMap = {
           house_location: "house_location",
           size_min: "min_size",
@@ -86,18 +76,6 @@ export default function HousesPage() {
     fetchHouses()
   }, [searchParams, currentPage])
 
-  // const formatPrice = (price) => {
-  //   return new Intl.NumberFormat("en-PK", {
-  //     style: "currency",
-  //     currency: "PKR",
-  //     maximumFractionDigits: 0,
-  //   }).format(price)
-  // }
-
-  // const formatSize = (size) => {
-  //   return `${size.toLocaleString()} sq ft`
-  // }
-
   const handleSort = (key) => {
     let direction = "asc"
     if (sortConfig.key === key && sortConfig.direction === "asc") {
@@ -140,7 +118,6 @@ export default function HousesPage() {
 
   return (
     <div className="min-h-screen bg-gray-900">
-      {/* <Navbar /> */}
       <div className="pt-20 px-1">
         <div className="max-w-7xl">
           <div className="bg-gray-800 rounded-lg shadow-sm overflow-hidden">
@@ -269,11 +246,6 @@ export default function HousesPage() {
                             propertyType={"HOUSE"}
                             propertyId={house.house_id}
                           />
-                          {/* <a
-                            href="tel:+923204300002"
-                            className="text-primary hover:underline transition duration-150 whitespace-nowrap">
-                            M. Farhan Ilyas
-                          </a> */}
                         </td>
                       </tr>
                     ))}
@@ -290,33 +262,6 @@ export default function HousesPage() {
                 handlePreviousPage={handlePreviousPage}
                 handleNextPage={handleNextPage}
               />
-              // <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200">
-              //   <div className="flex-1 flex justify-between items-center">
-              //     <button
-              //       onClick={handlePreviousPage}
-              //       disabled={currentPage === 1}
-              //       className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
-              //         currentPage === 1
-              //           ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-              //           : "bg-white text-gray-700 hover:bg-gray-50"
-              //       }`}>
-              //       Previous
-              //     </button>
-              //     <span className="text-sm text-gray-700">
-              //       Page {currentPage} of {totalPages}
-              //     </span>
-              //     <button
-              //       onClick={handleNextPage}
-              //       disabled={currentPage === totalPages}
-              //       className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
-              //         currentPage === totalPages
-              //           ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-              //           : "bg-white text-gray-700 hover:bg-gray-50"
-              //       }`}>
-              //       Next
-              //     </button>
-              //   </div>
-              // </div>
             )}
           </div>
         </div>

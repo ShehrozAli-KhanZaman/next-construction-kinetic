@@ -4,7 +4,6 @@ import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { SearchPropApi } from "@/utils/propertyApi"
 import { formatPrice, formatSize } from "@/utils/formatUtils"
-import Navbar from "@/components/Navbar"
 import { Moon, Sun } from "lucide-react"
 import ContactButtons from "@/components/ui/ContactButtons"
 import PaginationControls from "@/components/ui/PaginationControls"
@@ -235,11 +234,6 @@ export default function PlotsPage() {
                             propertyType={"PLOT"}
                             propertyId={plot.prop_userfacing_id}
                           />
-                          {/* <a
-                            href="tel:+923204300002"
-                            className="text-primary hover:underline transition duration-150 whitespace-nowrap">
-                            M. Farhan Ilyas
-                          </a> */}
                         </td>
                       </tr>
                     ))}
@@ -256,33 +250,6 @@ export default function PlotsPage() {
                 handlePreviousPage={handlePreviousPage}
                 handleNextPage={handleNextPage}
               />
-              // <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200">
-              //   <div className="flex-1 flex justify-between items-center">
-              //     <button
-              //       onClick={handlePreviousPage}
-              //       disabled={pagination.currentPage === 1}
-              //       className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
-              //         pagination.currentPage === 1
-              //           ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-              //           : "bg-white text-gray-700 hover:bg-gray-50"
-              //       }`}>
-              //       Previous
-              //     </button>
-              //     <span className="text-sm text-gray-700">
-              //       Page {pagination.currentPage} of {pagination.totalPages}
-              //     </span>
-              //     <button
-              //       onClick={handleNextPage}
-              //       disabled={pagination.currentPage === pagination.totalPages}
-              //       className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
-              //         pagination.currentPage === pagination.totalPages
-              //           ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-              //           : "bg-white text-gray-700 hover:bg-gray-50"
-              //       }`}>
-              //       Next
-              //     </button>
-              //   </div>
-              // </div>
             )}
           </div>
         </div>
