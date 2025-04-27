@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 @tailwind sections;
+@tailwind utilities;
+
 :root {
   --background: 210 100% 98%;
   --foreground: 222.2 47.4% 11.2%;
@@ -108,6 +110,51 @@ body {
   .animate-bounce-in {
     @apply animate-[bounce-in_0.8s_cubic-bezier(0.175,0.885,0.32,1.275)];
   }
+
+  .animate-pulse-fast {
+    animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* .drop-shadow-glow {
+    filter: drop-shadow(0 0 10px rgba(255, 0, 255, 0.6))
+      drop-shadow(0 0 20px rgba(0, 255, 255, 0.5))
+      drop-shadow(0 0 30px rgba(255, 0, 255, 0.3));
+  } */
+
+  .drop-shadow-glow {
+    filter: drop-shadow(0 0 10px rgba(255, 0, 255, 0.6))
+      drop-shadow(0 0 20px rgba(0, 255, 255, 0.5))
+      drop-shadow(0 0 30px rgba(255, 0, 255, 0.3));
+  }
+}
+
+/* Shimmer Effect (triggered after brick animation completes) */
+@keyframes shimmer {
+  0% {
+    background-position: -200%;
+  }
+  100% {
+    background-position: 200%;
+  }
+}
+
+.shimmer-effect {
+  background: linear-gradient(
+    270deg,
+    #00c6ff,
+    #2106d1,
+    #ff00d6,
+    #ff00d6,
+    #00c6ff,
+    #5bde59
+  );
+  background-size: 400%;
+  animation: shimmer 8s infinite;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 20px rgba(255, 0, 255, 0.6))
+    drop-shadow(0 0 40px rgba(0, 255, 255, 0.4));
 }
 
 @keyframes fade-in {
