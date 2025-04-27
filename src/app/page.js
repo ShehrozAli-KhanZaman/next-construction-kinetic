@@ -18,8 +18,8 @@ export default function Home() {
   const sections = [
     { component: PropertySearch },
     { component: ConstructionDetails },
-    { component: CostCalculator },
     { component: HouseLayouts },
+    { component: CostCalculator },
     { component: Contact },
   ]
 
