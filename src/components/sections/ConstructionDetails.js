@@ -6,10 +6,12 @@ import Tilt from "react-parallax-tilt"
 import Particles from "react-tsparticles"
 import { loadFull } from "tsparticles"
 import Background from "../Background"
+import { useRouter } from "next/navigation"
 
 export default function ConstructionDetails() {
   const [activeTab, setActiveTab] = useState()
   const [shimmer, setShimmer] = useState(false)
+
   const tabs = [
     {
       id: "why",
@@ -19,6 +21,9 @@ export default function ConstructionDetails() {
         "Transparent and timely execution.",
         "Led by LUMS graduate Mr. Farhan.",
       ],
+      image: "/images/why-construction.jpg", // Example image
+      fullDetails:
+        "We ensure top-notch quality and timely delivery of your construction projects.",
     },
     {
       id: "how",
@@ -28,6 +33,9 @@ export default function ConstructionDetails() {
         "Custom budgets and schedules.",
         "Clear and frequent updates.",
       ],
+      image: "/images/how-we-work.jpg", // Example image
+      fullDetails:
+        "Our approach is collaborative and tailored to your unique needs, with a transparent workflow.",
     },
     {
       id: "grey-structure",
@@ -37,6 +45,9 @@ export default function ConstructionDetails() {
         "Roofing and blockwork.",
         "Durable base construction.",
       ],
+      image: "/images/grey-structure.jpg", // Example image
+      fullDetails:
+        "The grey structure phase involves laying the foundation, building the frame, and installing the roof.",
     },
     {
       id: "finishing",
@@ -46,6 +57,9 @@ export default function ConstructionDetails() {
         "Interior woodworks.",
         "High-end finish quality.",
       ],
+      image: "/images/finishing.jpg", // Example image
+      fullDetails:
+        "Finishing touches include electrical work, plumbing, flooring, and high-end interior woodworks.",
     },
   ]
 
@@ -57,6 +71,11 @@ export default function ConstructionDetails() {
 
   const particlesInit = async (main) => {
     await loadFull(main)
+  }
+  const router = useRouter()
+
+  const handleTabClick = (tabId) => {
+    router.push(`/construction/${tabId}`)
   }
 
   return (
@@ -143,9 +162,10 @@ export default function ConstructionDetails() {
                 initial="initial"
                 whileHover="hover"
                 whileTap="tap"
-                onClick={() =>
+                onClick={() => {
                   setActiveTab(activeTab === tab.id ? null : tab.id)
-                }
+                  handleTabClick(tab.id)
+                }}
                 className="relative bg-white/10 hover:bg-white/20 p-5 rounded-xl shadow-lg hover:shadow-2xl cursor-pointer flex flex-col justify-between transition-all duration-500 backdrop-blur-lg border border-white/20 group overflow-hidden">
                 {/* Animated border effect */}
                 <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-animated"></div>
