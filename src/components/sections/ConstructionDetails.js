@@ -86,7 +86,7 @@ export default function ConstructionDetails() {
       <div className="flex flex-col gap-6 md:gap-14 relative z-10 w-full max-w-7xl mx-auto">
         {/* First Row */}
         <div className="flex flex-col md:flex-row justify-between gap-6 md:gap-14">
-          {tabs.slice(0, 2).map((tab) => (
+          {/* {tabs.slice(0, 2).map((tab) => (
             <Tilt
               key={tab.id}
               tiltMaxAngleX={10}
@@ -104,7 +104,7 @@ export default function ConstructionDetails() {
                   setActiveTab(activeTab === tab.id ? null : tab.id)
                 }
                 className="relative bg-white/10 hover:bg-white/20 p-5 rounded-xl shadow-lg hover:shadow-2xl cursor-pointer flex flex-col justify-between transition-all duration-500 backdrop-blur-lg border border-white/20 group overflow-hidden">
-                {/* Shine */}
+               
                 <div className="absolute inset-0 overflow-hidden rounded-xl">
                   <div className="absolute w-1/3 h-full bg-gradient-to-r from-white/10 to-white/0 transform rotate-12 group-hover:translate-x-full transition-all duration-1000 ease-in-out" />
                 </div>
@@ -128,38 +128,52 @@ export default function ConstructionDetails() {
                 </div>
               </motion.div>
             </Tilt>
+          ))} */}
+          {tabs.slice(0, 2).map((tab) => (
+            <Tilt
+              key={tab.id}
+              tiltMaxAngleX={10}
+              tiltMaxAngleY={10}
+              perspective={1000}
+              scale={1.05}
+              transitionSpeed={1000}
+              className="flex-1">
+              <motion.div
+                variants={cardVariants}
+                initial="initial"
+                whileHover="hover"
+                whileTap="tap"
+                onClick={() =>
+                  setActiveTab(activeTab === tab.id ? null : tab.id)
+                }
+                className="relative bg-white/10 hover:bg-white/20 p-5 rounded-xl shadow-lg hover:shadow-2xl cursor-pointer flex flex-col justify-between transition-all duration-500 backdrop-blur-lg border border-white/20 group overflow-hidden">
+                {/* Animated border effect */}
+                <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-animated"></div>
+
+                {/* Shine */}
+                <div className="absolute inset-0 overflow-hidden rounded-xl">
+                  <div className="absolute w-1/3 h-full bg-gradient-to-r from-white/10 to-white/0 transform rotate-12 group-hover:translate-x-full transition-all duration-1000 ease-in-out" />
+                </div>
+
+                <h2 className="text-lg md:text-xl font-semibold mb-2">
+                  {tab.title}
+                </h2>
+                <div className="text-xs md:text-sm text-gray-200 space-y-1">
+                  {tab.description.slice(0, 2).map((line, idx) => (
+                    <p key={idx} className="block md:hidden">
+                      {line}
+                    </p>
+                  ))}
+                  {tab.description.map((line, idx) => (
+                    <p key={idx} className="hidden md:block">
+                      {line}
+                    </p>
+                  ))}
+                </div>
+              </motion.div>
+            </Tilt>
           ))}
         </div>
-
-        {/* Center Title */}
-        {/* <div className="flex items-center justify-center hidden md:block">
-          <motion.h1
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{
-              duration: 1.5,
-              ease: "easeInOut",
-              repeat: Infinity,
-              repeatType: "reverse",
-            }}
-            className="text-3xl md:text-5xl font-extrabold text-center bg-gradient-to-r from-cyan-400 via-pink-500 to-purple-500 bg-clip-text text-transparent animate-pulse neon-text">
-            Construction Kinetics
-          </motion.h1>
-        </div> */}
-        {/* Center Title */}
-        {/* <div className="flex items-center justify-center hidden md:block">
-          <motion.h1
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: [10, -10, 10] }}
-            transition={{
-              duration: 3,
-              ease: "easeInOut",
-              repeat: Infinity,
-            }}
-            className="text-3xl md:text-5xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-500 to-purple-500 drop-shadow-glow">
-            Construction Kinetics
-          </motion.h1>
-        </div> */}
         {/* Center Title */}
         <div className="flex items-center justify-center overflow-hidden">
           <motion.div
@@ -223,7 +237,6 @@ export default function ConstructionDetails() {
                   setActiveTab(activeTab === tab.id ? null : tab.id)
                 }
                 className="relative bg-white/10 hover:bg-white/20 p-5 rounded-xl shadow-lg hover:shadow-2xl cursor-pointer flex flex-col justify-between transition-all duration-500 backdrop-blur-lg border border-white/20 group overflow-hidden">
-                {/* Shine */}
                 <div className="absolute inset-0 overflow-hidden rounded-xl">
                   <div className="absolute w-1/3 h-full bg-gradient-to-r from-white/10 to-white/0 transform rotate-12 group-hover:translate-x-full transition-all duration-1000 ease-in-out" />
                 </div>
@@ -248,6 +261,51 @@ export default function ConstructionDetails() {
               </motion.div>
             </Tilt>
           ))}
+          {/* {tabs.slice(2, 4).map((tab) => (
+            <Tilt
+              key={tab.id}
+              tiltMaxAngleX={10}
+              tiltMaxAngleY={10}
+              perspective={1000}
+              scale={1.05}
+              transitionSpeed={1000}
+              className="flex-1">
+              <motion.div
+                variants={cardVariants}
+                initial="initial"
+                whileHover="hover"
+                whileTap="tap"
+                onClick={() =>
+                  setActiveTab(activeTab === tab.id ? null : tab.id)
+                }
+                className="relative bg-white/10 hover:bg-white/20 p-5 rounded-xl shadow-lg hover:shadow-2xl cursor-pointer flex flex-col justify-between transition-all duration-500 backdrop-blur-lg border border-white/20 group overflow-hidden">
+
+                <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-animated"></div>
+
+                <div className="absolute inset-0 overflow-hidden rounded-xl">
+                  <div className="absolute w-1/3 h-full bg-gradient-to-r from-white/10 to-white/0 transform rotate-12 group-hover:translate-x-full transition-all duration-1000 ease-in-out" />
+                </div>
+
+                <h2 className="text-lg md:text-xl font-semibold mb-2">
+                  {tab.title}
+                </h2>
+                <div className="text-xs md:text-sm text-gray-200 space-y-1">
+                  {tab.description
+                    .slice(0, 2) // show only 2 points by default
+                    .map((line, idx) => (
+                      <p key={idx} className="block md:hidden">
+                        {line}
+                      </p>
+                    ))}
+                  {tab.description.map((line, idx) => (
+                    <p key={idx} className="hidden md:block">
+                      {line}
+                    </p>
+                  ))}
+                </div>
+              </motion.div>
+            </Tilt>
+          ))} */}
         </div>
       </div>
 

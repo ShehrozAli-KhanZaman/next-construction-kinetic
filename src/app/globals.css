@@ -149,7 +149,7 @@ body {
     #5bde59
   );
   background-size: 400%;
-  animation: shimmer 8s infinite;
+  animation: shimmer 12s infinite;
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -375,4 +375,52 @@ img {
 .selectable-btn:hover:not(.selected) {
   color: black;
   border-color: transparent;
+}
+
+@keyframes borderAnimation {
+  0% {
+    border-top: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    border-left: 3px solid transparent;
+    border-image: linear-gradient(45deg, #ff00ff, #062375, #ff00ff, #00ffff) 1;
+  }
+  25% {
+    border-top: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    border-left: 3px solid transparent;
+    border-image: linear-gradient(90deg, #ff00ff, #00ffff, #a1dd13) 1;
+  }
+  50% {
+    border-top: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    border-left: 3px solid transparent;
+    border-image: linear-gradient(135deg, #ff00ff, #00ffff, #910591) 1;
+  }
+  75% {
+    border-top: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    border-left: 3px solid transparent;
+    border-image: linear-gradient(180deg, #ff00ff, #00ffff, #f10b50) 1;
+  }
+  100% {
+    border-top: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    border-left: 3px solid transparent;
+    border-image: linear-gradient(225deg, #ff00ff, #00ffff, #f4f819) 1;
+  }
+}
+
+.group-hover\:border-animated {
+  animation: borderAnimation 4s linear infinite;
+  border-width: 2px;
+  border-style: solid;
+}
+
+.group:hover .group-hover\:border-animated {
+  animation-play-state: running;
 }
