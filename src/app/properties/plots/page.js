@@ -7,8 +7,12 @@ import { formatPrice, formatSize } from "@/utils/formatUtils"
 import { Moon, Sun } from "lucide-react"
 import ContactButtons from "@/components/ui/ContactButtons"
 import PaginationControls from "@/components/ui/PaginationControls"
+import FilterBar from "@/components/FilterBar"
 
 export default function PlotsPage() {
+  const handleFiltersChange = (filters) => {
+    console.log("Updated filters:", filters)
+  }
   const searchParams = useSearchParams()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -123,6 +127,7 @@ export default function PlotsPage() {
                   <h2 className="text-xl font-semibold text-white text-center py-3 shadow-md bg-gradient-to-r from-purple-500 via-blue-500 to-teal-500 rounded-lg">
                     Plot Listings
                   </h2>
+                  <FilterBar onChange={handleFiltersChange} filtersVisible={true} />
                   <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center space-x-2 ml-35">
                     <button
                       onClick={toggleTableTheme}
