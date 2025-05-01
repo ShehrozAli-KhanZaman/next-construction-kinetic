@@ -153,7 +153,7 @@ export default function PropertySearch() {
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
-      <Background type="GLOBE" color={0x1a1a1a} />
+      {/* <Background type="GLOBE" color={0x1a1a1a} /> */}
       {/* <div className="absolute inset-0 bg-black/50 z-0" /> */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center pt-16 md:pt-20 pb-15">
         <motion.h1
