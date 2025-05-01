@@ -1,12 +1,10 @@
 "use client"
-
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import Tilt from "react-parallax-tilt"
 import Particles from "react-tsparticles"
 import { loadFull } from "tsparticles"
 import { useRouter } from "next/navigation"
-import Background from "../Background"
+import CardComponent from "../ui/CardComponent"
 
 export default function ConstructionDetails() {
   const [activeTab, setActiveTab] = useState()
@@ -78,9 +76,63 @@ export default function ConstructionDetails() {
     router.push(`/construction/${tabId}`)
   }
 
+  const bounceFadeInVertical = (delay = 0) => ({
+    initial: { opacity: 0, y: 50 },
+    animate: {
+      opacity: 1,
+      y: [0, -50, 0],
+      transition: {
+        opacity: { duration: 0.6, delay },
+        y: {
+          duration: 10,
+          delay,
+          ease: "easeInOut",
+          repeat: Infinity,
+          repeatType: "loop",
+        },
+      },
+    },
+  })
+
+  const bounceFadeInHorizontal = (delay = 0) => ({
+    initial: { opacity: 0, x: 50 },
+    animate: {
+      opacity: 1,
+      x: [0, -50, 0],
+      transition: {
+        opacity: { duration: 0.6, delay },
+        x: {
+          duration: 10,
+          delay,
+          ease: "easeInOut",
+          repeat: Infinity,
+          repeatType: "loop",
+        },
+      },
+    },
+  })
+  const bounceFadeInHorizontal1 = (delay = 0) => ({
+    initial: { opacity: 0, x: 100, y: 100 },
+    animate: {
+      opacity: 1,
+      x: [0, -100, 0],
+      y: [0, -100, 0],
+      transition: {
+        opacity: { duration: 0.6, delay },
+        x: {
+          duration: 12,
+          delay,
+          ease: "easeInOut",
+          repeat: Infinity,
+          repeatType: "loop",
+        },
+      },
+    },
+  })
+
   return (
-    <section className="relative min-h-screen w-full  text-white overflow-hidden p-6 flex flex-col justify-center pt-20">
-      {/* Particles Background bg-gradient-to-tr from-slate-900 via-gray-800 to-slate-900*/}
+    <section className="relative min-h-screen w-full text-white overflow-hidden p-6 flex flex-col justify-center pt-20">
+      {/* Particles Background */}
       <Particles
         id="tsparticles"
         init={particlesInit}
@@ -101,45 +153,31 @@ export default function ConstructionDetails() {
       />
 
       {/* Cards Grid */}
-      <div className="flex flex-col gap-6 md:gap-14 relative z-10 w-full max-w-7xl mx-auto">
-        {/* First Row */}
-        <div className="flex flex-col md:flex-row justify-between gap-6 md:gap-44">
-          {tabs.slice(0, 2).map((tab) => (
-            <Tilt
-              key={tab.id}
-              tiltMaxAngleX={10}
-              tiltMaxAngleY={10}
-              perspective={1000}
-              scale={1.05}
-              transitionSpeed={1000}
-              className="flex-1">
-              <motion.div
-                variants={cardVariants}
-                initial="initial"
-                whileHover="hover"
-                whileTap="tap"
-                onClick={() => {
-                  setActiveTab(activeTab === tab.id ? null : tab.id)
-                  // handleTabClick(tab.id)
-                }}
-                className="relative bg-white/10 hover:bg-white/20 p-5 rounded-xl shadow-lg hover:shadow-2xl cursor-pointer flex flex-col justify-between transition-all duration-500 backdrop-blur-lg border border-white/20 group overflow-hidden">
-                {/* Animated border effect */}
-                <div className="absolute inset-0 rounded-xl border-2 border-transparent border-animated pointer-events-none"></div>
-
-                {/* Shine */}
-                <div className="absolute inset-0 overflow-hidden rounded-xl">
-                  <div className="absolute w-1/3 h-full bg-gradient-to-r from-white/10 to-white/0 transform rotate-12 group-hover:translate-x-full transition-all duration-1000 ease-in-out" />
-                </div>
-
-                <h2 className="text-xl md:text-2xl font-semibold mb-2 self-center py-5">
-                  {tab.title}
-                </h2>
-              </motion.div>
-            </Tilt>
-          ))}
+      <div className="grid grid-cols-4 grid-rows-3 gap-6 max-w-7xl mx-auto w-full relative z-10">
+        {/* Card 1: col 1 row 1 - from left */}
+        <div className="col-start-1 row-start-1 w-full">
+          <CardComponent
+            tab={tabs[0]}
+            setActiveTab={setActiveTab}
+            cardVariants={cardVariants}
+            activeTab={activeTab}
+            animationVariants={bounceFadeInVertical(0)}
+          />
         </div>
-        {/* Center Title */}
-        <div className="flex items-center justify-center overflow-hidden">
+
+        {/* Card 2: col 3 row 1 - from bottom */}
+        <div className="col-start-3 row-start-1 w-full">
+          <CardComponent
+            tab={tabs[1]}
+            setActiveTab={setActiveTab}
+            cardVariants={cardVariants}
+            activeTab={activeTab}
+            animationVariants={bounceFadeInHorizontal(1)}
+          />
+        </div>
+
+        {/* Center Title (spanning row 2) */}
+        <div className="col-span-4 row-start-2 flex justify-center items-center">
           <motion.div
             initial="hidden"
             animate="visible"
@@ -147,7 +185,7 @@ export default function ConstructionDetails() {
               hidden: {},
               visible: {
                 transition: {
-                  staggerChildren: 0.1, // Letters appear one by one like bricks
+                  staggerChildren: 0.1,
                 },
               },
             }}
@@ -156,9 +194,8 @@ export default function ConstructionDetails() {
               ease: "easeInOut",
               repeat: Infinity,
             }}
-            className="flex gap-1 justify-center" // Ensures the text is centered
-            onAnimationComplete={() => setShimmer(true)} // Trigger shimmer effect once brick animation is done
-          >
+            className="flex gap-1 justify-center"
+            onAnimationComplete={() => setShimmer(true)}>
             {"Construction Kinetics".split("").map((letter, index) => (
               <motion.span
                 key={index}
@@ -171,48 +208,35 @@ export default function ConstructionDetails() {
                   stiffness: 200,
                   damping: 15,
                 }}
-                className={`text-lg md:text-5xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-500 to-purple-500 drop-shadow-glow ${
+                className={`text-base md:text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-500 to-purple-500 drop-shadow-glow ${
                   shimmer ? "shimmer-effect" : ""
-                }`} // Keep shimmer effect only if completed
-              >
+                }`}>
                 {letter === " " ? "\u00A0" : letter}
               </motion.span>
             ))}
           </motion.div>
         </div>
 
-        {/* Second Row */}
-        <div className="flex flex-col md:flex-row justify-between gap-6 md:gap-14">
-          {tabs.slice(2, 4).map((tab) => (
-            <Tilt
-              key={tab.id}
-              tiltMaxAngleX={10}
-              tiltMaxAngleY={10}
-              perspective={1000}
-              scale={1.05}
-              transitionSpeed={1000}
-              className="flex-1">
-              <motion.div
-                variants={cardVariants}
-                initial="initial"
-                whileHover="hover"
-                whileTap="tap"
-                onClick={() =>
-                  setActiveTab(activeTab === tab.id ? null : tab.id)
-                }
-                className="relative bg-white/10 hover:bg-white/20 p-5 rounded-xl shadow-lg hover:shadow-2xl cursor-pointer flex flex-col justify-between transition-all duration-500 backdrop-blur-lg border border-white/20 group overflow-hidden">
-                <div className="absolute inset-0 rounded-xl border-2 border-transparent border-animated pointer-events-none"></div>
+        {/* Card 3: col 2 row 3 - from top */}
+        <div className="col-start-2 row-start-3 w-full">
+          <CardComponent
+            tab={tabs[2]}
+            setActiveTab={setActiveTab}
+            cardVariants={cardVariants}
+            activeTab={activeTab}
+            animationVariants={bounceFadeInHorizontal1(0)}
+          />
+        </div>
 
-                <div className="absolute inset-0 overflow-hidden rounded-xl">
-                  <div className="absolute w-1/3 h-full bg-gradient-to-r from-white/10 to-white/0 transform rotate-12 group-hover:translate-x-full transition-all duration-1000 ease-in-out" />
-                </div>
-
-                <h2 className="text-xl md:text-2xl font-semibold mb-2 self-center py-5">
-                  {tab.title}
-                </h2>
-              </motion.div>
-            </Tilt>
-          ))}
+        {/* Card 4: col 4 row 3 - from right */}
+        <div className="col-start-4 row-start-3 w-full">
+          <CardComponent
+            tab={tabs[3]}
+            setActiveTab={setActiveTab}
+            cardVariants={cardVariants}
+            activeTab={activeTab}
+            animationVariants={bounceFadeInVertical(1)}
+          />
         </div>
       </div>
 
