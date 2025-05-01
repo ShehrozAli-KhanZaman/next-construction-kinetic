@@ -6,7 +6,7 @@ import Background from "@/components/Background"
 export default function FeaturedProperties() {
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
-      <Background type="WAVES" color={0x4a90e2} />
+      {/* <Background type="WAVES" color={0x4a90e2} /> */}
       <div className="absolute inset-0 bg-black/50 z-0" />
 
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center pt-16 md:pt-20">

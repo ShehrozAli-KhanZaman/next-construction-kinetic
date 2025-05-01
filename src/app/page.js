@@ -9,6 +9,7 @@ import CostCalculator from "@/components/sections/CostCalculator"
 import HouseLayouts from "@/components/HouseLayouts"
 import Contact from "@/components/sections/Contact"
 import { ToastContainer } from "react-toastify"
+import Background from "@/components/Background"
 
 export default function Home() {
   const containerRef = useRef(null)
@@ -93,6 +94,7 @@ export default function Home() {
       ref={containerRef}
       className="relative w-full h-screen overflow-hidden touch-none">
       <ToastContainer />
+      <Background type="GLOBE" color={0x1a1a1a} />
       <AnimatePresence mode="sync">
         {sections.map((section, index) => {
           const Component = section.component

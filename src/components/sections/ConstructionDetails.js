@@ -6,6 +6,7 @@ import Tilt from "react-parallax-tilt"
 import Particles from "react-tsparticles"
 import { loadFull } from "tsparticles"
 import { useRouter } from "next/navigation"
+import Background from "../Background"
 
 export default function ConstructionDetails() {
   const [activeTab, setActiveTab] = useState()
@@ -78,8 +79,8 @@ export default function ConstructionDetails() {
   }
 
   return (
-    <section className="relative min-h-screen w-full bg-gradient-to-tr from-slate-900 via-gray-800 to-slate-900 text-white overflow-hidden p-6 flex flex-col justify-center pt-20">
-      {/* Particles Background */}
+    <section className="relative min-h-screen w-full  text-white overflow-hidden p-6 flex flex-col justify-center pt-20">
+      {/* Particles Background bg-gradient-to-tr from-slate-900 via-gray-800 to-slate-900*/}
       <Particles
         id="tsparticles"
         init={particlesInit}
@@ -102,7 +103,7 @@ export default function ConstructionDetails() {
       {/* Cards Grid */}
       <div className="flex flex-col gap-6 md:gap-14 relative z-10 w-full max-w-7xl mx-auto">
         {/* First Row */}
-        <div className="flex flex-col md:flex-row justify-between gap-6 md:gap-14">
+        <div className="flex flex-col md:flex-row justify-between gap-6 md:gap-44">
           {tabs.slice(0, 2).map((tab) => (
             <Tilt
               key={tab.id}
@@ -130,21 +131,9 @@ export default function ConstructionDetails() {
                   <div className="absolute w-1/3 h-full bg-gradient-to-r from-white/10 to-white/0 transform rotate-12 group-hover:translate-x-full transition-all duration-1000 ease-in-out" />
                 </div>
 
-                <h2 className="text-lg md:text-xl font-semibold mb-2">
+                <h2 className="text-xl md:text-2xl font-semibold mb-2 self-center py-5">
                   {tab.title}
                 </h2>
-                <div className="text-xs md:text-sm text-gray-200 space-y-1">
-                  {tab.description.slice(0, 2).map((line, idx) => (
-                    <p key={idx} className="block md:hidden">
-                      {line}
-                    </p>
-                  ))}
-                  {tab.description.map((line, idx) => (
-                    <p key={idx} className="hidden md:block">
-                      {line}
-                    </p>
-                  ))}
-                </div>
               </motion.div>
             </Tilt>
           ))}
@@ -218,71 +207,12 @@ export default function ConstructionDetails() {
                   <div className="absolute w-1/3 h-full bg-gradient-to-r from-white/10 to-white/0 transform rotate-12 group-hover:translate-x-full transition-all duration-1000 ease-in-out" />
                 </div>
 
-                <h2 className="text-lg md:text-xl font-semibold mb-2">
+                <h2 className="text-xl md:text-2xl font-semibold mb-2 self-center py-5">
                   {tab.title}
                 </h2>
-                <div className="text-xs md:text-sm text-gray-200 space-y-1">
-                  {tab.description
-                    .slice(0, 2) // show only 2 points by default
-                    .map((line, idx) => (
-                      <p key={idx} className="block md:hidden">
-                        {line}
-                      </p>
-                    ))}
-                  {tab.description.map((line, idx) => (
-                    <p key={idx} className="hidden md:block">
-                      {line}
-                    </p>
-                  ))}
-                </div>
               </motion.div>
             </Tilt>
           ))}
-          {/* {tabs.slice(2, 4).map((tab) => (
-            <Tilt
-              key={tab.id}
-              tiltMaxAngleX={10}
-              tiltMaxAngleY={10}
-              perspective={1000}
-              scale={1.05}
-              transitionSpeed={1000}
-              className="flex-1">
-              <motion.div
-                variants={cardVariants}
-                initial="initial"
-                whileHover="hover"
-                whileTap="tap"
-                onClick={() =>
-                  setActiveTab(activeTab === tab.id ? null : tab.id)
-                }
-                className="relative bg-white/10 hover:bg-white/20 p-5 rounded-xl shadow-lg hover:shadow-2xl cursor-pointer flex flex-col justify-between transition-all duration-500 backdrop-blur-lg border border-white/20 group overflow-hidden">
-
-                <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-animated"></div>
-
-                <div className="absolute inset-0 overflow-hidden rounded-xl">
-                  <div className="absolute w-1/3 h-full bg-gradient-to-r from-white/10 to-white/0 transform rotate-12 group-hover:translate-x-full transition-all duration-1000 ease-in-out" />
-                </div>
-
-                <h2 className="text-lg md:text-xl font-semibold mb-2">
-                  {tab.title}
-                </h2>
-                <div className="text-xs md:text-sm text-gray-200 space-y-1">
-                  {tab.description
-                    .slice(0, 2) // show only 2 points by default
-                    .map((line, idx) => (
-                      <p key={idx} className="block md:hidden">
-                        {line}
-                      </p>
-                    ))}
-                  {tab.description.map((line, idx) => (
-                    <p key={idx} className="hidden md:block">
-                      {line}
-                    </p>
-                  ))}
-                </div>
-              </motion.div>
-            </Tilt>
-          ))} */}
         </div>
       </div>
 

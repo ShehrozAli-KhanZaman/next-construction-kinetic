@@ -25,7 +25,7 @@ export default function Contact() {
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
-      <Background type="BIRDS" color={0x00ff00} />
+      {/* <Background type="BIRDS" color={0x00ff00} /> */}
       <div className="absolute inset-0 bg-black/50 z-0" />
 
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center pt-16 md:pt-20">
