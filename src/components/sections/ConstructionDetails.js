@@ -123,7 +123,7 @@ export default function ConstructionDetails() {
                 }}
                 className="relative bg-white/10 hover:bg-white/20 p-5 rounded-xl shadow-lg hover:shadow-2xl cursor-pointer flex flex-col justify-between transition-all duration-500 backdrop-blur-lg border border-white/20 group overflow-hidden">
                 {/* Animated border effect */}
-                <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-animated"></div>
+                <div className="absolute inset-0 rounded-xl border-2 border-transparent border-animated pointer-events-none"></div>
 
                 {/* Shine */}
                 <div className="absolute inset-0 overflow-hidden rounded-xl">
@@ -212,6 +212,8 @@ export default function ConstructionDetails() {
                   setActiveTab(activeTab === tab.id ? null : tab.id)
                 }
                 className="relative bg-white/10 hover:bg-white/20 p-5 rounded-xl shadow-lg hover:shadow-2xl cursor-pointer flex flex-col justify-between transition-all duration-500 backdrop-blur-lg border border-white/20 group overflow-hidden">
+                <div className="absolute inset-0 rounded-xl border-2 border-transparent border-animated pointer-events-none"></div>
+
                 <div className="absolute inset-0 overflow-hidden rounded-xl">
                   <div className="absolute w-1/3 h-full bg-gradient-to-r from-white/10 to-white/0 transform rotate-12 group-hover:translate-x-full transition-all duration-1000 ease-in-out" />
                 </div>

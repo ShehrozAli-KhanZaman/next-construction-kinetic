@@ -415,12 +415,15 @@ img {
   }
 }
 
-.group-hover\:border-animated {
+/* .group-hover\:border-animated {
   animation: borderAnimation 4s linear infinite;
   border-width: 2px;
   border-style: solid;
-}
+} */
 
 .group:hover .group-hover\:border-animated {
   animation-play-state: running;
+}
+.group:hover .border-animated {
+  animation: borderAnimation 4s linear infinite;
 }
