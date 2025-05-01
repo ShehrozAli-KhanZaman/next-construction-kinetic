@@ -1,16 +1,17 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useSearchParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { HouseDataApi } from "@/utils/propertyApi"
 import { formatPrice, formatSize } from "@/utils/formatUtils"
-import { Moon, Sun } from "lucide-react"
+import { Filter, Moon, Sun } from "lucide-react"
 import ContactButtons from "@/components/ui/ContactButtons"
 import PaginationControls from "@/components/ui/PaginationControls"
 import FilterBar from "@/components/FilterBar"
 
 export default function HousesPage() {
   const searchParams = useSearchParams()
+  const router = useRouter()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [houses, setHouses] = useState([])
@@ -22,6 +23,7 @@ export default function HousesPage() {
     key: null,
     direction: "asc",
   })
+  const [filtersVisible, setFiltersVisible] = useState(false)
 
   useEffect(() => {
     const fetchHouses = async () => {
@@ -46,6 +48,7 @@ export default function HousesPage() {
           },
           { page: currentPage }
         )
+
         const result = await HouseDataApi(params)
 
         if (result && result.data && result.data.prop_page) {
@@ -114,8 +117,24 @@ export default function HousesPage() {
   const toggleTableTheme = () => {
     setTableTheme((prev) => (prev === "dark" ? "light" : "dark"))
   }
+  const updateUrlParams = (updatedFilters) => {
+    const params = new URLSearchParams()
+
+    Object.entries(updatedFilters).forEach(([key, value]) => {
+      if (value) {
+        // If key is 'area', set it as 'house_location' in URL
+        const paramKey = key === "area" ? "house_location" : key
+        params.set(paramKey, value)
+      }
+    })
+
+    router.push(`?${params.toString()}`)
+  }
 
   const isDark = tableTheme === "dark"
+  const handleFiltersChange = (filters) => {
+    updateUrlParams(filters)
+  }
 
   return (
     <div className="min-h-screen bg-gray-900">
@@ -131,12 +150,17 @@ export default function HousesPage() {
             ) : (
               <div className="overflow-x-auto">
                 {/* Header with toggle */}
-                <div className="relative mb-6">
+                <div className="relative mb-6 z-20">
                   <h2 className="text-xl font-semibold text-white text-center py-3 shadow-md bg-gradient-to-r from-purple-500 via-blue-500 to-teal-500 rounded-lg">
                     House Listings
                   </h2>
-                  <FilterBar onChange={handleFiltersChange} filtersVisible={true} />
+
                   <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center space-x-2 ml-35">
+                    <button
+                      onClick={() => setFiltersVisible(!filtersVisible)}
+                      className="px-4 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
+                      <Filter size={20} />
+                    </button>
                     <button
                       onClick={toggleTableTheme}
                       className="flex items-center justify-center px-4 py-2  text-white hover:bg-primary/80 rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-110">
@@ -154,7 +178,10 @@ export default function HousesPage() {
                     </button>
                   </div>
                 </div>
-
+                <FilterBar
+                  onChange={handleFiltersChange}
+                  filtersVisible={filtersVisible}
+                />
                 <table
                   className={`min-w-full ${
                     isDark

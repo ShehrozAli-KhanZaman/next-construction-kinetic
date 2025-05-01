@@ -4,16 +4,17 @@ import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { SearchPropApi } from "@/utils/propertyApi"
 import { formatPrice, formatSize } from "@/utils/formatUtils"
-import { Moon, Sun } from "lucide-react"
+import { Filter, Moon, Sun } from "lucide-react"
 import ContactButtons from "@/components/ui/ContactButtons"
 import PaginationControls from "@/components/ui/PaginationControls"
 import FilterBar from "@/components/FilterBar"
 
 export default function PlotsPage() {
   const handleFiltersChange = (filters) => {
-    console.log("Updated filters:", filters)
+    updateUrlParams(filters)
   }
   const searchParams = useSearchParams()
+  const [filtersVisible, setFiltersVisible] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [plots, setPlots] = useState([])
@@ -123,12 +124,17 @@ export default function PlotsPage() {
             ) : (
               <div className="overflow-x-auto">
                 {/* Header with toggle */}
-                <div className="relative mb-6">
+                <div className="relative mb-6 z-200">
                   <h2 className="text-xl font-semibold text-white text-center py-3 shadow-md bg-gradient-to-r from-purple-500 via-blue-500 to-teal-500 rounded-lg">
                     Plot Listings
                   </h2>
-                  <FilterBar onChange={handleFiltersChange} filtersVisible={true} />
+
                   <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center space-x-2 ml-35">
+                    <button
+                      onClick={() => setFiltersVisible(!filtersVisible)}
+                      className="px-4 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
+                      <Filter size={20} />
+                    </button>
                     <button
                       onClick={toggleTableTheme}
                       className="flex items-center justify-center px-4 py-2  text-white hover:bg-primary/80 rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-110">
@@ -146,6 +152,11 @@ export default function PlotsPage() {
                     </button>
                   </div>
                 </div>
+
+                <FilterBar
+                  onChange={handleFiltersChange}
+                  filtersVisible={filtersVisible}
+                />
 
                 <table
                   className={`min-w-full divide-y rounded-lg shadow-md overflow-hidden ${
