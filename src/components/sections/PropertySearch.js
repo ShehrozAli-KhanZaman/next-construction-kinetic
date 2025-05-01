@@ -8,7 +8,7 @@ import { locations } from "@/lib/location"
 import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import SelectableButtonGroup from "../ui/SelectableButtonGroup"
-
+import Select from "react-select"
 const propertyTypes = ["Plot", "House"]
 
 const dropdownVariants = {
@@ -43,6 +43,7 @@ export default function PropertySearch() {
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
+  const locationOptions = locations.map((loc) => ({ label: loc, value: loc }))
 
   const handleRangeChange = (range, field, value) => {
     setFormData((prev) => ({
@@ -358,6 +359,19 @@ export default function PropertySearch() {
               <label className="block text-xs font-medium text-white mb-1">
                 Location
               </label>
+              {/* <Select
+                options={locationOptions}
+                value={
+                  locationOptions.find(
+                    (opt) => opt.value === formData.location
+                  ) || null
+                }
+                onChange={(e) => handleChange("location", e?.value)}
+                isClearable
+                placeholder="Select Area"
+                styles={customStyles}
+                className="col-span-2 md:col-span-1"
+              /> */}
               <select
                 value={formData.location}
                 onChange={(e) => handleChange("location", e.target.value)}
@@ -503,4 +517,44 @@ export default function PropertySearch() {
       </div>
     </section>
   )
+}
+
+const customStyles = {
+  control: (base, state) => ({
+    ...base,
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    borderColor: "rgba(255, 255, 255, 0.2)",
+    borderRadius: "0.375rem", // rounded-md
+    padding: "2px 6px",
+    fontSize: "12px",
+    color: "white",
+    boxShadow: state.isFocused ? "0 0 0 2px var(--tw-ring-color)" : "none",
+    "&:hover": {
+      borderColor: "rgba(255, 255, 255, 0.4)",
+    },
+  }),
+  menu: (base) => ({
+    ...base,
+    zIndex: 2000,
+    backgroundColor: "white",
+    color: "black",
+    fontSize: "12px",
+  }),
+  option: (base, state) => ({
+    ...base,
+    backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+    color: "black",
+    fontSize: "12px",
+    cursor: "pointer",
+  }),
+  singleValue: (base) => ({
+    ...base,
+    color: "white",
+    fontSize: "12px",
+  }),
+  placeholder: (base) => ({
+    ...base,
+    color: "white",
+    fontSize: "12px",
+  }),
 }
