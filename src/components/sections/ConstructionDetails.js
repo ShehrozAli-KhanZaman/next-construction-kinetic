@@ -153,7 +153,7 @@ export default function ConstructionDetails() {
       />
 
       {/* Cards Grid */}
-      <div className="grid grid-cols-4 grid-rows-3 gap-6 max-w-7xl mx-auto w-full relative z-10">
+      <div className="flex flex-col md:grid md:grid-cols-4 md:gap-6 items-center justify-center gap-4 self-center">
         {/* Card 1: col 1 row 1 - from left */}
         <div className="col-start-1 row-start-1 w-full">
           <CardComponent
