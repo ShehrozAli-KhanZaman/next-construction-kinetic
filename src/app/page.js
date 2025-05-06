@@ -21,7 +21,7 @@ export default function Home() {
     { component: ConstructionDetails },
     { component: HouseLayouts },
     { component: CostCalculator },
-    { component: Contact },
+    // { component: Contact },
   ]
 
   // Throttle function outside the useEffect to avoid redefinition

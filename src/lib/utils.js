@@ -66,3 +66,54 @@ export const steps = {
     "Paint & Polish",
   ],
 }
+
+export const layouts = [
+  {
+    id: 1,
+    size: "3 Marla",
+    title: "3 Marla Modern Design",
+    description:
+      "Contemporary 3 marla house design with efficient space utilization",
+    image: "/images/layouts/3marla.jpg",
+    pdf: "/pdfs/3marla.pdf",
+    features: [
+      "2 Bedrooms",
+      "1 Bathroom",
+      "Kitchen",
+      "Small Garden",
+      "Living Room",
+    ],
+  },
+  {
+    id: 2,
+    size: "5 Marla",
+    title: "5 Marla Classic Design",
+    description: "Traditional 5 marla house layout with family-oriented spaces",
+    image: "/images/layouts/5marla.jpg",
+    pdf: "/pdfs/5marla.pdf",
+    features: [
+      "3 Bedrooms",
+      "2 Bathrooms",
+      "Kitchen with Dining",
+      "Drawing Room",
+      "Small Courtyard",
+    ],
+  },
+  {
+    id: 3,
+    size: "10 Marla",
+    title: "10 Marla Luxury Villa",
+    description: "Luxurious 10 marla villa design with premium finishes",
+    image: "/images/layouts/10marla.jpg",
+    pdf: "/pdfs/10marla.pdf",
+    features: [
+      "4 Bedrooms",
+      "3 Bathrooms",
+      "Modern Kitchen",
+      "Drawing Room",
+      "Dining Area",
+      "Garden",
+      "Car Parking",
+    ],
+  },
+]

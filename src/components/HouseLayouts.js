@@ -4,62 +4,12 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { saveAs } from "file-saver"
-
-const layouts = [
-  {
-    id: 1,
-    size: "3 Marla",
-    title: "3 Marla Modern Design",
-    description:
-      "Contemporary 3 marla house design with efficient space utilization",
-    image: "/images/layouts/3marla.jpg",
-    pdf: "/pdfs/3marla.pdf",
-    features: [
-      "2 Bedrooms",
-      "1 Bathroom",
-      "Kitchen",
-      "Small Garden",
-      "Living Room",
-    ],
-  },
-  {
-    id: 2,
-    size: "5 Marla",
-    title: "5 Marla Classic Design",
-    description: "Traditional 5 marla house layout with family-oriented spaces",
-    image: "/images/layouts/5marla.jpg",
-    pdf: "/pdfs/5marla.pdf",
-    features: [
-      "3 Bedrooms",
-      "2 Bathrooms",
-      "Kitchen with Dining",
-      "Drawing Room",
-      "Small Courtyard",
-    ],
-  },
-  {
-    id: 3,
-    size: "10 Marla",
-    title: "10 Marla Luxury Villa",
-    description: "Luxurious 10 marla villa design with premium finishes",
-    image: "/images/layouts/10marla.jpg",
-    pdf: "/pdfs/10marla.pdf",
-    features: [
-      "4 Bedrooms",
-      "3 Bathrooms",
-      "Modern Kitchen",
-      "Drawing Room",
-      "Dining Area",
-      "Garden",
-      "Car Parking",
-    ],
-  },
-]
+import { layouts } from "@/lib/utils"
 
 const HouseLayouts = () => {
   const [selectedLayout, setSelectedLayout] = useState(null)
 
-  const filteredLayouts = layouts // Using full layout list since size filter is disabled
+  const filteredLayouts = layouts
 
   useEffect(() => {
     document.body.style.overflow = selectedLayout ? "hidden" : "auto"
@@ -98,12 +48,12 @@ const HouseLayouts = () => {
       {/* <Background type="BIRDS" color={0x9b59b6} /> */}
       <div className="absolute inset-0 bg-black/50 z-0" />
 
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center  bg-red-500 self-center">
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center self-center">
         <motion.h1
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
-          className="text-xs font-bold text-center mb-6 text-white uppercase tracking-wider">
+          className="text-sm md:text-xl font-bold text-center mb-6 text-white uppercase tracking-wider">
           House Layouts
         </motion.h1>
 
