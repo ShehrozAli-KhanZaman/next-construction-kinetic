@@ -85,7 +85,7 @@ export default function NavBar() {
                   whileTap={{ scale: 0.95 }}
                   className="flex items-center gap-2">
                   <Image
-                    src="/images/Logo/LogoTransparent.png"
+                    src="/images/Logo/Ck/CKT.png"
                     alt="Construction Kinetics"
                     width={45}
                     height={45}

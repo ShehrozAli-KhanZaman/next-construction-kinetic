@@ -162,6 +162,7 @@ export default function ConstructionDetails() {
             cardVariants={cardVariants}
             activeTab={activeTab}
             animationVariants={bounceFadeInVertical(0)}
+            onCardClick={handleTabClick}
           />
         </div>
 
@@ -173,6 +174,7 @@ export default function ConstructionDetails() {
             cardVariants={cardVariants}
             activeTab={activeTab}
             animationVariants={bounceFadeInHorizontal(1)}
+            onCardClick={handleTabClick}
           />
         </div>
 
@@ -225,6 +227,7 @@ export default function ConstructionDetails() {
             cardVariants={cardVariants}
             activeTab={activeTab}
             animationVariants={bounceFadeInHorizontal1(0)}
+            onCardClick={handleTabClick}
           />
         </div>
 
@@ -236,12 +239,13 @@ export default function ConstructionDetails() {
             cardVariants={cardVariants}
             activeTab={activeTab}
             animationVariants={bounceFadeInVertical(1)}
+            onCardClick={handleTabClick}
           />
         </div>
       </div>
 
       {/* Expanded Content */}
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {activeTab && (
           <motion.div
             key="expanded-content"
@@ -265,7 +269,7 @@ export default function ConstructionDetails() {
             </p>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
     </section>
   )
 }

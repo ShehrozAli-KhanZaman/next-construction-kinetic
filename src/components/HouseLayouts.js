@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import Background from "@/components/Background"
 import { saveAs } from "file-saver"
 
 const layouts = [
@@ -60,12 +59,6 @@ const layouts = [
 const HouseLayouts = () => {
   const [selectedLayout, setSelectedLayout] = useState(null)
 
-  // Commented size filtering logic
-  /*
-  const [selectedSize, setSelectedSize] = useState("All")
-  const sizes = ["All", "3 Marla", "5 Marla", "10 Marla"]
-  const filteredLayouts = selectedSize === "All" ? layouts : layouts.filter((l) => l.size === selectedSize)
-  */
   const filteredLayouts = layouts // Using full layout list since size filter is disabled
 
   useEffect(() => {
@@ -105,7 +98,7 @@ const HouseLayouts = () => {
       {/* <Background type="BIRDS" color={0x9b59b6} /> */}
       <div className="absolute inset-0 bg-black/50 z-0" />
 
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center pt-16 md:pt-20">
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center  bg-red-500 self-center">
         <motion.h1
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -113,22 +106,6 @@ const HouseLayouts = () => {
           className="text-xs font-bold text-center mb-6 text-white uppercase tracking-wider">
           House Layouts
         </motion.h1>
-
-        {/* Dropdown removed for now */}
-        {/* 
-        <div className="mb-4">
-          <select
-            value={selectedSize}
-            onChange={(e) => setSelectedSize(e.target.value)}
-            className="text-sm px-3 py-2 rounded-md bg-white shadow-md">
-            {sizes.map((size) => (
-              <option key={size} value={size}>
-                {size}
-              </option>
-            ))}
-          </select>
-        </div>
-        */}
 
         {/* Responsive Grid: row on desktop, list on mobile */}
         <motion.div
@@ -145,37 +122,40 @@ const HouseLayouts = () => {
               whileHover={{ y: -5, scale: 1.02, filter: "brightness(1.05)" }}
               className="cursor-pointer bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow hover:shadow-md transition-all duration-300"
               onClick={() => openLayout(layout)}>
-              <div className="relative h-32 md:h-40">
-                <Image
-                  src={layout.image}
-                  alt={layout.title}
-                  fill
-                  className="object-cover"
-                  priority
-                  placeholder="blur"
-                  blurDataURL="/images/layouts/placeholder.jpg"
-                />
-              </div>
-              <div className="p-3">
-                <h3 className="text-sm font-semibold text-gray-800 dark:text-white mb-1">
-                  {layout.title}
-                </h3>
-                <p className="text-xs text-gray-600 dark:text-gray-300 mb-2">
-                  {layout.description}
-                </p>
-                <div className="flex gap-1 flex-wrap mb-2">
-                  {layout.features.slice(0, 2).map((feature, i) => (
-                    <span
-                      key={i}
-                      className="text-xs px-2 py-0.5 bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary/90 rounded-full">
-                      {feature}
-                    </span>
-                  ))}
-                  {layout.features.length > 2 && (
-                    <span className="text-xs px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full">
-                      +{layout.features.length - 2} more
-                    </span>
-                  )}
+              <div className="flex flex-row md:flex-col">
+                <div className="relative w-1/3 md:w-full h-34 md:h-40">
+                  <Image
+                    src={layout.image}
+                    alt={layout.title}
+                    fill
+                    className="object-cover"
+                    priority
+                    placeholder="blur"
+                    blurDataURL="/images/layouts/placeholder.jpg"
+                  />
+                </div>
+                <div className="p-3 w-2/3 md:w-full">
+                  <h3 className="text-sm font-semibold text-gray-800 dark:text-white mb-1">
+                    {layout.title}
+                  </h3>
+                  <p className="text-xs text-gray-600 dark:text-gray-300 mb-2 line-clamp-2 md:line-clamp-none">
+                    {layout.description}
+                  </p>
+
+                  <div className="flex gap-1 flex-wrap mb-2">
+                    {layout.features.slice(0, 2).map((feature, i) => (
+                      <span
+                        key={i}
+                        className="text-xs px-2 py-0.5 bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary/90 rounded-full">
+                        {feature}
+                      </span>
+                    ))}
+                    {layout.features.length > 2 && (
+                      <span className="text-xs px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full">
+                        +{layout.features.length - 2} more
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -192,14 +172,14 @@ const HouseLayouts = () => {
           onClick={(e) => {
             if (e.target === e.currentTarget) closeLayout()
           }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+          className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/70 backdrop-blur-sm">
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-white dark:bg-gray-800 rounded-xl max-w-4xl w-full overflow-hidden shadow-2xl">
+            className="bg-white dark:bg-gray-800 rounded-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl">
             <div className="grid grid-cols-1 md:grid-cols-2">
-              <div className="relative h-64 md:h-full">
+              <div className="relative h-48 sm:h-64 md:h-full">
                 <Image
                   src={selectedLayout.image}
                   alt={selectedLayout.title}
@@ -211,13 +191,13 @@ const HouseLayouts = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
               </div>
-              <div className="p-6 md:p-8">
+              <div className="p-4 sm:p-6 md:p-8">
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <span className="inline-block bg-secondary/10 text-secondary text-xs px-3 py-1 rounded-full mb-2">
                       House Layout
                     </span>
-                    <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
+                    <h3 className="text-lg sm:text-2xl font-bold text-gray-800 dark:text-white">
                       {selectedLayout.title}
                     </h3>
                   </div>
@@ -242,12 +222,12 @@ const HouseLayouts = () => {
                   </motion.button>
                 </div>
 
-                <p className="text-gray-600 dark:text-gray-300 mb-6">
+                <p className="text-gray-600 dark:text-gray-300 mb-3 md:mb-6">
                   {selectedLayout.description}
                 </p>
 
                 <div className="mb-6">
-                  <h4 className="text-lg font-semibold mb-3 text-gray-800 dark:text-white flex items-center">
+                  <h4 className="text-sm sm:text-lg font-semibold mb-3 text-gray-800 dark:text-white flex items-center">
                     <span className="w-8 h-8 bg-primary/10 dark:bg-primary/20 rounded-full flex items-center justify-center text-primary mr-2">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

@@ -8,9 +8,13 @@ const CardComponent = ({
   cardVariants,
   activeTab,
   animationVariants = null,
+  onCardClick,
 }) => {
   const [isMobile, setIsMobile] = useState(false)
-
+  const handleClick = () => {
+    setActiveTab(activeTab === tab.id ? null : tab.id)
+    onCardClick?.(tab.id) // 👈 call the routing function if provided
+  }
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768)
@@ -22,7 +26,7 @@ const CardComponent = ({
 
   const CardContent = (
     <div
-      onClick={() => setActiveTab(activeTab === tab.id ? null : tab.id)}
+      onClick={handleClick}
       className={`relative ${
         isMobile ? "w-[70vw] h-[10vh] self-center" : "w-full max-w-[16vw]"
       } bg-white/10 hover:bg-white/20 p-3 rounded-lg shadow-md hover:shadow-lg cursor-pointer flex flex-col justify-between transition-all duration-500 backdrop-blur-lg border border-white/20 group overflow-hidden`}>
