@@ -16,42 +16,59 @@ export default function UAEPropertiesPage() {
   return (
     <div className="bg-black text-white">
       {/* Hero Section */}
-      <div className="relative h-[80vh] w-full">
+      <div className="relative h-[100vh] w-full">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute top-0 left-0 w-full h-full object-cover opacity-80">
+          <source src="/videos/Sobha.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div className="absolute inset-0 bg-black bg-opacity-40" />
+      </div>
+
+      {/* <div className="relative h-[100vh] w-full">
         <Image
-          src="/images/Background/bg7.jpg" // Replace with actual image
+          src="/images/Background/bg7.jpg"
           alt="Dubai Luxury"
           layout="fill"
           objectFit="cover"
           className="opacity-80"
         />
         <div className="absolute inset-0 bg-black bg-opacity-40" />
+      </div> */}
 
-        <div className="absolute inset-0 flex items-center justify-center px-6 pt-20">
-          <div className="bg-white text-black max-w-7xl w-full rounded-2xl shadow-xl p-8 md:p-14 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            {/* Left: Big Italic Heading */}
-            <h1 className="text-xl sm:text-2xl md:text-4xl font-bold leading-tight">
-              Buy Dubai Properties: <br />
-              Luxury Property for Sale in UAE
-            </h1>
+      {/* Card Positioned Lower */}
+      <div className="relative top-[85%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full px-6 mt-10">
+        <div className="bg-white text-black max-w-7xl w-full rounded-xl shadow-xl p-6 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          {/* Left: Big Cursive Heading */}
+          <h1 className="font-chronicle text-4xl sm:text-5xl md:text-6xl leading-[1.5]">
+            <span>Buy Dubai Properties:</span>
+            <br />
+            Luxury Property for <br />
+            Sale in UAE
+          </h1>
 
-            {/* Right: Paragraph */}
-            <p className="text-sm sm:text-base md:text-lg text-gray-800 leading-relaxed">
-              Experience the pinnacle of luxury with buying a property in Dubai,
-              where stunning architecture meets world-class amenities. Each
-              residence seamlessly blends elegance with comfort, offering
-              breathtaking views of the city skyline and pristine beaches. Buy
-              Dubai properties and embrace a lifestyle defined by sophistication
-              and unmatched beauty.
-            </p>
-          </div>
+          {/* Right: Paragraph */}
+          <p className="text-sm sm:text-base md:text-lg text-gray-800 leading-relaxed">
+            Experience the pinnacle of luxury with buying a <br />
+            property in Dubai, where stunning architecture <br />
+            meets world-class amenities. Each residence <br /> seamlessly blends
+            elegance with comfort, offering <br />
+            breathtaking views of the city skyline and pristine <br /> beaches.
+            Buy Dubai properties and embrace a <br />
+            lifestyle defined by sophistication and unmatched beauty.
+          </p>
         </div>
       </div>
 
       {/* Scroll Target Section */}
-      <div className="py-10 text-center">
-        <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold">
+      <div className="pb-14 text-center">
+        <h2 className="text-lg sm:text-2xl md:text-3xl font-bold">
           DISCOVER A <br />
-          <span className="text-gradient bg-gradient-to-r from-pink-500 to-orange-400 bg-clip-text text-transparent">
+          <span className="text-2xl sm:text-3xl md:text-5xl text-gradient bg-gradient-to-r from-pink-500 to-orange-400 bg-clip-text text-transparent">
             Premium Lifestyle
           </span>
         </h2>

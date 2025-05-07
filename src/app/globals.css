@@ -85,6 +85,15 @@ body {
     U+FEFF, U+FFFD;
 }
 
+@font-face {
+  font-family: "Chronicle Display XLight";
+  src: url("https://yourcdn.com/fonts/ChronicleDisplay-XLight.woff2")
+    format("woff2");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Animation utilities */
 @layer utilities {
   .animate-fade-in {
