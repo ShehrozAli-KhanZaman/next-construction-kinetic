@@ -5,10 +5,11 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { saveAs } from "file-saver"
 import { layouts } from "@/lib/utils"
+import SelectableButtonGroup from "./ui/SelectableButtonGroup"
 
 const HouseLayouts = () => {
   const [selectedLayout, setSelectedLayout] = useState(null)
-
+  const [selectedId, setSelectedId] = useState(1)
   const filteredLayouts = layouts
 
   useEffect(() => {
@@ -42,6 +43,27 @@ const HouseLayouts = () => {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0 },
   }
+  const handleOptionA = () =>
+    new Promise(() => {
+      setSelectedId(1)
+    })
+
+  const handleOptionB = () =>
+    new Promise(() => {
+      setSelectedId(2)
+    })
+
+  const handleOptionC = () =>
+    new Promise(() => {
+      console.log("Option C selected")
+      setSelectedId(3)
+    })
+
+  const buttons = [
+    { id: 1, label: "DHA", onPress: handleOptionA },
+    { id: 2, label: "BAHRIA", onPress: handleOptionB },
+    { id: 3, label: "LDA", onPress: handleOptionC },
+  ]
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
@@ -53,10 +75,12 @@ const HouseLayouts = () => {
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
-          className="text-sm md:text-xl font-bold text-center mb-6 text-white uppercase tracking-wider">
+          className="text-sm md:text-xl font-bold text-center mb-4 text-white uppercase tracking-wider">
           House Layouts
         </motion.h1>
-
+        <div className="bg-black flex justify-center items-center mb-2">
+          <SelectableButtonGroup buttons={buttons} initialSelectedId={1} />
+        </div>
         {/* Responsive Grid: row on desktop, list on mobile */}
         <motion.div
           variants={containerVariants}

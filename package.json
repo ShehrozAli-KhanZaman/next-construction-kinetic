@@ -28,6 +28,7 @@
     "react-select": "^5.10.1",
     "react-toastify": "^11.0.5",
     "react-tsparticles": "^2.12.2",
+    "swiper": "^11.2.6",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
     "tsparticles": "^3.8.1"
