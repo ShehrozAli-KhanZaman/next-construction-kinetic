@@ -18,6 +18,11 @@ module.exports = {
       fontFamily: {
         sans: ["var(--font-poppins)", "var(--font-inter)", "sans-serif"],
         waterfall: ["Waterfall", "sans-serif"],
+        vibes: ["'Great Vibes'", "cursive"],
+        script: ["'Dancing Script'", "cursive"],
+        pacifico: ["'Pacifico'", "cursive"],
+        signature: ["'Allura'", "cursive"],
+        chronicle: ["'Chronicle Display XLight'", "serif"],
       },
       colors: {
         border: "hsl(var(--border))",
