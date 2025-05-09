@@ -7,17 +7,19 @@ import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { useTheme } from "@/context/ThemeContext"
 import { Moon, Sun, Menu, X } from "lucide-react"
+import { useActiveSection } from "@/context/ActiveSectionContext"
 
 export default function NavBar() {
   const [navbar, setNavbar] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [activeTab, setActiveTab] = useState(null)
-  const [prevTab, setPrevTab] = useState(null)
   const { theme, toggleTheme } = useTheme()
+  const { setActiveSection, setScrollDirection } = useActiveSection()
+
   const navRef = useRef(null)
   const pathname = usePathname()
   const isHomePage = pathname === "/"
 
+  // Handle scroll position
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {
@@ -48,19 +50,19 @@ export default function NavBar() {
     visible: { opacity: 1, y: 0 },
   }
 
-  const handleTabHover = (tab) => {
-    if (activeTab !== tab) {
-      setPrevTab(activeTab)
-      setActiveTab(tab)
-    }
+  // Handle navigation click to set active section and scroll direction
+  const handleNavClick = (index) => {
+    setScrollDirection(index > 0 ? "down" : "up")
+    setActiveSection(index)
+    setNavbar(false) // Close navbar after selection on mobile
   }
 
   const navItems = [
-    { name: "About Work", href: "/about" },
-    { name: "Construction Kinetics", href: "/construction" },
-    { name: "House Layouts", href: "/layouts" },
+    { name: "About Work", section: 0 },
+    { name: "Construction Kinetics", section: 1 },
+    { name: "House Layouts", section: 2 },
     { name: "UAE Chapter", href: "/uae" },
-    { name: "LHR Vertical Projects", href: "/projects" },
+    { name: "LHR Vertical Projects", href: "/vertical-projects" },
     { name: "Contact", href: "/contact" },
   ]
 
@@ -79,7 +81,7 @@ export default function NavBar() {
         <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
           <div>
             <div className="flex items-center justify-between py-2 md:py-2 md:block">
-              <Link href="/">
+              <Link href="/" onClick={() => handleNavClick(0)}>
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -100,12 +102,6 @@ export default function NavBar() {
                 </motion.div>
               </Link>
               <div className="md:hidden flex items-center gap-4">
-                {/* <button
-                  onClick={toggleTheme}
-                  aria-label="Toggle Theme"
-                  className="p-2 rounded-full bg-primary/10 dark:bg-primary/20 text-primary dark:text-white hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors duration-200">
-                  {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-                </button> */}
                 <button
                   className={`p-2 rounded-md text-primary dark:text-white outline-none focus:border-primary focus:border ${
                     scrolled
@@ -137,17 +133,9 @@ export default function NavBar() {
                   <motion.li
                     key={item.name}
                     variants={itemVariants}
-                    onMouseEnter={(e) => {
-                      const rect = e.currentTarget.getBoundingClientRect()
-                      handleTabHover({
-                        id: item.name,
-                        x: rect.x + rect.width / 2,
-                        y: rect.y + rect.height / 2,
-                      })
-                    }}
                     className="text-xs py-2 px-4 text-center border-b md:border-b-0 border-gray-200 dark:border-gray-700 md:border-0 md:flex md:items-center h-full relative z-10">
                     <Link
-                      href={item.href}
+                      href={item.href || "#"}
                       className={`${
                         scrolled
                           ? "text-gray-800 dark:text-gray-200"
@@ -155,22 +143,16 @@ export default function NavBar() {
                           ? "text-gray-800 dark:text-gray-200"
                           : "text-white"
                       } hover:text-primary dark:hover:text-secondary font-medium relative group transition-colors duration-300 block py-2`}
-                      onClick={() => setNavbar(false)}>
+                      onClick={() => {
+                        if (item.section !== undefined) {
+                          handleNavClick(item.section)
+                        }
+                      }}>
                       {item.name}
                       <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary dark:bg-secondary group-hover:w-full transition-all duration-300"></span>
                     </Link>
                   </motion.li>
                 ))}
-                {/* <motion.li
-                  variants={itemVariants}
-                  className="text-xl py-2 px-4 text-center md:border-b-0 md:hover:bg-transparent hidden md:block">
-                  <button
-                    onClick={toggleTheme}
-                    aria-label="Toggle Theme"
-                    className="p-2 rounded-full bg-primary/10 dark:bg-primary/20 text-primary dark:text-white hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors duration-200">
-                    {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-                  </button>
-                </motion.li> */}
               </motion.ul>
             </div>
           </div>

@@ -181,4 +181,66 @@ export const dubaiProjects = [
     handoverDate: "March 2029",
     tag: "NEW",
   },
+  {
+    name: "Sobha One",
+    description:
+      "Luxury waterfront residences in the heart of Dubai with panoramic skyline views.",
+    image: [
+      "/images/Background/bg1.jpg",
+      "/images/Background/bg2.jpg",
+      "/images/Background/bg3.jpg",
+    ],
+    bedroomRange: "1, 1.5, 2, 3 and 3.5 Bedroom Apartments",
+    location: "Sobha Hartland II, MBR City",
+    priceRange: {
+      from: "AED 1.64 M* | INR 3.8 CR* | USD 450 K*",
+      to: "AED 4.53 M* | INR 10.5 CR* | USD 1.24 M*",
+    },
+    areaRange: {
+      from: "625.6 Sq. Ft. | 58.12 Sq. M.",
+      to: "1600.1 Sq. Ft. | 148.65 Sq. M.",
+    },
+    handoverDate: "March 2029",
+    tag: "NEW",
+  },
+  {
+    name: "Hartland Waves",
+    description:
+      "Contemporary waterfront living with direct access to Dubai's top landmarks.",
+    image: ["/images/Background/bg1.jpg"],
+    bedroomRange: "1 and 2 Bedroom Apartments",
+    location: "Sobha Hartland II, MBR City",
+    priceRange: {
+      from: "AED 1.50 M* | INR 3.2 CR*",
+      to: "AED 3.50 M* | INR 8 CR*",
+    },
+    areaRange: {
+      from: "550.0 Sq. Ft. | 51.1 Sq. M.",
+      to: "1400.0 Sq. Ft. | 130.0 Sq. M.",
+    },
+    handoverDate: "December 2028",
+    tag: "OFFER",
+  },
+  {
+    name: "Sobha One",
+    description:
+      "Luxury waterfront residences in the heart of Dubai with panoramic skyline views.",
+    image: [
+      "/images/Background/bg7.jpg",
+      "/images/Background/bg6.jpg",
+      "/images/Background/bg5.jpg",
+    ],
+    bedroomRange: "1, 1.5, 2, 3 and 3.5 Bedroom Apartments",
+    location: "Sobha Hartland II, MBR City",
+    priceRange: {
+      from: "AED 1.64 M* | INR 3.8 CR* | USD 450 K*",
+      to: "AED 4.53 M* | INR 10.5 CR* | USD 1.24 M*",
+    },
+    areaRange: {
+      from: "625.6 Sq. Ft. | 58.12 Sq. M.",
+      to: "1600.1 Sq. Ft. | 148.65 Sq. M.",
+    },
+    handoverDate: "March 2029",
+    tag: "NEW",
+  },
 ]
