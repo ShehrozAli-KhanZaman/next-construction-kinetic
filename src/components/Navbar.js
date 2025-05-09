@@ -58,7 +58,7 @@ export default function NavBar() {
   }
 
   const navItems = [
-    { name: "About Work", section: 0 },
+    { name: "About Work", href: "/", section: 0 },
     { name: "Construction Kinetics", section: 1 },
     { name: "House Layouts", section: 2 },
     { name: "UAE Chapter", href: "/uae" },
