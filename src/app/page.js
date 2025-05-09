@@ -1,20 +1,25 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client"
 
-import { useState, useEffect, useRef } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useEffect, useRef } from "react"
+import { AnimatePresence } from "framer-motion"
 import AnimatedSection from "@/components/AnimatedSection"
 import PropertySearch from "@/components/sections/PropertySearch"
 import ConstructionDetails from "@/components/sections/ConstructionDetails"
 import CostCalculator from "@/components/sections/CostCalculator"
 import HouseLayouts from "@/components/HouseLayouts"
-import Contact from "@/components/sections/Contact"
 import { ToastContainer } from "react-toastify"
 import Background from "@/components/Background"
+import { useActiveSection } from "@/context/ActiveSectionContext"
 
 export default function Home() {
   const containerRef = useRef(null)
-  const [activeSection, setActiveSection] = useState(0)
-  const [scrollDirection, setScrollDirection] = useState("down")
+  const {
+    activeSection,
+    scrollDirection,
+    setActiveSection,
+    setScrollDirection,
+  } = useActiveSection()
 
   const sections = [
     { component: PropertySearch },
@@ -72,6 +77,7 @@ export default function Home() {
     }
 
     if (container) {
+      // Add event listeners for mouse wheel and touch events
       container.addEventListener("wheel", handleWheel, { passive: false })
       container.addEventListener("touchstart", handleTouchStart, {
         passive: true,
@@ -81,13 +87,13 @@ export default function Home() {
 
     return () => {
       if (container) {
+        // Cleanup event listeners
         container.removeEventListener("wheel", handleWheel)
         container.removeEventListener("touchstart", handleTouchStart)
         container.removeEventListener("touchend", handleTouchEnd)
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sections.length])
+  }, [sections.length, setActiveSection, setScrollDirection])
 
   return (
     <div
