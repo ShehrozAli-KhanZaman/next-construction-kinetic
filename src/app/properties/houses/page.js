@@ -141,47 +141,47 @@ export default function HousesPage() {
       <div className="pt-20 px-1">
         <div className="max-w-7xl">
           <div className="bg-gray-800 rounded-lg shadow-sm overflow-hidden">
-            {loading ? (
-              <div className="flex justify-center items-center h-96">
-                <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary"></div>
-              </div>
-            ) : error ? (
-              <div className="p-4 text-center text-red-400">{error}</div>
-            ) : (
-              <div className="overflow-x-auto">
-                {/* Header with toggle */}
-                <div className="relative mb-6 z-20">
-                  <h2 className="text-xl font-semibold text-white text-center py-3 shadow-md bg-gradient-to-r from-purple-500 via-blue-500 to-teal-500 rounded-lg">
-                    House Listings
-                  </h2>
+            <div className="overflow-x-auto">
+              {/* Header with toggle */}
+              <div className="relative mb-6 z-20">
+                <h2 className="text-xl font-semibold text-white text-center py-3 shadow-md bg-gradient-to-r from-background via-secondary to-teal-500 rounded-lg">
+                  House Listings
+                </h2>
 
-                  <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center space-x-2 ml-35">
-                    <button
-                      onClick={() => setFiltersVisible(!filtersVisible)}
-                      className="px-4 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
-                      <Filter size={20} />
-                    </button>
-                    <button
-                      onClick={toggleTableTheme}
-                      className="flex items-center justify-center px-4 py-2  text-white hover:bg-primary/80 rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-110">
-                      {isDark ? (
-                        <Sun
-                          size={20}
-                          className="transition-transform duration-300 ease-in-out transform hover:rotate-180"
-                        />
-                      ) : (
-                        <Moon
-                          size={20}
-                          className="transition-transform duration-300 ease-in-out transform hover:rotate-180"
-                        />
-                      )}
-                    </button>
-                  </div>
+                <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center space-x-2 ml-35">
+                  <button
+                    onClick={() => setFiltersVisible(!filtersVisible)}
+                    className="px-4 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
+                    <Filter size={20} />
+                  </button>
+                  <button
+                    onClick={toggleTableTheme}
+                    className="flex items-center justify-center px-4 py-2  text-white hover:bg-primary/80 rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-110">
+                    {isDark ? (
+                      <Sun
+                        size={20}
+                        className="transition-transform duration-300 ease-in-out transform hover:rotate-180"
+                      />
+                    ) : (
+                      <Moon
+                        size={20}
+                        className="transition-transform duration-300 ease-in-out transform hover:rotate-180"
+                      />
+                    )}
+                  </button>
                 </div>
-                <FilterBar
-                  onChange={handleFiltersChange}
-                  filtersVisible={filtersVisible}
-                />
+              </div>
+              <FilterBar
+                onChange={handleFiltersChange}
+                filtersVisible={filtersVisible}
+              />
+              {loading ? (
+                <div className="flex justify-center items-center h-96">
+                  <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary"></div>
+                </div>
+              ) : error ? (
+                <div className="p-4 text-center text-red-400">{error}</div>
+              ) : (
                 <table
                   className={`min-w-full ${
                     isDark
@@ -280,8 +280,8 @@ export default function HousesPage() {
                     ))}
                   </tbody>
                 </table>
-              </div>
-            )}
+              )}
+            </div>
 
             {/* Pagination */}
             {totalItems > itemsPerPage && (
