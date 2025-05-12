@@ -73,7 +73,7 @@ export default function ConstructionDetails() {
             className="relative">
             <div className="absolute -inset-2 bg-gradient-to-r  rounded-lg blur-md opacity-70"></div>
             <Image
-              src="/images/Logo/CK/constructionKinetics.svg"
+              src="/images/Logo/Ck/constructionKinetics.svg"
               alt="Construction Kinetics"
               width={80}
               height={80}
