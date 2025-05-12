@@ -11,7 +11,7 @@ export default function Preloader() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 2000) // 2 seconds total loading time
+    }, 5000) // 2 seconds total loading time
 
     return () => clearTimeout(timer)
   }, [])
@@ -31,8 +31,8 @@ export default function Preloader() {
             duration: 0.6,
           }}
           data-preloader="true"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-primary w-screen max-w-full overflow-hidden">
-          <div className="relative w-[90%] sm:w-auto mx-auto">
+          className="fixed inset-0 z-50 flex items-center justify-center  w-screen max-w-full overflow-hidden">
+          <div className="relative w-[90%] sm:w-auto mx-auto z-10">
             {/* Decorative circles */}
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
@@ -80,7 +80,7 @@ export default function Preloader() {
           </div>
 
           {/* Animated dots background */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute inset-0 overflow-hidden pointer-events-none z-1 bg-accent">
             {Array.from({ length: 20 }).map((_, i) => (
               <motion.div
                 key={i}

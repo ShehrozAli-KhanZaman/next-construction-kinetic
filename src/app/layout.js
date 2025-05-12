@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
         <ThemeProvider>
           <ActiveSectionProvider>
             <ClientWrapper>
-              <Preloader />
+              {/* <Preloader /> */}
               <NavBar />
               {children}
             </ClientWrapper>
