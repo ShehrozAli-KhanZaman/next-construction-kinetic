@@ -61,7 +61,7 @@ const HouseLayouts = () => {
 
   const buttons = [
     { id: 1, label: "DHA", onPress: handleOptionA },
-    { id: 2, label: "BAHRIA", onPress: handleOptionB },
+    // { id: 2, label: "BAHRIA", onPress: handleOptionB },
     { id: 3, label: "LDA", onPress: handleOptionC },
   ]
 

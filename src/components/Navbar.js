@@ -19,16 +19,10 @@ export default function NavBar() {
   const pathname = usePathname()
   const isHomePage = pathname === "/"
 
-  // Handle scroll position
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setScrolled(true)
-      } else {
-        setScrolled(false)
-      }
+      setScrolled(window.scrollY > 20)
     }
-
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
@@ -50,20 +44,19 @@ export default function NavBar() {
     visible: { opacity: 1, y: 0 },
   }
 
-  // Handle navigation click to set active section and scroll direction
   const handleNavClick = (index) => {
     setScrollDirection(index > 0 ? "down" : "up")
     setActiveSection(index)
-    setNavbar(false) // Close navbar after selection on mobile
+    setNavbar(false)
   }
 
   const navItems = [
-    { name: "About Work", href: "/", section: 0 },
-    { name: "Construction Kinetics", section: 1 },
-    { name: "House Layouts", section: 2 },
-    { name: "UAE Chapter", href: "/uae" },
-    { name: "LHR Vertical Projects", href: "/vertical-projects" },
-    { name: "Contact", href: "/contact" },
+    { name: "PROPERTIES", href: "/", section: 0 },
+    { name: "CONSTRUCTION KINETIC", section: 1 },
+    { name: "HOUSE LAYOUTS  ", section: 2 },
+    // { name: "UAE CHAPTER", href: "/uae" },
+    // { name: "LHR VERTICAL PROJECTS", href: "/vertical-projects" },
+    { name: "CONTACT US", href: "/contact" },
   ]
 
   return (
@@ -79,82 +72,142 @@ export default function NavBar() {
             : "bg-transparent dark:bg-transparent py-2"
         }`}>
         <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
-          <div>
-            <div className="flex items-center justify-between py-2 md:py-2 md:block">
-              <Link href="/" onClick={() => handleNavClick(0)}>
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-2">
-                  <Image
-                    src="/images/Logo/Ck/CKT.png"
-                    alt="Construction Kinetics"
-                    width={45}
-                    height={45}
-                    className="rounded-lg shadow-lg w-auto h-auto max-w-[45px] max-h-[45px]"
-                  />
-                  <span
-                    className={`font-semibold text-base sm:text-lg ${
-                      scrolled ? "text-primary dark:text-primary" : "text-white"
-                    }`}>
-                    Construction Kinetics
-                  </span>
-                </motion.div>
-              </Link>
-              <div className="md:hidden flex items-center gap-4">
-                <button
-                  className={`p-2 rounded-md text-primary dark:text-white outline-none focus:border-primary focus:border ${
-                    scrolled
-                      ? "bg-primary/10 dark:bg-primary/20"
-                      : "bg-white/20 dark:bg-gray-900/30"
+          {/* MOBILE MENU */}
+          <div className="flex justify-between items-center md:hidden">
+            <Link href="/" onClick={() => handleNavClick(0)}>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-2">
+                <Image
+                  src="/images/Logo/LogoTransparent.png"
+                  alt="REALTOR MFI"
+                  width={45}
+                  height={45}
+                  className="rounded-lg shadow-lg w-auto h-auto max-w-[45px] max-h-[45px]"
+                />
+                <span
+                  className={`font-semibold text-base sm:text-lg ${
+                    scrolled ? "text-primary dark:text-primary" : "text-white"
                   }`}
-                  onClick={() => setNavbar(!navbar)}>
-                  {navbar ? <X size={24} /> : <Menu size={24} />}
-                </button>
-              </div>
-            </div>
+                  style={{ fontFamily: "Playfair Display, serif" }}>
+                  REALTOR MFI
+                </span>
+              </motion.div>
+            </Link>
+            <button
+              className={`p-2 rounded-md text-primary dark:text-white outline-none focus:border-primary focus:border ${
+                scrolled
+                  ? "bg-primary/10 dark:bg-primary/20"
+                  : "bg-white/20 dark:bg-gray-900/30"
+              }`}
+              onClick={() => setNavbar(!navbar)}>
+              {navbar ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
-          <div>
-            <div
-              className={`flex-1 justify-self-center md:block md:pb-0 md:mt-0 ${
-                navbar
-                  ? "block absolute left-0 right-0 top-[60px] bg-white dark:bg-gray-900 shadow-lg"
-                  : "hidden"
-              }`}>
-              <motion.ul
-                ref={navRef}
-                variants={navVariants}
-                className={`items-center justify-center md:flex ${
-                  scrolled
-                    ? ""
-                    : "md:bg-white/10 md:dark:bg-gray-900/20 md:backdrop-blur-sm md:rounded-full md:px-2 md:py-1"
-                } ${navbar ? "px-4 py-2" : ""}`}>
-                {navItems.map((item, index) => (
-                  <motion.li
-                    key={item.name}
-                    variants={itemVariants}
-                    className="text-xs py-2 px-4 text-center border-b md:border-b-0 border-gray-200 dark:border-gray-700 md:border-0 md:flex md:items-center h-full relative z-10">
-                    <Link
-                      href={item.href || "#"}
-                      className={`${
-                        scrolled
-                          ? "text-gray-800 dark:text-gray-200"
-                          : navbar
-                          ? "text-gray-800 dark:text-gray-200"
-                          : "text-white"
-                      } hover:text-primary dark:hover:text-secondary font-medium relative group transition-colors duration-300 block py-2`}
-                      onClick={() => {
-                        if (item.section !== undefined) {
-                          handleNavClick(item.section)
-                        }
-                      }}>
-                      {item.name}
-                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary dark:bg-secondary group-hover:w-full transition-all duration-300"></span>
-                    </Link>
-                  </motion.li>
-                ))}
-              </motion.ul>
-            </div>
+
+          {/* DESKTOP NAVBAR */}
+          <div className="hidden md:flex w-full items-center justify-between">
+            {/* LEFT 3 TABS */}
+            <motion.ul className="flex gap-4" variants={navVariants}>
+              {navItems.slice(0, 2).map((item, index) => (
+                <motion.li key={item.name} variants={itemVariants}>
+                  <Link
+                    href={item.href || "#"}
+                    className={`text-[11px] hover:text-primary dark:hover:text-secondary font-medium relative group transition-colors duration-300 ${
+                      scrolled
+                        ? "text-gray-800 dark:text-gray-200"
+                        : "text-white"
+                    }`}
+                    onClick={() =>
+                      item.section !== undefined && handleNavClick(item.section)
+                    }>
+                    {item.name}
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary dark:bg-secondary group-hover:w-full transition-all duration-300"></span>
+                  </Link>
+                </motion.li>
+              ))}
+            </motion.ul>
+
+            {/* CENTER LOGO + TITLE */}
+            <Link href="/" onClick={() => handleNavClick(0)}>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-2">
+                <Image
+                  src="/images/Logo/LogoTransparent.png"
+                  alt="REALTOR MFI"
+                  width={50}
+                  height={50}
+                  className="rounded-lg shadow-lg w-auto h-auto max-w-[50px] max-h-[50px]"
+                />
+                <span
+                  className={`text-base sm:text-2xl font-semibold tracking-wide text-white`}
+                  // ${
+                  //   scrolled ? "text-primary dark:text-primary" : "text-white"
+                  // }
+                  // `}
+                  style={{ fontFamily: "Playfair Display, serif" }}>
+                  REALTOR MFI
+                </span>
+              </motion.div>
+            </Link>
+
+            {/* RIGHT 3 TABS */}
+            <motion.ul className="flex gap-4" variants={navVariants}>
+              {navItems.slice(2, 4).map((item, index) => (
+                <motion.li key={item.name} variants={itemVariants}>
+                  <Link
+                    href={item.href || "#"}
+                    className={`text-[11px] hover:text-primary dark:hover:text-secondary font-medium relative group transition-colors duration-300 ${
+                      scrolled
+                        ? "text-gray-800 dark:text-gray-200"
+                        : "text-white"
+                    }`}
+                    onClick={() =>
+                      item.section !== undefined && handleNavClick(item.section)
+                    }>
+                    {item.name}
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary dark:bg-secondary group-hover:w-full transition-all duration-300"></span>
+                  </Link>
+                </motion.li>
+              ))}
+            </motion.ul>
+          </div>
+
+          {/* MOBILE MENU DROPDOWN */}
+          <div
+            className={`md:hidden ${
+              navbar
+                ? "block absolute left-0 right-0 top-[60px] bg-white dark:bg-gray-900 shadow-lg z-40"
+                : "hidden"
+            }`}>
+            <motion.ul
+              ref={navRef}
+              variants={navVariants}
+              className="px-4 py-2 space-y-2">
+              {navItems.map((item, index) => (
+                <motion.li
+                  key={item.name}
+                  variants={itemVariants}
+                  className="text-xs text-center border-b border-gray-200 dark:border-gray-700 py-2">
+                  <Link
+                    href={item.href || "#"}
+                    className={`${
+                      scrolled
+                        ? "text-gray-800 dark:text-gray-200"
+                        : "text-gray-800 dark:text-gray-200"
+                    } hover:text-primary dark:hover:text-secondary font-medium transition-colors duration-300`}
+                    onClick={() => {
+                      if (item.section !== undefined)
+                        handleNavClick(item.section)
+                    }}>
+                    {item.name}
+                  </Link>
+                </motion.li>
+              ))}
+            </motion.ul>
           </div>
         </div>
       </nav>
