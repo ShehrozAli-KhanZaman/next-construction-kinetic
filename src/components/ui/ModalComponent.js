@@ -4,7 +4,7 @@ import Lottie from "lottie-react"
 import Image from "next/image"
 import { steps } from "@/lib/utils"
 
-const ModalComponent = ({ activeTab, tabs, setActiveTab, lotti }) => {
+const ModalComponent = ({ activeTab, tabs, setActiveTab }) => {
   const [lottieData, setLottieData] = useState(null)
   const [showFullText, setShowFullText] = useState(false)
   const tab = tabs.find((t) => t.id === activeTab)
@@ -36,15 +36,15 @@ const ModalComponent = ({ activeTab, tabs, setActiveTab, lotti }) => {
     tab.id === "grey" ? "grey" : tab.id === "finishing" ? "finishing" : null
 
   const StepsGrid = ({ steps }) => (
-    <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+    <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-2">
       {steps.map((step, i) => (
         <div
           key={i}
-          className="bg-white/10 text-white p-3 rounded-lg border border-white/20 text-xs shadow-sm flex items-center gap-2">
+          className="bg-white/10 text-white p-2 rounded-md border border-white/20 text-[10px] shadow-sm flex items-center gap-1">
           {step.icon ? (
-            <step.icon className="w-5 h-5 text-white shrink-0" />
+            <step.icon className="w-4 h-4 text-white shrink-0" />
           ) : (
-            <div className="w-5 h-5 rounded-full bg-white/30 flex items-center justify-center text-xs">
+            <div className="w-4 h-4 rounded-full bg-white/30 flex items-center justify-center text-[8px]">
               {i + 1}
             </div>
           )}
@@ -56,10 +56,94 @@ const ModalComponent = ({ activeTab, tabs, setActiveTab, lotti }) => {
 
   const hasSteps = stepsKey && steps[stepsKey]
   const charLimit = hasSteps ? 400 : 700
-  const fullText = Array.isArray(tab.description)
-    ? tab.description.join(" ")
-    : tab.description
-  const isTruncatable = fullText?.length > charLimit
+  const fullText =
+    typeof tab.description === "string"
+      ? tab.description
+      : Array.isArray(tab.description)
+      ? tab.description.join(" ")
+      : null
+
+  const renderTable = (data) => {
+    if (!data) return null
+
+    if (tab.id === "duration") {
+      return (
+        <table className="w-full text-sm text-left border-collapse">
+          <thead>
+            <tr>
+              {data.headers.map((header, i) => (
+                <th
+                  key={i}
+                  className="p-2 border-b border-white/20 font-semibold">
+                  {header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {data.rows.map((row, i) => (
+              <tr key={i} className="hover:bg-white/10">
+                {row.map((cell, j) => (
+                  <td key={j} className="p-2 border-b border-white/20">
+                    {cell}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )
+    }
+
+    if (tab.id === "cost") {
+      return (
+        <div className="flex flex-col gap-4">
+          <div>
+            <h3 className="text-white font-semibold mb-2">Rates</h3>
+            <div className="flex flex-col gap-4">
+              <div>
+                <h4 className="text-white font-medium mb-1">Gray Structure</h4>
+                <table className="w-full text-sm text-left border-collapse">
+                  <tbody>
+                    {data.rates.grayStructure.map((row, i) => (
+                      <tr key={i} className="hover:bg-white/10">
+                        <td className="p-2 border-b border-white/20">
+                          {row[0]}
+                        </td>
+                        <td className="p-2 border-b border-white/20">
+                          {row[1]}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div>
+                <h4 className="text-white font-medium mb-1">Finishing</h4>
+                <table className="w-full text-sm text-left border-collapse">
+                  <tbody>
+                    {data.rates.finishing.map((row, i) => (
+                      <tr key={i} className="hover:bg-white/10">
+                        <td className="p-2 border-b border-white/20">
+                          {row[0]}
+                        </td>
+                        <td className="p-2 border-b border-white/20">
+                          {row[1]}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          {data.note && <p className="text-gray-200 text-sm">{data.note}</p>}
+        </div>
+      )
+    }
+
+    return null
+  }
 
   return (
     <AnimatePresence>
@@ -103,60 +187,57 @@ const ModalComponent = ({ activeTab, tabs, setActiveTab, lotti }) => {
               </div>
 
               {/* Content */}
-              <div className="relative z-20 p-4 md:p-6 text-white flex flex-col md:flex-row gap-6 justify-center">
-                {/* Mobile First: Lottie at Top */}
-                <div className="md:hidden mb-4 flex justify-center">
-                  {lottieData && (
-                    <Lottie
-                      animationData={lottieData}
-                      loop
-                      autoplay
-                      className="w-44 h-44"
-                    />
-                  )}
+              <div className="relative z-20 p-4 md:p-6 text-white flex flex-col gap-6">
+                {/* First Row: Text/Table and Lottie */}
+                <div className="flex flex-col gap-6">
+                  {/* Text or Table Section */}
+                  <div className="text-sm">
+                    {tab.icon && (
+                      <tab.icon className="w-6 h-6 text-white mb-2" />
+                    )}
+                    <h2 className="text-lg md:text-2xl font-semibold mb-2">
+                      {tab.title}
+                    </h2>
+                    {tab.id === "duration" || tab.id === "cost" ? (
+                      renderTable(tab.description)
+                    ) : (
+                      <>
+                        <p className="leading-tight text-gray-200">
+                          {showFullText
+                            ? fullText
+                            : fullText?.slice(0, charLimit) + "..."}
+                        </p>
+                        {fullText?.length > charLimit && (
+                          <button
+                            className="mt-2 text-emerald-400 text-sm hover:underline"
+                            onClick={() => setShowFullText(!showFullText)}>
+                            {showFullText ? "Read Less" : "Read More"}
+                          </button>
+                        )}
+                      </>
+                    )}
+                  </div>
+
+                  {/* Lottie Section */}
+                  <div className="flex justify-center">
+                    {lottieData && (
+                      <Lottie
+                        animationData={lottieData}
+                        loop
+                        autoplay
+                        className="w-44 h-44"
+                      />
+                    )}
+                  </div>
                 </div>
 
-                {/* Left Section */}
-                <div className="flex-1 text-sm md:text-base">
-                  {tab.icon && <tab.icon className="w-6 h-6 text-white mb-2" />}
-                  <h2 className="text-lg md:text-2xl font-semibold mb-2">
-                    {tab.title}
-                  </h2>
-
-                  <p className="leading-tight text-gray-200">
-                    {showFullText
-                      ? fullText
-                      : fullText?.slice(0, charLimit) + "..."}
-                  </p>
-
-                  {isTruncatable && (
-                    <button
-                      className="mt-2 text-emerald-400 text-sm hover:underline"
-                      onClick={() => setShowFullText(!showFullText)}>
-                      {showFullText ? "Read Less" : "Read More"}
-                    </button>
-                  )}
-
-                  {/* Steps - Hidden when read more is active */}
-                  {hasSteps && !showFullText && (
-                    <div className="mt-6">
-                      <h3 className="text-white font-semibold mb-2">Steps</h3>
-                      <StepsGrid steps={steps[stepsKey]} />
-                    </div>
-                  )}
-                </div>
-
-                {/* Desktop: Lottie on Right */}
-                <div className="hidden md:flex w-full md:w-1/3 items-center justify-center">
-                  {lottieData && (
-                    <Lottie
-                      animationData={lottieData}
-                      loop
-                      autoplay
-                      className="w-64 h-64" // Bigger Lottie for desktop
-                    />
-                  )}
-                </div>
+                {/* Second Row: Steps */}
+                {hasSteps && !showFullText && (
+                  <div>
+                    <h3 className="text-white font-semibold mb-2">Steps</h3>
+                    <StepsGrid steps={steps[stepsKey]} />
+                  </div>
+                )}
               </div>
 
               {/* Close Button */}
@@ -164,7 +245,7 @@ const ModalComponent = ({ activeTab, tabs, setActiveTab, lotti }) => {
                 onClick={() => setActiveTab(null)}
                 className="absolute top-4 right-4 text-white text-3xl hover:text-red-400 transition z-50"
                 aria-label="Close">
-                &times;
+                ×
               </button>
             </div>
           </motion.div>
