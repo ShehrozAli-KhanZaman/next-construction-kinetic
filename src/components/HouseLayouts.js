@@ -1,11 +1,14 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import Image from "next/image"
 import { motion } from "framer-motion"
-import { saveAs } from "file-saver"
 import { layouts } from "@/lib/utils"
 import SelectableButtonGroup from "./ui/SelectableButtonGroup"
+import { Swiper, SwiperSlide } from "swiper/react"
+import { Navigation, Pagination, Autoplay } from "swiper/modules"
+import "swiper/css"
+import "swiper/css/navigation"
+import "swiper/css/pagination"
 
 const HouseLayouts = () => {
   const [selectedLayout, setSelectedLayout] = useState(null)
@@ -27,10 +30,6 @@ const HouseLayouts = () => {
   const openLayout = (layout) => setSelectedLayout(layout)
   const closeLayout = () => setSelectedLayout(null)
 
-  const handleDownload = (layout) => {
-    saveAs(layout.pdf, `${layout.title}.pdf`)
-  }
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -43,31 +42,60 @@ const HouseLayouts = () => {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0 },
   }
-  const handleOptionA = () =>
-    new Promise(() => {
-      setSelectedId(1)
-    })
 
-  const handleOptionB = () =>
-    new Promise(() => {
-      setSelectedId(2)
+  const handleOptionA = () =>
+    new Promise((resolve) => {
+      setSelectedId(1)
+      resolve()
     })
 
   const handleOptionC = () =>
-    new Promise(() => {
-      console.log("Option C selected")
+    new Promise((resolve) => {
       setSelectedId(3)
+      resolve()
     })
 
   const buttons = [
     { id: 1, label: "DHA", onPress: handleOptionA },
-    // { id: 2, label: "BAHRIA", onPress: handleOptionB },
     { id: 3, label: "LDA", onPress: handleOptionC },
   ]
 
+  // Determine which PDF array to use based on selectedId
+  const getPdfArray = (layout) => {
+    if (selectedId === 1) return layout.imagesDHAPdf || []
+    if (selectedId === 3) return layout.imagesLDAPdf || []
+    return []
+  }
+
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
-      {/* <Background type="BIRDS" color={0x9b59b6} /> */}
+      <style jsx>{`
+        .swiper-button-next,
+        .swiper-button-prev {
+          color: #ffffff;
+          width: 30px;
+          height: 30px;
+          --swiper-navigation-size: 16px;
+          background: rgba(0, 0, 0, 0.5);
+          border-radius: 50%;
+        }
+        @media (max-width: 640px) {
+          .swiper-button-next,
+          .swiper-button-prev {
+            width: 20px;
+            height: 20px;
+            --swiper-navigation-size: 10px;
+          }
+        }
+        .swiper-pagination-bullet {
+          background: #ffffff;
+          opacity: 0.7;
+        }
+        .swiper-pagination-bullet-active {
+          background: #ffffff;
+          opacity: 1;
+        }
+      `}</style>
       <div className="absolute inset-0 bg-black/50 z-0" />
 
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center self-center">
@@ -81,7 +109,6 @@ const HouseLayouts = () => {
         <div className="bg-black flex justify-center items-center mb-2">
           <SelectableButtonGroup buttons={buttons} initialSelectedId={1} />
         </div>
-        {/* Responsive Grid: row on desktop, list on mobile */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -98,15 +125,32 @@ const HouseLayouts = () => {
               onClick={() => openLayout(layout)}>
               <div className="flex flex-row md:flex-col">
                 <div className="relative w-1/3 md:w-full h-34 md:h-40">
-                  <Image
-                    src={layout.image}
-                    alt={layout.title}
-                    fill
-                    className="object-cover"
-                    priority
-                    placeholder="blur"
-                    blurDataURL="/images/layouts/placeholder.jpg"
-                  />
+                  <Swiper
+                    modules={[Navigation, Pagination, Autoplay]}
+                    spaceBetween={10}
+                    slidesPerView={1}
+                    navigation
+                    pagination={{ clickable: true }}
+                    autoplay={{ delay: 10000, disableOnInteraction: true }}
+                    className="w-full h-full">
+                    {getPdfArray(layout).length > 0 ? (
+                      getPdfArray(layout).map((pdf, idx) => (
+                        <SwiperSlide key={idx}>
+                          <embed
+                            src={`${pdf}#view=Fit`}
+                            type="application/pdf"
+                            className="w-full h-full"
+                          />
+                        </SwiperSlide>
+                      ))
+                    ) : (
+                      <SwiperSlide>
+                        <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 text-xs">
+                          No PDFs Available
+                        </div>
+                      </SwiperSlide>
+                    )}
+                  </Swiper>
                 </div>
                 <div className="p-3 w-2/3 md:w-full">
                   <h3 className="text-sm font-semibold text-gray-800 dark:text-white mb-1">
@@ -115,7 +159,6 @@ const HouseLayouts = () => {
                   <p className="text-xs text-gray-600 dark:text-gray-300 mb-2 line-clamp-2 md:line-clamp-none">
                     {layout.description}
                   </p>
-
                   <div className="flex gap-1 flex-wrap mb-2">
                     {layout.features.slice(0, 2).map((feature, i) => (
                       <span
@@ -137,7 +180,6 @@ const HouseLayouts = () => {
         </motion.div>
       </div>
 
-      {/* Modal section remains unchanged */}
       {selectedLayout && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -154,16 +196,32 @@ const HouseLayouts = () => {
             className="bg-white dark:bg-gray-800 rounded-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl">
             <div className="grid grid-cols-1 md:grid-cols-2">
               <div className="relative h-48 sm:h-64 md:h-full">
-                <Image
-                  src={selectedLayout.image}
-                  alt={selectedLayout.title}
-                  fill
-                  className="object-cover"
-                  priority
-                  placeholder="blur"
-                  blurDataURL="/images/layouts/placeholder.jpg"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
+                <Swiper
+                  modules={[Navigation, Pagination, Autoplay]}
+                  spaceBetween={10}
+                  slidesPerView={1}
+                  navigation
+                  pagination={{ clickable: true }}
+                  autoplay={{ delay: 10000, disableOnInteraction: true }}
+                  className="w-full h-full">
+                  {getPdfArray(selectedLayout).length > 0 ? (
+                    getPdfArray(selectedLayout).map((pdf, idx) => (
+                      <SwiperSlide key={idx}>
+                        <embed
+                          src={`${pdf}#view=Fit`}
+                          type="application/pdf"
+                          className="w-full h-full"
+                        />
+                      </SwiperSlide>
+                    ))
+                  ) : (
+                    <SwiperSlide>
+                      <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500">
+                        No PDFs Available
+                      </div>
+                    </SwiperSlide>
+                  )}
+                </Swiper>
               </div>
               <div className="p-4 sm:p-6 md:p-8">
                 <div className="flex justify-between items-start mb-4">
@@ -195,11 +253,9 @@ const HouseLayouts = () => {
                     </svg>
                   </motion.button>
                 </div>
-
                 <p className="text-gray-600 dark:text-gray-300 mb-3 md:mb-6">
                   {selectedLayout.description}
                 </p>
-
                 <div className="mb-6">
                   <h4 className="text-sm sm:text-lg font-semibold mb-3 text-gray-800 dark:text-white flex items-center">
                     <span className="w-8 h-8 bg-primary/10 dark:bg-primary/20 rounded-full flex items-center justify-center text-primary mr-2">
@@ -227,23 +283,6 @@ const HouseLayouts = () => {
                       </li>
                     ))}
                   </ul>
-                </div>
-
-                <div className="flex justify-between mt-8">
-                  <motion.button
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={() => handleDownload(selectedLayout)}
-                    className="px-6 py-2 bg-primary text-white rounded-md font-medium shadow-sm hover:bg-primary/80 transition">
-                    Download PDF
-                  </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={closeLayout}
-                    className="px-6 py-2 bg-gray-300 hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 rounded-md font-medium shadow-sm">
-                    Close
-                  </motion.button>
                 </div>
               </div>
             </div>
