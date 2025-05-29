@@ -79,15 +79,27 @@ export default function NavBar() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="flex items-center gap-2">
-                <Image
-                  src="/images/Logo/LogoTransparent.png"
-                  alt="REALTOR MFI"
-                  width={45}
-                  height={45}
-                  className="rounded-lg shadow-lg w-auto h-auto max-w-[45px] max-h-[45px]"
-                />
+                {/* Logo with circular white background 
+                <div
+                  className="flex items-center justify-center w-[45px] h-[45px] md:w-[60px] md:h-[60px] rounded-full shadow-lg ring-2 ring-white/30 backdrop-blur-md isolate"
+                  style={{
+                    background:
+                      "radial-gradient(circle, rgba(255, 255, 255, 0.7) 40%, rgba(255, 255, 255, 0) 80%)",
+                  }}>
+                */}
+                <div className="flex items-center justify-center w-[45px] h-[45px] md:w-[60px] md:h-[60px] rounded-full bg-white/100 shadow-lg">
+                  <Image
+                    src="/images/Logo/LogoTransparent.png"
+                    alt="REALTOR MFI"
+                    width={30}
+                    height={30}
+                    className="w-[30px] h-[30px] md:w-[40px] md:h-[40px]"
+                  />
+                </div>
+
+                {/* Text visible only in mobile view */}
                 <span
-                  className={`font-semibold text-base sm:text-lg ${
+                  className={`font-semibold text-base sm:text-lg md:hidden ${
                     scrolled ? "text-primary dark:text-primary" : "text-white"
                   }`}
                   style={{ fontFamily: "Playfair Display, serif" }}>
@@ -95,6 +107,7 @@ export default function NavBar() {
                 </span>
               </motion.div>
             </Link>
+
             <button
               className={`p-2 rounded-md text-primary dark:text-white outline-none focus:border-primary focus:border ${
                 scrolled
@@ -108,9 +121,9 @@ export default function NavBar() {
 
           {/* DESKTOP NAVBAR */}
           <div className="hidden md:flex w-full items-center justify-between">
-            {/* LEFT 3 TABS */}
+            {/* LEFT 2 TABS */}
             <motion.ul className="flex gap-4" variants={navVariants}>
-              {navItems.slice(0, 2).map((item, index) => (
+              {navItems.slice(0, 2).map((item) => (
                 <motion.li key={item.name} variants={itemVariants}>
                   <Link
                     href={item.href || "#"}
@@ -129,34 +142,34 @@ export default function NavBar() {
               ))}
             </motion.ul>
 
-            {/* CENTER LOGO + TITLE */}
+            {/* CENTER LOGO WITH WHITE CIRCLE (No Title) */}
             <Link href="/" onClick={() => handleNavClick(0)}>
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="flex items-center gap-2">
-                <Image
-                  src="/images/Logo/LogoTransparent.png"
-                  alt="REALTOR MFI"
-                  width={50}
-                  height={50}
-                  className="rounded-lg shadow-lg w-auto h-auto max-w-[50px] max-h-[50px]"
-                />
-                <span
-                  className={`text-base sm:text-2xl font-semibold tracking-wide text-white`}
-                  // ${
-                  //   scrolled ? "text-primary dark:text-primary" : "text-white"
-                  // }
-                  // `}
-                  style={{ fontFamily: "Playfair Display, serif" }}>
-                  REALTOR MFI
-                </span>
+                <div
+                  className="flex items-center justify-center w-[70px] h-[70px] rounded-full shadow-2xl ring-2 ring-white/30 backdrop-blur-md isolate"
+                  style={{
+                    background:
+                      "radial-gradient(circle, rgba(255, 255, 255, 0.7) 40%, rgba(255, 255, 255, 0) 80%)",
+                  }}>
+                  <Image
+                    src="/images/Logo/LogoTransparent.png"
+                    alt="REALTOR MFI"
+                    width={60}
+                    height={60}
+                    className="w-[60px] h-[60px]"
+                  />
+                </div>
+
+                {/* No title in desktop */}
               </motion.div>
             </Link>
 
-            {/* RIGHT 3 TABS */}
+            {/* RIGHT 2 TABS */}
             <motion.ul className="flex gap-4" variants={navVariants}>
-              {navItems.slice(2, 4).map((item, index) => (
+              {navItems.slice(2, 4).map((item) => (
                 <motion.li key={item.name} variants={itemVariants}>
                   <Link
                     href={item.href || "#"}
@@ -187,7 +200,7 @@ export default function NavBar() {
               ref={navRef}
               variants={navVariants}
               className="px-4 py-2 space-y-2">
-              {navItems.map((item, index) => (
+              {navItems.map((item) => (
                 <motion.li
                   key={item.name}
                   variants={itemVariants}

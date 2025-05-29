@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import Particles from "react-tsparticles"
 import { loadFull } from "tsparticles"
@@ -10,7 +10,15 @@ import Image from "next/image"
 
 export default function ConstructionDetails() {
   const tabs = textSections
-  const [activeTab, setActiveTab] = useState(tabs[0].id)
+  const [activeTab, setActiveTab] = useState(null) // Initial state is null
+
+  // Set default tab based on screen size
+  useEffect(() => {
+    const isDesktop = window.matchMedia("(min-width: 768px)").matches
+    if (isDesktop) {
+      setActiveTab(tabs[0].id) // Select first tab for desktop
+    }
+  }, [tabs])
 
   const particlesInit = async (main) => {
     await loadFull(main)
@@ -52,7 +60,7 @@ export default function ConstructionDetails() {
             transition={{ duration: 0.8 }}
             className="flex justify-center">
             <div className="relative">
-              <div className="absolute -inset-2 bg-gradient-to-r from-cyan-400 to-cyan-500 rounded-lg blur-md opacity-70"></div>
+              <div className="absolute -inset-2 bg-gradient-to-r from-yellow-400 to-gray-500 rounded-lg blur-md opacity-70"></div>
               <Image
                 src="/images/Logo/LogoTransparent.png"
                 alt="Construction Kinetics"
@@ -68,8 +76,8 @@ export default function ConstructionDetails() {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-500 to-purple-500 drop-shadow-glow animate-pulse text-center">
-            Planning house construction?
+            className="text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-yellow-500 drop-shadow-glow animate-pulse text-center">
+            Construction Planning?
           </motion.h2>
 
           {/* Tabs */}
