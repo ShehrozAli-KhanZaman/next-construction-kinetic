@@ -105,14 +105,14 @@ const ModalComponent = ({ activeTab, tabs, setActiveTab }) => {
                 <h4 className="text-white font-medium mb-1 text-xs">
                   Gray Structure
                 </h4>
-                <table className="w-full text-xs text-left border-collapse">
+                <table className="w-full text-xs text-left border-collapse table-fixed">
                   <tbody>
                     {data.rates.grayStructure.map((row, i) => (
                       <tr key={i} className="hover:bg-white/10">
-                        <td className="p-2 border-b border-white/20">
+                        <td className="p-2 border-b border-white/20 w-1/2">
                           {row[0]}
                         </td>
-                        <td className="p-2 border-b border-white/20">
+                        <td className="p-2 border-b border-white/20 w-1/2">
                           {row[1]}
                         </td>
                       </tr>
@@ -122,16 +122,16 @@ const ModalComponent = ({ activeTab, tabs, setActiveTab }) => {
               </div>
               <div>
                 <h4 className="text-white font-medium mb-1 text-xs">
-                  Finishing
+                  Finishing (Starting From)
                 </h4>
-                <table className="w-full text-xs text-left border-collapse">
+                <table className="w-full text-xs text-left border-collapse table-fixed">
                   <tbody>
                     {data.rates.finishing.map((row, i) => (
                       <tr key={i} className="hover:bg-white/10">
-                        <td className="p-2 border-b border-white/20">
+                        <td className="p-2 border-b border-white/20 w-1/2">
                           {row[0]}
                         </td>
-                        <td className="p-2 border-b border-white/20">
+                        <td className="p-2 border-b border-white/20 w-1/2">
                           {row[1]}
                         </td>
                       </tr>
@@ -169,7 +169,7 @@ const ModalComponent = ({ activeTab, tabs, setActiveTab }) => {
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-2">
-            <div className="relative w-full h-[85vh] overflow-y-auto rounded-xl bg-white/10 border border-white/20 shadow-lg backdrop-blur-lg">
+            <div className="relative w-full h-[85vh] overflow-y-auto rounded-xl bg-white/10 border border-white/20 shadow-lg backdrop-blur-lg mt-10">
               {/* Background */}
               <div className="absolute inset-0 z-10">
                 <Image

@@ -4,6 +4,7 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import Background from "@/components/Background"
 import emailjs from "emailjs-com"
+import Link from "next/link"
 
 export default function CostCalculator() {
   const [formData, setFormData] = useState({
@@ -121,6 +122,11 @@ export default function CostCalculator() {
                 <p className="text-xs text-gray-700 dark:text-gray-300">
                   We will get back to you shortly with a detailed quotation.
                 </p>
+                <Link href="https://realtormfi.com/">
+                  <button className="mt-4 px-6 py-2 text-sm font-medium text-white bg-green-600 dark:bg-green-700 rounded-full hover:bg-green-500 dark:hover:bg-green-600 transition-colors duration-300">
+                    Back to Home
+                  </button>
+                </Link>
               </motion.div>
             ) : (
               <motion.form
@@ -194,7 +200,7 @@ export default function CostCalculator() {
                       options: ["Single Family", "Duplex"],
                     },
                     {
-                      label: "Finishings",
+                      label: "Finishing",
                       name: "finishings",
                       options: ["Basic", "Standard", "Premium", "Luxury"],
                     },

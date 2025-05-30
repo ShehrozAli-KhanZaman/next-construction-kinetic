@@ -118,7 +118,9 @@ const BoxComponent = ({ activeTab, tabs, setActiveTab }) => {
                 </table>
               </div>
               <div className="flex-1">
-                <h4 className="text-white font-medium mb-1">Finishing</h4>
+                <h4 className="text-white font-medium mb-1">
+                  Finishing (Starting From)
+                </h4>
                 <table className="w-full text-sm md:text-base text-left border-collapse">
                   <tbody>
                     {data.rates.finishing.map((row, i) => (

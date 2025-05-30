@@ -54,7 +54,7 @@ export default function ConstructionDetails() {
         {/* Left Column: Logo, Heading, and Sidemenu-style Tabs */}
         <div className="w-full md:w-1/5 flex flex-col gap-4 items-center justify-center min-h-[50vh] md:min-h-screen">
           {/* Logo */}
-          <motion.div
+          {/* <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.8 }}
@@ -69,15 +69,15 @@ export default function ConstructionDetails() {
                 className="rounded-lg shadow-lg relative"
               />
             </div>
-          </motion.div>
+          </motion.div> */}
 
           {/* Heading */}
           <motion.h2
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-yellow-500 drop-shadow-glow animate-pulse text-center">
-            Construction Planning?
+            className="text-xl font-extrabold text-white drop-shadow-glow text-center">
+            Construction FAQs
           </motion.h2>
 
           {/* Tabs */}

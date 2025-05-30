@@ -47,12 +47,12 @@ export default function NavBar() {
   const handleNavClick = (index) => {
     setScrollDirection(index > 0 ? "down" : "up")
     setActiveSection(index)
-    setNavbar(false)
+    setNavbar((p) => false)
   }
 
   const navItems = [
     { name: "PROPERTIES", href: "/", section: 0 },
-    { name: "CONSTRUCTION KINETIC", section: 1 },
+    { name: "CONSTRUCTION", section: 1 },
     { name: "HOUSE LAYOUTS  ", section: 2 },
     // { name: "UAE CHAPTER", href: "/uae" },
     // { name: "LHR VERTICAL PROJECTS", href: "/vertical-projects" },
