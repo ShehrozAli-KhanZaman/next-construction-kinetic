@@ -476,3 +476,13 @@ img {
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
+.download-icon {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 20px;
+  height: 20px;
+  background: rgba(37, 99, 235, 0.8);
+  border-radius: 4px;
+  padding: 4px;
+}

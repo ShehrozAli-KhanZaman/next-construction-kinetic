@@ -136,7 +136,7 @@ export const layouts = [
       "/images/Maps/FiveMarla/DHA/p4.pdf",
       "/images/Maps/FiveMarla/DHA/p5.pdf",
     ],
-    imagesLDAPdf: ["/images/layouts/5marla.jpg"],
+    imagesLDAPdf: ["/images/Maps/FiveMarla/DHA/p1.pdf"],
   },
   {
     id: 2,

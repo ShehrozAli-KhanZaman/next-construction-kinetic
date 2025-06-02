@@ -169,7 +169,7 @@ const ModalComponent = ({ activeTab, tabs, setActiveTab }) => {
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-2">
-            <div className="relative w-full h-[85vh] overflow-y-auto rounded-xl bg-white/10 border border-white/20 shadow-lg backdrop-blur-lg mt-10">
+            <div className="relative w-full h-[80vh] overflow-y-auto rounded-xl bg-white/10 border border-white/20 shadow-lg backdrop-blur-lg mt-12">
               {/* Background */}
               <div className="absolute inset-0 z-10">
                 <Image
@@ -190,10 +190,24 @@ const ModalComponent = ({ activeTab, tabs, setActiveTab }) => {
 
               <div className="relative z-20 p-4 text-white flex flex-col gap-4">
                 <h2 className="text-lg font-bold">Construction planning?</h2>
-
-                {tab.icon && <tab.icon className="w-5 h-5 text-white mb-1" />}
-
-                <h3 className="text-base font-semibold mb-1">{tab.title}</h3>
+                <div className="flex flex-row justify-between items-center gap-4">
+                  <div className="relative z-20 p-4 text-white flex flex-col gap-4">
+                    {tab.icon && (
+                      <tab.icon className="w-5 h-5 text-white mb-1" />
+                    )}
+                    <h3 className="text-base font-semibold">{tab.title}</h3>
+                  </div>
+                  {lottieData && (
+                    <div className="flex justify-center">
+                      <Lottie
+                        animationData={lottieData}
+                        loop
+                        autoplay
+                        className="w-28 h-28"
+                      />
+                    </div>
+                  )}
+                </div>
 
                 <div className="text-xs">
                   {tab.id === "duration" || tab.id === "cost" ? (
@@ -215,17 +229,6 @@ const ModalComponent = ({ activeTab, tabs, setActiveTab }) => {
                     </>
                   )}
                 </div>
-
-                {lottieData && (
-                  <div className="flex justify-center">
-                    <Lottie
-                      animationData={lottieData}
-                      loop
-                      autoplay
-                      className="w-28 h-28"
-                    />
-                  </div>
-                )}
 
                 {hasSteps && !showFullText && (
                   <div>
