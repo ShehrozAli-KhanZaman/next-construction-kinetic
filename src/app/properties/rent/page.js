@@ -129,21 +129,53 @@ export default function RentListingsPage() {
     <div className="min-h-screen bg-gray-900 pt-20 px-2">
       <div className="max-w-7xl mx-auto">
         <div className="bg-gray-800 rounded-lg shadow overflow-hidden">
-          <div className="relative mb-6">
-            <h2 className="text-xl font-semibold text-white text-center py-3 bg-gradient-to-r from-purple-500 via-blue-500 to-teal-500 rounded-lg">
-              Rent Listings
-            </h2>
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center gap-2 px-2">
-              <button
-                onClick={() => setFiltersVisible(!filtersVisible)}
-                className="px-4 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
-                <Filter size={20} />
-              </button>
-              <button
-                onClick={toggleTableTheme}
-                className="px-4 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
-                {isDark ? <Sun size={20} /> : <Moon size={20} />}
-              </button>
+          <div className="mb-6 px-4 hidden sm:block">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold text-white rounded-lg px-4 py-3 shadow-md">
+                Rent Listings
+              </h2>
+              <div className="text-lg font-medium text-white max-w-[300px] truncate">
+                {searchParams.get("area") ||
+                  searchParams.get("rent_location") ||
+                  "All Areas"}
+              </div>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setFiltersVisible(!filtersVisible)}
+                  className="px-4 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
+                  <Filter size={20} />
+                </button>
+                <button
+                  onClick={toggleTableTheme}
+                  className="px-4 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
+                  {isDark ? <Sun size={20} /> : <Moon size={20} />}
+                </button>
+              </div>
+            </div>
+          </div>
+          {/* Mobile Header: Two rows (h2 + buttons, then area) */}
+          <div className="mb-6 px-4 sm:hidden">
+            <div className="flex items-center justify-between mb-2">
+              <h2 className="text-xl font-semibold text-white rounded-lg px-4 py-3 shadow-md">
+                Rent Listings
+              </h2>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setFiltersVisible(!filtersVisible)}
+                  className="px-4 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
+                  <Filter size={20} />
+                </button>
+                <button
+                  onClick={toggleTableTheme}
+                  className="px-4 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
+                  {isDark ? <Sun size={20} /> : <Moon size={20} />}
+                </button>
+              </div>
+            </div>
+            <div className="text-lg font-medium text-white w-full text-center">
+              {searchParams.get("area") ||
+                searchParams.get("rent_location") ||
+                "All Areas"}
             </div>
           </div>
 
@@ -260,20 +292,20 @@ export default function RentListingsPage() {
                           ? "bg-white"
                           : "bg-gray-100"
                       } hover:bg-opacity-75 text-center`}>
-                      <td className="px-4 py-3">
+                      <td className="px-4 py-1">
                         {new Date(rent.rent_last_updated).toLocaleDateString()}
                       </td>
-                      <td className="px-4 py-3">{rent.rent_number}</td>
-                      <td className="px-4 py-3 whitespace-nowrap">
+                      <td className="px-4 py-1">{rent.rent_number}</td>
+                      <td className="px-4 py-1 whitespace-nowrap">
                         {formatPrice(rent.rent_price)}
                       </td>
-                      <td className="px-4 py-3 whitespace-nowrap">
+                      <td className="px-4 py-1 whitespace-nowrap">
                         {formatSize(rent.rent_size)}
                       </td>
-                      <td className="px-4 py-3">{rent.rent_beds}</td>
-                      <td className="px-4 py-3">{rent.rent_baths}</td>
-                      <td className="px-4 py-3">{rent.rent_type}</td>
-                      <td className="px-4 py-3 whitespace-nowrap">
+                      <td className="px-4 py-1">{rent.rent_beds}</td>
+                      <td className="px-4 py-1">{rent.rent_baths}</td>
+                      <td className="px-4 py-1">{rent.rent_type}</td>
+                      <td className="px-4 py-1 whitespace-nowrap">
                         <ContactButtons
                           propertyType={"RENT"}
                           propertyId={rent.rent_number}

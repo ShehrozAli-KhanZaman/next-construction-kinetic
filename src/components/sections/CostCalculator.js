@@ -79,7 +79,7 @@ export default function CostCalculator() {
           className="w-full max-w-7xl bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
           {/* Left Form Section */}
           {/* Left Quotation Form Section */}
-          <div className="w-full md:w-1/2 relative p-4 md:p-6 max-h-[90vh] overflow-auto flex flex-col justify-center items-center">
+          <div className="w-full md:w-1/2 relative p-4 md:p-6 max-h-[75vh] overflow-auto flex flex-col justify-center items-center">
             {/* Background Glow */}
             <motion.div
               className="absolute w-72 h-72 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 opacity-30 blur-3xl rounded-full -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
