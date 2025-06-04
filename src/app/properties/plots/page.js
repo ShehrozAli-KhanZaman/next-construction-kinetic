@@ -31,6 +31,7 @@ export default function PlotsPage() {
     totalPages: 1,
     totalItems: 0,
   })
+  const [tableTheme, setTableTheme] = useState("dark")
 
   useEffect(() => {
     const fetchPlots = async () => {
@@ -102,7 +103,6 @@ export default function PlotsPage() {
       setCurrentPage(pagination.currentPage + 1)
     }
   }
-  const [tableTheme, setTableTheme] = useState("dark")
 
   const toggleTableTheme = () => {
     setTableTheme((prev) => (prev === "dark" ? "light" : "dark"))
@@ -110,10 +110,19 @@ export default function PlotsPage() {
 
   const isDark = tableTheme === "dark"
 
+  const truncateRemarks = (text) => {
+    if (!text) return ""
+    const words = text.split(" ")
+    if (words.length > 2) {
+      return words.slice(0, 2).join(" ") + "..."
+    }
+    return text
+  }
+
   return (
     <div className="min-h-screen bg-gray-900">
       <div className="pt-20 px-2">
-        <div className="max-w-7xl">
+        <div className="max-w-7xl mx-auto">
           <div className="bg-gray-800 rounded-lg shadow-sm overflow-hidden">
             {loading ? (
               <div className="flex justify-center items-center h-96">
@@ -123,33 +132,74 @@ export default function PlotsPage() {
               <div className="p-4 text-center text-red-400">{error}</div>
             ) : (
               <div className="overflow-x-auto">
-                {/* Header with toggle */}
-                <div className="relative mb-6 z-200">
-                  <h2 className="text-xl font-semibold text-white text-center py-3 shadow-md bg-gradient-to-r from-purple-500 via-blue-500 to-teal-500 rounded-lg">
-                    Plot Listings
-                  </h2>
-
-                  <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center space-x-2 ml-35">
-                    <button
-                      onClick={() => setFiltersVisible(!filtersVisible)}
-                      className="px-4 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
-                      <Filter size={20} />
-                    </button>
-                    <button
-                      onClick={toggleTableTheme}
-                      className="flex items-center justify-center px-4 py-2  text-white hover:bg-primary/80 rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-110">
-                      {isDark ? (
-                        <Sun
-                          size={20}
-                          className="transition-transform duration-300 ease-in-out transform hover:rotate-180"
-                        />
-                      ) : (
-                        <Moon
-                          size={20}
-                          className="transition-transform duration-300 ease-in-out transform hover:rotate-180"
-                        />
-                      )}
-                    </button>
+                {/* Desktop Header: Single row with h2, area, buttons */}
+                <div className="mb-6 px-4 hidden sm:block">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-xl font-semibold text-white rounded-lg px-4 py-3 shadow-md">
+                      Plot Listings
+                    </h2>
+                    <div className="text-lg font-medium text-white max-w-[300px] truncate">
+                      {searchParams.get("area") ||
+                        searchParams.get("location") ||
+                        "All Areas"}
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => setFiltersVisible(!filtersVisible)}
+                        className="px-4 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
+                        <Filter size={20} />
+                      </button>
+                      <button
+                        onClick={toggleTableTheme}
+                        className="flex items-center justify-center px-4 py-2 text-white hover:bg-primary/80 rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-110">
+                        {isDark ? (
+                          <Sun
+                            size={20}
+                            className="transition-transform duration-300 ease-in-out transform hover:rotate-180"
+                          />
+                        ) : (
+                          <Moon
+                            size={20}
+                            className="transition-transform duration-300 ease-in-out transform hover:rotate-180"
+                          />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                {/* Mobile Header: Two rows (h2 + buttons, then area) */}
+                <div className="mb-6 px-4 sm:hidden">
+                  <div className="flex items-center justify-between mb-2">
+                    <h2 className="text-xl font-semibold text-white rounded-lg px-4 py-3 shadow-md">
+                      Plot Listings
+                    </h2>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => setFiltersVisible(!filtersVisible)}
+                        className="px-4 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
+                        <Filter size={20} />
+                      </button>
+                      <button
+                        onClick={toggleTableTheme}
+                        className="flex items-center justify-center px-4 py-2 text-white hover:bg-primary/80 rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-110">
+                        {isDark ? (
+                          <Sun
+                            size={20}
+                            className="transition-transform duration-300 ease-in-out transform hover:rotate-180"
+                          />
+                        ) : (
+                          <Moon
+                            size={20}
+                            className="transition-transform duration-300 ease-in-out transform hover:rotate-180"
+                          />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                  <div className="text-lg font-medium text-white w-full text-center">
+                    {searchParams.get("area") ||
+                      searchParams.get("location") ||
+                      "All Areas"}
                   </div>
                 </div>
 
@@ -164,47 +214,44 @@ export default function PlotsPage() {
                       ? "divide-gray-700 bg-gray-900 text-white"
                       : "divide-gray-200 bg-white text-gray-900"
                   }`}>
-                  {/* Table Head */}
                   <thead
                     className={`${
                       isDark ? "bg-gray-800" : "bg-gray-200"
                     } sticky top-0 z-10`}>
                     <tr className="text-sm font-semibold">
                       <th
-                        className="px-4 py-3 text-center cursor-pointer"
+                        className="px-4 py-1 text-center cursor-pointer"
                         onClick={() => handleSort("prop_create_date")}>
                         Date{" "}
                         {sortConfig.key === "prop_create_date" &&
                           (sortConfig.direction === "asc" ? "↑" : "↓")}
                       </th>
                       <th
-                        className="px-4 py-3 text-center cursor-pointer"
+                        className="px-4 py-1 text-center cursor-pointer"
                         onClick={() => handleSort("prop_address")}>
                         Plot No{" "}
                         {sortConfig.key === "prop_address" &&
                           (sortConfig.direction === "asc" ? "↑" : "↓")}
                       </th>
                       <th
-                        className="px-4 py-3 text-center cursor-pointer"
+                        className="px-4 py-1 text-center cursor-pointer"
                         onClick={() => handleSort("prop_price")}>
                         Price{" "}
                         {sortConfig.key === "prop_price" &&
                           (sortConfig.direction === "asc" ? "↑" : "↓")}
                       </th>
                       <th
-                        className="px-4 py-3 text-center cursor-pointer"
+                        className="px-4 py-1 text-center cursor-pointer"
                         onClick={() => handleSort("prop_size")}>
                         Size{" "}
                         {sortConfig.key === "prop_size" &&
                           (sortConfig.direction === "asc" ? "↑" : "↓")}
                       </th>
-                      <th className="px-4 py-3 text-center">Type</th>
-                      <th className="px-4 py-3 text-center">Remarks</th>
-                      <th className="px-4 py-3 text-center">Details</th>
+                      <th className="px-4 py-1 text-center">Type</th>
+                      <th className="px-4 py-1 text-center">Remarks</th>
+                      <th className="px-4 py-1 text-center">Details</th>
                     </tr>
                   </thead>
-
-                  {/* Table Body */}
                   <tbody
                     className={`text-sm ${
                       isDark
@@ -223,29 +270,29 @@ export default function PlotsPage() {
                             ? "bg-white hover:bg-gray-100"
                             : "bg-gray-100 hover:bg-gray-200"
                         }>
-                        <td className="px-4 py-3">
+                        <td className="px-4 py-1">
                           {new Date(
                             plot.prop_last_updated
                           ).toLocaleDateString()}
                         </td>
-                        <td className="px-4 py-3">
+                        <td className="px-4 py-1">
                           {typeof plot.prop_address === "object"
                             ? `${plot.prop_address?.address || ""}`
                             : plot.prop_address}
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
+                        <td className="px-4 py-1 whitespace-nowrap">
                           {formatPrice(plot.prop_price)}
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
+                        <td className="px-4 py-1 whitespace-nowrap">
                           {formatSize(plot.prop_size)}
                         </td>
-                        <td className="px-4 py-3">
+                        <td className="px-4 py-1">
                           {plot.prop_type?.sub_type}
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          {plot.prop_description}
+                        <td className="px-4 py-1 whitespace-nowrap">
+                          {truncateRemarks(plot.prop_description)}
                         </td>
-                        <td className="px-4 py-3">
+                        <td className="px-4 py-1">
                           <ContactButtons
                             propertyType={"PLOT"}
                             propertyId={plot.prop_userfacing_id}
@@ -257,8 +304,6 @@ export default function PlotsPage() {
                 </table>
               </div>
             )}
-
-            {/* Pagination */}
             {pagination.totalPages > 1 && (
               <PaginationControls
                 currentPage={pagination.currentPage}

@@ -143,32 +143,74 @@ export default function HousesPage() {
           <div className="bg-gray-800 rounded-lg shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
               {/* Header with toggle */}
-              <div className="relative mb-6 z-20">
-                <h2 className="text-xl font-semibold text-white text-center py-3 shadow-md bg-gradient-to-r from-background via-secondary to-teal-500 rounded-lg">
-                  House Listings
-                </h2>
 
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center space-x-2 ml-35">
-                  <button
-                    onClick={() => setFiltersVisible(!filtersVisible)}
-                    className="px-4 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
-                    <Filter size={20} />
-                  </button>
-                  <button
-                    onClick={toggleTableTheme}
-                    className="flex items-center justify-center px-4 py-2  text-white hover:bg-primary/80 rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-110">
-                    {isDark ? (
-                      <Sun
-                        size={20}
-                        className="transition-transform duration-300 ease-in-out transform hover:rotate-180"
-                      />
-                    ) : (
-                      <Moon
-                        size={20}
-                        className="transition-transform duration-300 ease-in-out transform hover:rotate-180"
-                      />
-                    )}
-                  </button>
+              <div className="mb-6 px-4 hidden sm:block">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-semibold text-white rounded-lg px-4 py-3 shadow-md">
+                    House Listings
+                  </h2>
+                  <div className="text-lg font-medium text-white max-w-[300px] truncate">
+                    {searchParams.get("house_location") ||
+                      searchParams.get("area") ||
+                      "All Areas"}
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => setFiltersVisible(!filtersVisible)}
+                      className="px-4 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
+                      <Filter size={20} />
+                    </button>
+                    <button
+                      onClick={toggleTableTheme}
+                      className="flex items-center justify-center px-4 py-2  text-white hover:bg-primary/80 rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-110">
+                      {isDark ? (
+                        <Sun
+                          size={20}
+                          className="transition-transform duration-300 ease-in-out transform hover:rotate-180"
+                        />
+                      ) : (
+                        <Moon
+                          size={20}
+                          className="transition-transform duration-300 ease-in-out transform hover:rotate-180"
+                        />
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
+              {/* Mobile Header: Two rows (h2 + buttons, then area) */}
+              <div className="mb-6 px-4 sm:hidden">
+                <div className="flex items-center justify-between mb-2">
+                  <h2 className="text-xl font-semibold text-white rounded-lg px-4 py-3 shadow-md">
+                    House Listings
+                  </h2>
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => setFiltersVisible(!filtersVisible)}
+                      className="px-4 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
+                      <Filter size={20} />
+                    </button>
+                    <button
+                      onClick={toggleTableTheme}
+                      className="flex items-center justify-center px-4 py-2  text-white hover:bg-primary/80 rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-110">
+                      {isDark ? (
+                        <Sun
+                          size={20}
+                          className="transition-transform duration-300 ease-in-out transform hover:rotate-180"
+                        />
+                      ) : (
+                        <Moon
+                          size={20}
+                          className="transition-transform duration-300 ease-in-out transform hover:rotate-180"
+                        />
+                      )}
+                    </button>
+                  </div>
+                </div>
+                <div className="text-lg font-medium text-white w-full text-center">
+                  {searchParams.get("house_location") ||
+                    searchParams.get("area") ||
+                    "All Areas"}
                 </div>
               </div>
               <FilterBar
@@ -252,25 +294,25 @@ export default function HousesPage() {
                             ? "bg-white hover:bg-gray-100"
                             : "bg-gray-100 hover:bg-gray-200"
                         } text-center`}>
-                        <td className="px-4 py-3">
+                        <td className="px-4 py-1">
                           {new Date(
                             house.house_last_updated
                           ).toLocaleDateString()}
                         </td>
-                        {/* <td className="px-4 py-3">{house.house_location}</td> */}
-                        <td className="px-4 py-3">{house.house_number}</td>
-                        <td className="px-4 py-3 whitespace-nowrap">
+                        {/* <td className="px-4 py-1">{house.house_location}</td> */}
+                        <td className="px-4 py-1">{house.house_number}</td>
+                        <td className="px-4 py-1 whitespace-nowrap">
                           {formatPrice(house.house_price)}
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
+                        <td className="px-4 py-1 whitespace-nowrap">
                           {formatSize(house.house_size)}
                         </td>
-                        <td className="px-4 py-3">{house.house_beds}</td>
-                        <td className="px-4 py-3">{house.house_baths}</td>
-                        <td className="px-4 py-3 whitespace-nowrap">
+                        <td className="px-4 py-1">{house.house_beds}</td>
+                        <td className="px-4 py-1">{house.house_baths}</td>
+                        <td className="px-4 py-1 whitespace-nowrap">
                           {house.house_type}
                         </td>
-                        <td className="px-4 py-3">
+                        <td className="px-4 py-1">
                           <ContactButtons
                             propertyType={"HOUSE"}
                             propertyId={house.house_id}
