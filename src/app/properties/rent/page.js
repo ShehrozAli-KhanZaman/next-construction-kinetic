@@ -7,6 +7,8 @@ import { formatPrice, formatSize } from "@/utils/formatUtils"
 import { Moon, Sun, Filter } from "lucide-react"
 import ContactButtons from "@/components/ui/ContactButtons"
 import PaginationControls from "@/components/ui/PaginationControls"
+import FloatingButton from "@/components/ui/FloatingButton"
+import LocationSelect from "@/components/ui/LocationSelect"
 
 export default function RentListingsPage() {
   const searchParams = useSearchParams()
@@ -22,7 +24,7 @@ export default function RentListingsPage() {
   const [filtersVisible, setFiltersVisible] = useState(false)
 
   const [filters, setFilters] = useState({
-    rent_location: searchParams.get("area") || "",
+    rent_location: searchParams.get("rent_location") || "",
     min_price: searchParams.get("min_price") || "",
     max_price: searchParams.get("max_price") || "",
     min_size: searchParams.get("min_size") || "",
@@ -30,9 +32,13 @@ export default function RentListingsPage() {
   })
 
   const updateUrlParams = (updatedFilters) => {
-    const params = new URLSearchParams()
+    const params = new URLSearchParams(searchParams)
     Object.entries(updatedFilters).forEach(([key, value]) => {
-      if (value) params.set(key, value)
+      if (value) {
+        params.set(key, value)
+      } else {
+        params.delete(key)
+      }
     })
     router.push(`?${params.toString()}`)
   }
@@ -42,7 +48,7 @@ export default function RentListingsPage() {
       try {
         setLoading(true)
         const paramMap = {
-          rent_location: "area",
+          rent_location: "rent_location",
           size_min: "min_size",
           size_max: "max_size",
           price_min: "min_price",
@@ -97,10 +103,10 @@ export default function RentListingsPage() {
 
   const sortedRents = [...rents].sort((a, b) => {
     if (sortConfig.key) {
-      if (a[sortConfig.key] < b[sortConfig.key])
-        return sortConfig.direction === "asc" ? -1 : 1
-      if (a[sortConfig.key] > b[sortConfig.key])
-        return sortConfig.direction === "asc" ? 1 : -1
+      const valueA = a[sortConfig.key] || ""
+      const valueB = b[sortConfig.key] || ""
+      if (valueA < valueB) return sortConfig.direction === "asc" ? -1 : 1
+      if (valueA > valueB) return sortConfig.direction === "asc" ? 1 : -1
     }
     return 0
   })
@@ -125,20 +131,34 @@ export default function RentListingsPage() {
     updateUrlParams(updatedFilters)
   }
 
+  const handleLocationChange = (updatedFilters) => {
+    const updated = { ...filters, ...updatedFilters }
+    setFilters(updated)
+    updateUrlParams(updated)
+  }
+
+  const truncateRemarks = (text) => {
+    if (!text) return ""
+    const words = text.split(" ")
+    if (words.length > 2) {
+      return words.slice(0, 2).join(" ") + "..."
+    }
+    return text
+  }
+
   return (
     <div className="min-h-screen bg-gray-900 pt-20 px-2">
       <div className="max-w-7xl mx-auto">
         <div className="bg-gray-800 rounded-lg shadow overflow-hidden">
-          <div className="mb-6 px-4 hidden sm:block">
+          <div className="px-4 hidden sm:block">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold text-white rounded-lg px-4 py-3 shadow-md">
                 Rent Listings
               </h2>
-              <div className="text-lg font-medium text-white max-w-[300px] truncate">
-                {searchParams.get("area") ||
-                  searchParams.get("rent_location") ||
-                  "All Areas"}
-              </div>
+              <LocationSelect
+                onChange={handleLocationChange}
+                paramName="rent_location"
+              />
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() => setFiltersVisible(!filtersVisible)}
@@ -153,8 +173,8 @@ export default function RentListingsPage() {
               </div>
             </div>
           </div>
-          {/* Mobile Header: Two rows (h2 + buttons, then area) */}
-          <div className="mb-6 px-4 sm:hidden">
+          {/* Mobile Header: Two rows (h2 + buttons, then location select) */}
+          <div className="px-4 sm:hidden">
             <div className="flex items-center justify-between mb-2">
               <h2 className="text-xl font-semibold text-white rounded-lg px-4 py-3 shadow-md">
                 Rent Listings
@@ -172,23 +192,14 @@ export default function RentListingsPage() {
                 </button>
               </div>
             </div>
-            <div className="text-lg font-medium text-white w-full text-center">
-              {searchParams.get("area") ||
-                searchParams.get("rent_location") ||
-                "All Areas"}
-            </div>
+            <LocationSelect
+              onChange={handleLocationChange}
+              paramName="rent_location"
+            />
           </div>
 
           {filtersVisible && (
             <div className="bg-gray-700 p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-              <input
-                type="text"
-                name="rent_location"
-                value={filters.rent_location}
-                onChange={handleFilterChange}
-                placeholder="Location"
-                className="px-2 py-1 rounded-md text-black"
-              />
               <input
                 type="number"
                 name="min_price"
@@ -226,7 +237,7 @@ export default function RentListingsPage() {
 
           {loading ? (
             <div className="flex justify-center items-center h-96">
-              <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary"></div>
+              <div className="animate-spin rounded-full h-16 w-16 border-t"></div>
             </div>
           ) : error ? (
             <div className="p-4 text-center text-red-400">{error}</div>
@@ -240,9 +251,7 @@ export default function RentListingsPage() {
                 } rounded-lg shadow-md`}>
                 <thead
                   className={`${
-                    isDark
-                      ? "bg-gray-800 text-gray-300"
-                      : "bg-gray-100 text-gray-700"
+                    isDark ? "bg-gray-800 text-gray-300" : "white text-gray-700"
                   }`}>
                   <tr className="text-sm font-semibold">
                     <th
@@ -252,6 +261,15 @@ export default function RentListingsPage() {
                       {sortConfig.key === "rent_date" &&
                         (sortConfig.direction === "asc" ? "↑" : "↓")}
                     </th>
+                    {!searchParams.get("rent_location") && (
+                      <th
+                        onClick={() => handleSort("rent_location")}
+                        className="px-4 py-3 text-center cursor-pointer">
+                        Area{" "}
+                        {sortConfig.key === "rent_location" &&
+                          (sortConfig.direction === "asc" ? "↑" : "↓")}
+                      </th>
+                    )}
                     <th
                       onClick={() => handleSort("rent_number")}
                       className="px-4 py-3 text-center cursor-pointer">
@@ -268,7 +286,7 @@ export default function RentListingsPage() {
                     </th>
                     <th
                       onClick={() => handleSort("rent_size")}
-                      className="px-4 py-3 text-center cursor-pointer">
+                      className="px-3 py-3 text-center cursor-pointer">
                       Size{" "}
                       {sortConfig.key === "rent_size" &&
                         (sortConfig.direction === "asc" ? "↑" : "↓")}
@@ -279,7 +297,12 @@ export default function RentListingsPage() {
                     <th className="px-4 py-3 text-center">Details</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody
+                  className={`text-sm ${
+                    isDark
+                      ? "divide-gray-700 text-gray-300"
+                      : "divide-gray-200 text-gray-700"
+                  } text-center`}>
                   {sortedRents.map((rent, index) => (
                     <tr
                       key={index}
@@ -295,7 +318,14 @@ export default function RentListingsPage() {
                       <td className="px-4 py-1">
                         {new Date(rent.rent_last_updated).toLocaleDateString()}
                       </td>
-                      <td className="px-4 py-1">{rent.rent_number}</td>
+                      {!searchParams.get("rent_location") && (
+                        <td className="px-4 py-1 whitespace-nowrap">
+                          {rent.rent_location || ""}
+                        </td>
+                      )}
+                      <td className="px-4 py-1 whitespace-nowrap">
+                        {rent.rent_number}
+                      </td>
                       <td className="px-4 py-1 whitespace-nowrap">
                         {formatPrice(rent.rent_price)}
                       </td>
@@ -304,7 +334,9 @@ export default function RentListingsPage() {
                       </td>
                       <td className="px-4 py-1">{rent.rent_beds}</td>
                       <td className="px-4 py-1">{rent.rent_baths}</td>
-                      <td className="px-4 py-1">{rent.rent_type}</td>
+                      <td className="px-4 py-1 whitespace-nowrap">
+                        {truncateRemarks(rent.rent_type)}
+                      </td>
                       <td className="px-4 py-1 whitespace-nowrap">
                         <ContactButtons
                           propertyType={"RENT"}
@@ -317,6 +349,8 @@ export default function RentListingsPage() {
               </table>
             </div>
           )}
+
+          <FloatingButton />
 
           {totalItems > itemsPerPage && (
             <PaginationControls
