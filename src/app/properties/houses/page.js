@@ -91,10 +91,12 @@ export default function HousesPage() {
 
   const sortedHouses = [...houses].sort((a, b) => {
     if (sortConfig.key) {
-      if (a[sortConfig.key] < b[sortConfig.key]) {
+      const valueA = a[sortConfig.key] || ""
+      const valueB = b[sortConfig.key] || ""
+      if (valueA < valueB) {
         return sortConfig.direction === "asc" ? -1 : 1
       }
-      if (a[sortConfig.key] > b[sortConfig.key]) {
+      if (valueA > valueB) {
         return sortConfig.direction === "asc" ? 1 : -1
       }
     }
@@ -123,7 +125,6 @@ export default function HousesPage() {
 
     Object.entries(updatedFilters).forEach(([key, value]) => {
       if (value) {
-        // If key is 'area', set it as 'house_location' in URL
         const paramKey = key === "area" ? "house_location" : key
         params.set(paramKey, value)
       }
@@ -144,7 +145,6 @@ export default function HousesPage() {
           <div className="bg-gray-800 rounded-lg shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
               {/* Header with toggle */}
-
               <div className="mb-6 px-4 hidden sm:block">
                 <div className="flex items-center justify-between">
                   <h2 className="text-xl font-semibold text-white rounded-lg px-4 py-3 shadow-md">
@@ -180,7 +180,7 @@ export default function HousesPage() {
                 </div>
               </div>
               {/* Mobile Header: Two rows (h2 + buttons, then area) */}
-              <div className="mb-6 px-4 sm:hidden">
+              <div className="px-4 sm:hidden">
                 <div className="flex items-center justify-between mb-2">
                   <h2 className="text-xl font-semibold text-white rounded-lg px-4 py-3 shadow-md">
                     House Listings
@@ -208,11 +208,13 @@ export default function HousesPage() {
                     </button>
                   </div>
                 </div>
-                <div className="text-lg font-medium text-white w-full text-center">
-                  {searchParams.get("house_location") ||
-                    searchParams.get("area") ||
-                    "All Areas"}
-                </div>
+                {searchParams.get("house_location") && (
+                  <div className="text-lg font-medium text-white w-full text-center">
+                    {searchParams.get("house_location") ||
+                      searchParams.get("area") ||
+                      "All Areas"}
+                  </div>
+                )}
               </div>
               <FilterBar
                 onChange={handleFiltersChange}
@@ -246,13 +248,17 @@ export default function HousesPage() {
                         {sortConfig.key === "house_date" &&
                           (sortConfig.direction === "asc" ? "↑" : "↓")}
                       </th>
-                      {/* <th
-                        className="px-4 py-3 text-center cursor-pointer"
-                        onClick={() => handleSort("house_location")}>
-                        Area{" "}
-                        {sortConfig.key === "house_location" &&
-                          (sortConfig.direction === "asc" ? "↑" : "↓")}
-                      </th> */}
+                      {/* Conditionally render Area column */}
+                      {!searchParams.get("house_location") &&
+                        !searchParams.get("area") && (
+                          <th
+                            className="px-4 py-3 text-center cursor-pointer"
+                            onClick={() => handleSort("house_location")}>
+                            Area{" "}
+                            {sortConfig.key === "house_location" &&
+                              (sortConfig.direction === "asc" ? "↑" : "↓")}
+                          </th>
+                        )}
                       <th
                         className="px-4 py-3 text-center cursor-pointer"
                         onClick={() => handleSort("house_number")}>
@@ -300,8 +306,16 @@ export default function HousesPage() {
                             house.house_last_updated
                           ).toLocaleDateString()}
                         </td>
-                        {/* <td className="px-4 py-1">{house.house_location}</td> */}
-                        <td className="px-4 py-1">{house.house_number}</td>
+                        {/* Conditionally render Area column data with whitespace-nowrap */}
+                        {!searchParams.get("house_location") &&
+                          !searchParams.get("area") && (
+                            <td className="px-4 py-1 whitespace-nowrap">
+                              {house.house_location || ""}
+                            </td>
+                          )}
+                        <td className="px-4 py-1 whitespace-nowrap">
+                          {house.house_number}
+                        </td>
                         <td className="px-4 py-1 whitespace-nowrap">
                           {formatPrice(house.house_price)}
                         </td>

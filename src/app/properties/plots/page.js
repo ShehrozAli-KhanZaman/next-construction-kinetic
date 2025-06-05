@@ -83,10 +83,22 @@ export default function PlotsPage() {
 
   const sortedPlots = [...plots].sort((a, b) => {
     if (sortConfig.key) {
-      if (a[sortConfig.key] < b[sortConfig.key]) {
+      // Handle nested properties like prop_address.area
+      const getNestedValue = (obj, key) => {
+        if (key.includes(".")) {
+          const keys = key.split(".")
+          return keys.reduce((o, k) => (o ? o[k] : undefined), obj) || ""
+        }
+        return obj[key] || ""
+      }
+
+      const valueA = getNestedValue(a, sortConfig.key)
+      const valueB = getNestedValue(b, sortConfig.key)
+
+      if (valueA < valueB) {
         return sortConfig.direction === "asc" ? -1 : 1
       }
-      if (a[sortConfig.key] > b[sortConfig.key]) {
+      if (valueA > valueB) {
         return sortConfig.direction === "asc" ? 1 : -1
       }
     }
@@ -134,7 +146,7 @@ export default function PlotsPage() {
             ) : (
               <div className="overflow-x-auto">
                 {/* Desktop Header: Single row with h2, area, buttons */}
-                <div className="mb-6 px-4 hidden sm:block">
+                <div className=" px-4 hidden sm:block">
                   <div className="flex items-center justify-between">
                     <h2 className="text-xl font-semibold text-white rounded-lg px-4 py-3 shadow-md">
                       Plot Listings
@@ -169,7 +181,7 @@ export default function PlotsPage() {
                   </div>
                 </div>
                 {/* Mobile Header: Two rows (h2 + buttons, then area) */}
-                <div className="mb-6 px-4 sm:hidden">
+                <div className="px-4 sm:hidden">
                   <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl font-semibold text-white rounded-lg px-4 py-3 shadow-md">
                       Plot Listings
@@ -197,11 +209,14 @@ export default function PlotsPage() {
                       </button>
                     </div>
                   </div>
-                  <div className="text-lg font-medium text-white w-full text-center">
-                    {searchParams.get("area") ||
-                      searchParams.get("location") ||
-                      "All Areas"}
-                  </div>
+                  {(searchParams.get("area") ||
+                    searchParams.get("location")) && (
+                    <div className="text-lg font-medium text-white w-full text-center">
+                      {searchParams.get("area") ||
+                        searchParams.get("location") ||
+                        "All Areas"}
+                    </div>
+                  )}
                 </div>
 
                 <FilterBar
@@ -227,6 +242,17 @@ export default function PlotsPage() {
                         {sortConfig.key === "prop_create_date" &&
                           (sortConfig.direction === "asc" ? "↑" : "↓")}
                       </th>
+                      {/* Conditionally render Area column */}
+                      {!searchParams.get("area") &&
+                        !searchParams.get("location") && (
+                          <th
+                            className="px-4 py-1 text-center cursor-pointer"
+                            onClick={() => handleSort("prop_address.area")}>
+                            Area{" "}
+                            {sortConfig.key === "prop_address.area" &&
+                              (sortConfig.direction === "asc" ? "↑" : "↓")}
+                          </th>
+                        )}
                       <th
                         className="px-4 py-1 text-center cursor-pointer"
                         onClick={() => handleSort("prop_address")}>
@@ -276,7 +302,14 @@ export default function PlotsPage() {
                             plot.prop_last_updated
                           ).toLocaleDateString()}
                         </td>
-                        <td className="px-4 py-1">
+                        {/* Conditionally render Area column data with whitespace-nowrap */}
+                        {!searchParams.get("area") &&
+                          !searchParams.get("location") && (
+                            <td className="px-4 py-1 whitespace-nowrap">
+                              {plot.prop_address?.area || ""}
+                            </td>
+                          )}
+                        <td className="px-4 py-1 whitespace-nowrap">
                           {typeof plot.prop_address === "object"
                             ? `${plot.prop_address?.address || ""}`
                             : plot.prop_address}

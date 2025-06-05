@@ -98,10 +98,10 @@ export default function RentListingsPage() {
 
   const sortedRents = [...rents].sort((a, b) => {
     if (sortConfig.key) {
-      if (a[sortConfig.key] < b[sortConfig.key])
-        return sortConfig.direction === "asc" ? -1 : 1
-      if (a[sortConfig.key] > b[sortConfig.key])
-        return sortConfig.direction === "asc" ? 1 : -1
+      const valueA = a[sortConfig.key] || ""
+      const valueB = b[sortConfig.key] || ""
+      if (valueA < valueB) return sortConfig.direction === "asc" ? -1 : 1
+      if (valueA > valueB) return sortConfig.direction === "asc" ? 1 : -1
     }
     return 0
   })
@@ -162,7 +162,7 @@ export default function RentListingsPage() {
             </div>
           </div>
           {/* Mobile Header: Two rows (h2 + buttons, then area) */}
-          <div className="mb-6 px-4 sm:hidden">
+          <div className="px-4 sm:hidden">
             <div className="flex items-center justify-between mb-2">
               <h2 className="text-xl font-semibold text-white rounded-lg px-4 py-3 shadow-md">
                 Rent Listings
@@ -180,11 +180,13 @@ export default function RentListingsPage() {
                 </button>
               </div>
             </div>
-            <div className="text-lg font-medium text-white w-full text-center">
-              {searchParams.get("area") ||
-                searchParams.get("rent_location") ||
-                "All Areas"}
-            </div>
+            {searchParams.get("rent_location") && (
+              <div className="text-lg font-medium text-white w-full text-center">
+                {searchParams.get("area") ||
+                  searchParams.get("rent_location") ||
+                  "All Areas"}
+              </div>
+            )}
           </div>
 
           {filtersVisible && (
@@ -260,6 +262,17 @@ export default function RentListingsPage() {
                       {sortConfig.key === "rent_date" &&
                         (sortConfig.direction === "asc" ? "↑" : "↓")}
                     </th>
+                    {/* Conditionally render Area column */}
+                    {!searchParams.get("rent_location") &&
+                      !searchParams.get("area") && (
+                        <th
+                          onClick={() => handleSort("rent_location")}
+                          className="px-4 py-3 text-center cursor-pointer">
+                          Area{" "}
+                          {sortConfig.key === "rent_location" &&
+                            (sortConfig.direction === "asc" ? "↑" : "↓")}
+                        </th>
+                      )}
                     <th
                       onClick={() => handleSort("rent_number")}
                       className="px-4 py-3 text-center cursor-pointer">
@@ -303,7 +316,16 @@ export default function RentListingsPage() {
                       <td className="px-4 py-1">
                         {new Date(rent.rent_last_updated).toLocaleDateString()}
                       </td>
-                      <td className="px-4 py-1">{rent.rent_number}</td>
+                      {/* Conditionally render Area column data with whitespace-nowrap */}
+                      {!searchParams.get("rent_location") &&
+                        !searchParams.get("area") && (
+                          <td className="px-4 py-1 whitespace-nowrap">
+                            {rent.rent_location || ""}
+                          </td>
+                        )}
+                      <td className="px-4 py-1 whitespace-nowrap">
+                        {rent.rent_number}
+                      </td>
                       <td className="px-4 py-1 whitespace-nowrap">
                         {formatPrice(rent.rent_price)}
                       </td>
