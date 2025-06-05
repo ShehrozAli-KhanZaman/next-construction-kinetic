@@ -10,6 +10,7 @@ import PaginationControls from "@/components/ui/PaginationControls"
 import FilterBar from "@/components/FilterBar"
 import FloatingButton from "@/components/ui/FloatingButton"
 import LocationSelect from "@/components/ui/LocationSelect"
+import ContactPopup from "@/components/ui/ContactPopup"
 
 export default function PlotsPage() {
   const handleFiltersChange = (filters) => {
@@ -20,10 +21,9 @@ export default function PlotsPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [plots, setPlots] = useState([])
+  const [id, setId] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(10)
-  const [totalItems, setTotalItems] = useState(0)
+  const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [sortConfig, setSortConfig] = useState({
     key: null,
     direction: "asc",
@@ -327,6 +327,8 @@ export default function PlotsPage() {
                           <ContactButtons
                             propertyType={"PLOT"}
                             propertyId={plot.prop_userfacing_id}
+                            setIsPopupOpen={setIsPopupOpen}
+                            setId={setId}
                           />
                         </td>
                       </tr>
@@ -334,6 +336,13 @@ export default function PlotsPage() {
                   </tbody>
                 </table>
               </div>
+            )}
+            {isPopupOpen && (
+              <ContactPopup
+                id={id}
+                onClose={() => setIsPopupOpen(false)}
+                propertyType={"PLOT"}
+              />
             )}
             <FloatingButton />
             {pagination.totalPages > 1 && (

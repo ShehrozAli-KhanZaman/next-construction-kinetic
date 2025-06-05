@@ -10,6 +10,7 @@ import PaginationControls from "@/components/ui/PaginationControls"
 import FilterBar from "@/components/FilterBar"
 import FloatingButton from "@/components/ui/FloatingButton"
 import LocationSelect from "@/components/ui/LocationSelect"
+import ContactPopup from "@/components/ui/ContactPopup"
 
 export default function HousesPage() {
   const searchParams = useSearchParams()
@@ -21,6 +22,8 @@ export default function HousesPage() {
   const [totalPages, setTotalPages] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(10)
   const [totalItems, setTotalItems] = useState(0)
+  const [id, setId] = useState([])
+  const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [sortConfig, setSortConfig] = useState({
     key: null,
     direction: "asc",
@@ -321,6 +324,8 @@ export default function HousesPage() {
                           <ContactButtons
                             propertyType={"HOUSE"}
                             propertyId={house.house_id}
+                            setIsPopupOpen={setIsPopupOpen}
+                            setId={setId}
                           />
                         </td>
                       </tr>
@@ -329,6 +334,13 @@ export default function HousesPage() {
                 </table>
               )}
             </div>
+            {isPopupOpen && (
+              <ContactPopup
+                id={id}
+                onClose={() => setIsPopupOpen(false)}
+                propertyType={"HOUSE"}
+              />
+            )}
             <FloatingButton />
             {totalItems > itemsPerPage && (
               <PaginationControls
