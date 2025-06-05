@@ -145,7 +145,7 @@ const DesktopHouseLayouts = () => {
               className="cursor-pointer bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow hover:shadow-md transition-all duration-300"
               onClick={() => openLayout(layout)}>
               <div className="flex flex-col">
-                <div className="relative w-full h-48 lg:h-64">
+                <div className="relative w-full h-44 lg:h-56">
                   <Swiper
                     modules={[Navigation, Pagination, Autoplay]}
                     spaceBetween={5}

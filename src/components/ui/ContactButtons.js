@@ -11,7 +11,7 @@ const ContactButtons = ({ propertyType, propertyId }) => {
     <div className="flex justify-center items-center space-x-4">
       {/* WhatsApp Button */}
       <a
-        href={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+        href={`https://wa.me/message/2HVNP5DPG5BOP1?text=${encodeURIComponent(
           whatsappMessage
         )}`}
         target="_blank"

@@ -186,8 +186,8 @@ const MobileHouseLayouts = () => {
         .swiper-button-next,
         .swiper-button-prev {
           color: #ffffff;
-          width: 16px;
-          height: 16px;
+          width: 8px;
+          height: 8px;
           --swiper-navigation-size: 8px;
           background: rgba(0, 0, 0, 0.5);
           border-radius: 50%;
@@ -236,7 +236,7 @@ const MobileHouseLayouts = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
-          className="grid grid-cols-1 gap-2 max-w-sm mx-auto px-3">
+          className="grid grid-cols-1 gap-1 max-w-sm mx-auto px-3">
           {filteredLayouts.map((layout, index) => (
             <motion.div
               key={layout.id}
@@ -246,7 +246,7 @@ const MobileHouseLayouts = () => {
               className="cursor-pointer bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow hover:shadow-md transition-all duration-300"
               onClick={() => openLayout(layout)}>
               <div className="flex flex-col">
-                <div className="relative w-full h-28">
+                <div className="relative w-full h-22">
                   <Swiper
                     modules={[Navigation, Pagination, Autoplay]}
                     spaceBetween={5}
