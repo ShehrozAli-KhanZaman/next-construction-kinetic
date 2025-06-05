@@ -8,6 +8,7 @@ import { Filter, Moon, Sun } from "lucide-react"
 import ContactButtons from "@/components/ui/ContactButtons"
 import PaginationControls from "@/components/ui/PaginationControls"
 import FilterBar from "@/components/FilterBar"
+import FloatingButton from "@/components/ui/FloatingButton"
 
 export default function PlotsPage() {
   const handleFiltersChange = (filters) => {
@@ -304,6 +305,7 @@ export default function PlotsPage() {
                 </table>
               </div>
             )}
+            <FloatingButton />
             {pagination.totalPages > 1 && (
               <PaginationControls
                 currentPage={pagination.currentPage}

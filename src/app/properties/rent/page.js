@@ -7,6 +7,7 @@ import { formatPrice, formatSize } from "@/utils/formatUtils"
 import { Moon, Sun, Filter } from "lucide-react"
 import ContactButtons from "@/components/ui/ContactButtons"
 import PaginationControls from "@/components/ui/PaginationControls"
+import FloatingButton from "@/components/ui/FloatingButton"
 
 export default function RentListingsPage() {
   const searchParams = useSearchParams()
@@ -124,7 +125,14 @@ export default function RentListingsPage() {
     setFilters(updatedFilters)
     updateUrlParams(updatedFilters)
   }
-
+  const truncateRemarks = (text) => {
+    if (!text) return ""
+    const words = text.split(" ")
+    if (words.length > 2) {
+      return words.slice(0, 2).join(" ") + "..."
+    }
+    return text
+  }
   return (
     <div className="min-h-screen bg-gray-900 pt-20 px-2">
       <div className="max-w-7xl mx-auto">
@@ -304,7 +312,9 @@ export default function RentListingsPage() {
                       </td>
                       <td className="px-4 py-1">{rent.rent_beds}</td>
                       <td className="px-4 py-1">{rent.rent_baths}</td>
-                      <td className="px-4 py-1">{rent.rent_type}</td>
+                      <td className="px-4 py-1 whitespace-nowrap">
+                        {truncateRemarks(rent.rent_type)}
+                      </td>
                       <td className="px-4 py-1 whitespace-nowrap">
                         <ContactButtons
                           propertyType={"RENT"}
@@ -317,6 +327,8 @@ export default function RentListingsPage() {
               </table>
             </div>
           )}
+
+          <FloatingButton />
 
           {totalItems > itemsPerPage && (
             <PaginationControls

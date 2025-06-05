@@ -8,6 +8,7 @@ import { Filter, Moon, Sun } from "lucide-react"
 import ContactButtons from "@/components/ui/ContactButtons"
 import PaginationControls from "@/components/ui/PaginationControls"
 import FilterBar from "@/components/FilterBar"
+import FloatingButton from "@/components/ui/FloatingButton"
 
 export default function HousesPage() {
   const searchParams = useSearchParams()
@@ -324,7 +325,7 @@ export default function HousesPage() {
                 </table>
               )}
             </div>
-
+            <FloatingButton />
             {/* Pagination */}
             {totalItems > itemsPerPage && (
               <PaginationControls
