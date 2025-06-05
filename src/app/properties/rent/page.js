@@ -9,6 +9,7 @@ import ContactButtons from "@/components/ui/ContactButtons"
 import PaginationControls from "@/components/ui/PaginationControls"
 import FloatingButton from "@/components/ui/FloatingButton"
 import LocationSelect from "@/components/ui/LocationSelect"
+import ContactPopup from "@/components/ui/ContactPopup"
 
 export default function RentListingsPage() {
   const searchParams = useSearchParams()
@@ -22,7 +23,8 @@ export default function RentListingsPage() {
   const [totalItems, setTotalItems] = useState(0)
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" })
   const [filtersVisible, setFiltersVisible] = useState(false)
-
+  const [id, setId] = useState([])
+  const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [filters, setFilters] = useState({
     rent_location: searchParams.get("rent_location") || "",
     min_price: searchParams.get("min_price") || "",
@@ -341,6 +343,8 @@ export default function RentListingsPage() {
                         <ContactButtons
                           propertyType={"RENT"}
                           propertyId={rent.rent_number}
+                          setIsPopupOpen={setIsPopupOpen}
+                          setId={setId}
                         />
                       </td>
                     </tr>
@@ -349,7 +353,13 @@ export default function RentListingsPage() {
               </table>
             </div>
           )}
-
+          {isPopupOpen && (
+            <ContactPopup
+              id={id}
+              onClose={() => setIsPopupOpen(false)}
+              propertyType={"RENT"}
+            />
+          )}
           <FloatingButton />
 
           {totalItems > itemsPerPage && (

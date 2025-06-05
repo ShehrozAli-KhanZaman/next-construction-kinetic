@@ -11,9 +11,7 @@ const ContactPopup = ({ id, onClose, propertyType }) => {
   }
 
   return (
-    <div
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
-      onClick={onClose}>
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="relative flex flex-col items-center mt-10">
         <div className="bg-white rounded-lg w-80 relative z-2000">
           {/* Green Stripe */}
