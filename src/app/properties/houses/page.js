@@ -9,6 +9,7 @@ import ContactButtons from "@/components/ui/ContactButtons"
 import PaginationControls from "@/components/ui/PaginationControls"
 import FilterBar from "@/components/FilterBar"
 import FloatingButton from "@/components/ui/FloatingButton"
+import LocationSelect from "@/components/ui/LocationSelect"
 
 export default function HousesPage() {
   const searchParams = useSearchParams()
@@ -120,16 +121,16 @@ export default function HousesPage() {
   const toggleTableTheme = () => {
     setTableTheme((prev) => (prev === "dark" ? "light" : "dark"))
   }
-  const updateUrlParams = (updatedFilters) => {
-    const params = new URLSearchParams()
 
+  const updateUrlParams = (updatedFilters) => {
+    const params = new URLSearchParams(searchParams)
     Object.entries(updatedFilters).forEach(([key, value]) => {
       if (value) {
-        const paramKey = key === "area" ? "house_location" : key
-        params.set(paramKey, value)
+        params.set(key, value)
+      } else {
+        params.delete(key)
       }
     })
-
     router.push(`?${params.toString()}`)
   }
 
@@ -144,17 +145,16 @@ export default function HousesPage() {
         <div className="max-w-7xl">
           <div className="bg-gray-800 rounded-lg shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
-              {/* Header with toggle */}
-              <div className="mb-6 px-4 hidden sm:block">
+              {/* Desktop Header: Single row with h2, location select, buttons */}
+              <div className="px-4 hidden sm:block">
                 <div className="flex items-center justify-between">
                   <h2 className="text-xl font-semibold text-white rounded-lg px-4 py-3 shadow-md">
                     House Listings
                   </h2>
-                  <div className="text-lg font-medium text-white max-w-[300px] truncate">
-                    {searchParams.get("house_location") ||
-                      searchParams.get("area") ||
-                      "All Areas"}
-                  </div>
+                  <LocationSelect
+                    onChange={handleFiltersChange}
+                    paramName="house_location"
+                  />
                   <div className="flex items-center space-x-2">
                     <button
                       onClick={() => setFiltersVisible(!filtersVisible)}
@@ -163,7 +163,7 @@ export default function HousesPage() {
                     </button>
                     <button
                       onClick={toggleTableTheme}
-                      className="flex items-center justify-center px-4 py-2  text-white hover:bg-primary/80 rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-110">
+                      className="flex items-center justify-center px-4 py-2 text-white hover:bg-primary/80 rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-110">
                       {isDark ? (
                         <Sun
                           size={20}
@@ -179,7 +179,7 @@ export default function HousesPage() {
                   </div>
                 </div>
               </div>
-              {/* Mobile Header: Two rows (h2 + buttons, then area) */}
+              {/* Mobile Header: Two rows (h2 + buttons, then location select) */}
               <div className="px-4 sm:hidden">
                 <div className="flex items-center justify-between mb-2">
                   <h2 className="text-xl font-semibold text-white rounded-lg px-4 py-3 shadow-md">
@@ -193,7 +193,7 @@ export default function HousesPage() {
                     </button>
                     <button
                       onClick={toggleTableTheme}
-                      className="flex items-center justify-center px-4 py-2  text-white hover:bg-primary/80 rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-110">
+                      className="flex items-center justify-center px-4 py-2 text-white hover:bg-primary/80 rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-110">
                       {isDark ? (
                         <Sun
                           size={20}
@@ -208,13 +208,10 @@ export default function HousesPage() {
                     </button>
                   </div>
                 </div>
-                {searchParams.get("house_location") && (
-                  <div className="text-lg font-medium text-white w-full text-center">
-                    {searchParams.get("house_location") ||
-                      searchParams.get("area") ||
-                      "All Areas"}
-                  </div>
-                )}
+                <LocationSelect
+                  onChange={handleFiltersChange}
+                  paramName="house_location"
+                />
               </div>
               <FilterBar
                 onChange={handleFiltersChange}
@@ -233,7 +230,6 @@ export default function HousesPage() {
                       ? "bg-gray-900 text-white"
                       : "bg-white text-gray-900 border border-gray-300"
                   } rounded-lg shadow-md overflow-hidden`}>
-                  {/* Table Head */}
                   <thead
                     className={`sticky top-0 z-10 ${
                       isDark
@@ -248,17 +244,15 @@ export default function HousesPage() {
                         {sortConfig.key === "house_date" &&
                           (sortConfig.direction === "asc" ? "↑" : "↓")}
                       </th>
-                      {/* Conditionally render Area column */}
-                      {!searchParams.get("house_location") &&
-                        !searchParams.get("area") && (
-                          <th
-                            className="px-4 py-3 text-center cursor-pointer"
-                            onClick={() => handleSort("house_location")}>
-                            Area{" "}
-                            {sortConfig.key === "house_location" &&
-                              (sortConfig.direction === "asc" ? "↑" : "↓")}
-                          </th>
-                        )}
+                      {!searchParams.get("house_location") && (
+                        <th
+                          className="px-4 py-3 text-center cursor-pointer"
+                          onClick={() => handleSort("house_location")}>
+                          Area{" "}
+                          {sortConfig.key === "house_location" &&
+                            (sortConfig.direction === "asc" ? "↑" : "↓")}
+                        </th>
+                      )}
                       <th
                         className="px-4 py-3 text-center cursor-pointer"
                         onClick={() => handleSort("house_number")}>
@@ -286,8 +280,6 @@ export default function HousesPage() {
                       <th className="px-4 py-3 text-center">Details</th>
                     </tr>
                   </thead>
-
-                  {/* Table Body */}
                   <tbody>
                     {sortedHouses.map((house, index) => (
                       <tr
@@ -306,13 +298,11 @@ export default function HousesPage() {
                             house.house_last_updated
                           ).toLocaleDateString()}
                         </td>
-                        {/* Conditionally render Area column data with whitespace-nowrap */}
-                        {!searchParams.get("house_location") &&
-                          !searchParams.get("area") && (
-                            <td className="px-4 py-1 whitespace-nowrap">
-                              {house.house_location || ""}
-                            </td>
-                          )}
+                        {!searchParams.get("house_location") && (
+                          <td className="px-4 py-1 whitespace-nowrap">
+                            {house.house_location || ""}
+                          </td>
+                        )}
                         <td className="px-4 py-1 whitespace-nowrap">
                           {house.house_number}
                         </td>
@@ -340,7 +330,6 @@ export default function HousesPage() {
               )}
             </div>
             <FloatingButton />
-            {/* Pagination */}
             {totalItems > itemsPerPage && (
               <PaginationControls
                 currentPage={currentPage}

@@ -1,9 +1,5 @@
 import React, { useState } from "react"
-import Select from "react-select"
 import { useSearchParams } from "next/navigation"
-import { locations } from "@/lib/location"
-
-const locationOptions = locations.map((loc) => ({ label: loc, value: loc }))
 
 const FilterBar = ({ filtersVisible = true, onChange }) => {
   const searchParams = useSearchParams()
@@ -36,30 +32,10 @@ const FilterBar = ({ filtersVisible = true, onChange }) => {
     }
   }
 
-  const handleAreaChange = (selectedOption) => {
-    const value = selectedOption ? selectedOption.value : ""
-    const updatedFilters = { ...filters, area: value }
-    setFilters(updatedFilters)
-    updateUrlParams(updatedFilters)
-    if (onChange) onChange(updatedFilters)
-  }
-
   if (!filtersVisible) return null
 
   return (
     <div className="bg-gray-700 p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 z-1000">
-      {/* Area dropdown */}
-      <Select
-        options={locationOptions}
-        value={
-          locationOptions.find((opt) => opt.value === filters.area) || null
-        }
-        onChange={handleAreaChange}
-        isClearable
-        placeholder="Select Area"
-        className="text-black col-span-2 md:col-span-1 z-2000"
-      />
-
       {/* Numeric filters */}
       {["min_price", "max_price", "min_size", "max_size"].map((field) => (
         <input
