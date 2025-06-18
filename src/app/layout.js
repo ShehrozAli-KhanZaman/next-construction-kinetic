@@ -4,7 +4,6 @@ import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/context/ThemeContext"
 import { ActiveSectionProvider } from "@/context/ActiveSectionContext"
 import NavBar from "@/components/Navbar"
-import Footer from "@/components/Footer"
 import Preloader from "@/components/Preloader"
 import ClientWrapper from "@/components/ClientWrapper"
 
