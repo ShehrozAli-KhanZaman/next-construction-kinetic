@@ -6,18 +6,29 @@ import { layouts } from "@/lib/utils"
 import SelectableButtonGroup from "./SelectableButtonGroup"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation, Pagination, Autoplay } from "swiper/modules"
-import { Document, Page, pdfjs } from "react-pdf"
-import "swiper/css"
-import "swiper/css/navigation"
-import "swiper/css/pagination"
+import { Viewer, Worker, RenderPageProps } from "@react-pdf-viewer/core"
+import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout"
+import "@react-pdf-viewer/core/lib/styles/index.css"
+import "@react-pdf-viewer/default-layout/lib/styles/index.css"
 import Image from "next/image"
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
 
 const DesktopHouseLayouts = () => {
   const [selectedLayout, setSelectedLayout] = useState(null)
   const [selectedId, setSelectedId] = useState(1)
-  const filteredLayouts = layouts
+  const defaultLayoutPluginInstance = defaultLayoutPlugin({
+    sidebarTabs: () => [], // Hide sidebar
+    renderToolbar: (Toolbar) => (
+      <Toolbar>
+        {(slots) => (
+          <div className="rpv-toolbar">
+            {slots.ZoomOut}
+            {slots.Zoom}
+            {slots.ZoomIn}
+          </div>
+        )}
+      </Toolbar>
+    ),
+  })
 
   useEffect(() => {
     document.body.style.overflow = selectedLayout ? "hidden" : "auto"
@@ -70,7 +81,23 @@ const DesktopHouseLayouts = () => {
     return []
   }
 
-  const isPdf = (file) => file.endsWith(".pdf")
+  const isPdf = (file) =>
+    file && typeof file === "string" && file.endsWith(".pdf")
+
+  // Custom render for horizontal multi-page layouts
+  const customRenderPage = (props) => (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row", // Horizontal layout
+        gap: "10px",
+        padding: "10px",
+      }}>
+      {props.canvasLayer.children}
+      {props.textLayer.children}
+      {props.annotationLayer.children}
+    </div>
+  )
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
@@ -94,13 +121,25 @@ const DesktopHouseLayouts = () => {
         }
         .pdf-container {
           width: 100%;
-          aspect-ratio: 4 / 3;
-          overflow: hidden;
+          max-width: 100%;
+          height: 100%;
+          min-height: 300px; /* Prevent clipping in Swiper */
+          overflow: auto;
           display: flex;
           justify-content: center;
           align-items: center;
           background: #fff;
           position: relative;
+        }
+        .pdf-viewer {
+          width: 100%;
+          height: 100%;
+        }
+        .rpv-toolbar {
+          display: flex;
+          justify-content: center;
+          background: rgba(0, 0, 0, 0.1);
+          padding: 4px;
         }
         .download-icon {
           position: absolute;
@@ -112,6 +151,7 @@ const DesktopHouseLayouts = () => {
           border-radius: 4px;
           padding: 4px;
           transition: background 0.3s;
+          z-index: 10;
         }
         .download-icon:hover {
           background: rgba(30, 64, 175, 0.8);
@@ -124,10 +164,10 @@ const DesktopHouseLayouts = () => {
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
-          className="text-xl font-bold text-center mb-4 text-white uppercase tracking-wider">
+          className="text-xl font-bold text-center text-white uppercase tracking-wider">
           House Layouts
         </motion.h1>
-        <div className="bg-black flex justify-center items-center mb-2">
+        <div className="bg-black flex justify-center items-center ">
           <SelectableButtonGroup buttons={buttons} initialSelectedId={1} />
         </div>
         <motion.div
@@ -136,7 +176,7 @@ const DesktopHouseLayouts = () => {
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
           className="grid grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto px-4">
-          {filteredLayouts.map((layout, index) => (
+          {layouts.map((layout, index) => (
             <motion.div
               key={layout.id}
               variants={itemVariants}
@@ -163,44 +203,49 @@ const DesktopHouseLayouts = () => {
                           <div className="flex flex-col items-center h-full">
                             {isPdf(file) ? (
                               <div className="pdf-container">
-                                <Document
-                                  file={file}
-                                  loading={
-                                    <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 text-sm">
-                                      Loading PDF...
-                                    </div>
-                                  }
-                                  error={
-                                    <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 text-sm">
-                                      Failed to load PDF
-                                    </div>
-                                  }>
-                                  <Page
-                                    pageNumber={1}
-                                    scale={0.8}
-                                    renderTextLayer={false}
-                                    renderAnnotationLayer={false}
-                                    className="w-full"
+                                <Worker workerUrl="/pdf.worker.min.js">
+                                  <Viewer
+                                    fileUrl={file}
+                                    plugins={[defaultLayoutPluginInstance]}
+                                    defaultScale={0.5}
+                                    renderPage={customRenderPage} // Horizontal layout
+                                    onDocumentLoad={(e) => {
+                                      if (!e.doc) {
+                                        console.error(
+                                          `Failed to load PDF: ${file}`
+                                        )
+                                      }
+                                    }}
+                                    renderError={(error) => (
+                                      <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 text-sm">
+                                        Failed to load PDF: {error.message}
+                                      </div>
+                                    )}
+                                    renderLoader={() => (
+                                      <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 text-sm">
+                                        Loading PDF...
+                                      </div>
+                                    )}
                                   />
-                                  <a
-                                    href={file}
-                                    download
-                                    className="download-icon">
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      fill="none"
-                                      viewBox="0 0 24 24"
-                                      stroke="white"
-                                      className="w-5 h-5">
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                                      />
-                                    </svg>
-                                  </a>
-                                </Document>
+                                </Worker>
+                                <a
+                                  href={file}
+                                  download
+                                  className="download-icon">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="white"
+                                    className="w-5 h-5">
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                                    />
+                                  </svg>
+                                </a>
                               </div>
                             ) : (
                               <Image
@@ -266,7 +311,7 @@ const DesktopHouseLayouts = () => {
             exit={{ scale: 0.9, opacity: 0 }}
             className="bg-white dark:bg-gray-800 rounded-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl">
             <div className="grid grid-cols-2">
-              <div className="relative h-100">
+              <div className="relative h-full">
                 <Swiper
                   modules={[Navigation, Pagination, Autoplay]}
                   spaceBetween={5}
@@ -284,44 +329,46 @@ const DesktopHouseLayouts = () => {
                         <div className="flex flex-col items-center h-full">
                           {isPdf(file) ? (
                             <div className="pdf-container">
-                              <Document
-                                file={file}
-                                loading={
-                                  <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500">
-                                    Loading PDF...
-                                  </div>
-                                }
-                                error={
-                                  <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500">
-                                    Failed to load PDF
-                                  </div>
-                                }>
-                                <Page
-                                  pageNumber={1}
-                                  scale={0.8}
-                                  renderTextLayer={false}
-                                  renderAnnotationLayer={false}
-                                  className="w-full"
+                              <Worker workerUrl="/pdf.worker.min.js">
+                                <Viewer
+                                  fileUrl={file}
+                                  plugins={[defaultLayoutPluginInstance]}
+                                  defaultScale={0.5}
+                                  renderPage={customRenderPage} // Horizontal layout
+                                  onDocumentLoad={(e) => {
+                                    if (!e.doc) {
+                                      console.error(
+                                        `Failed to load PDF: ${file}`
+                                      )
+                                    }
+                                  }}
+                                  renderError={(error) => (
+                                    <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500">
+                                      Failed to load PDF: {error.message}
+                                    </div>
+                                  )}
+                                  renderLoader={() => (
+                                    <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500">
+                                      Loading PDF...
+                                    </div>
+                                  )}
                                 />
-                                <a
-                                  href={file}
-                                  download
-                                  className="download-icon">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="white"
-                                    className="w-5 h-5">
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth={2}
-                                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                                    />
-                                  </svg>
-                                </a>
-                              </Document>
+                              </Worker>
+                              <a href={file} download className="download-icon">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="white"
+                                  className="w-5 h-5">
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                                  />
+                                </svg>
+                              </a>
                             </div>
                           ) : (
                             <Image
@@ -387,7 +434,7 @@ const DesktopHouseLayouts = () => {
                         fill="currentColor">
                         <path
                           fillRule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707:text-gray-293 9a1 1 0 00-1.414:0 0l-1.414l2 2a1 1 0 001:414 0l4-4z"
                           clipRule="evenodd"
                         />
                       </svg>

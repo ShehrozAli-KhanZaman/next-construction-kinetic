@@ -1,123 +1,41 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { layouts } from "@/lib/utils"
 import SelectableButtonGroup from "./SelectableButtonGroup"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation, Pagination, Autoplay } from "swiper/modules"
-import { Document, Page, pdfjs } from "react-pdf"
 import "swiper/css"
 import "swiper/css/navigation"
 import "swiper/css/pagination"
 import Image from "next/image"
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
-
 const PdfViewer = ({ file, isModal = false }) => {
-  const [numPages, setNumPages] = useState(null)
-  const [pageDimensions, setPageDimensions] = useState({ width: 0, height: 0 })
-  const [containerDimensions, setContainerDimensions] = useState({
-    width: 0,
-    height: 0,
-  })
-  const containerRef = useRef(null)
-
-  useEffect(() => {
-    const updateDimensions = () => {
-      if (containerRef.current) {
-        const { width, height } = containerRef.current.getBoundingClientRect()
-        setContainerDimensions({ width, height })
-      }
-    }
-    updateDimensions()
-    window.addEventListener("resize", updateDimensions)
-    return () => window.removeEventListener("resize", updateDimensions)
-  }, [isModal])
-
-  const onDocumentLoadSuccess = async ({ numPages }) => {
-    setNumPages(numPages)
-    const pdf = await pdfjs.getDocument(file).promise
-    const page = await pdf.getPage(1)
-    const [x, y, width, height] = page.getViewport({ scale: 1 }).viewBox
-    setPageDimensions({ width, height })
-  }
-
-  const calculateScale = () => {
-    const containerWidth = containerDimensions.width || (isModal ? 480 : 300) // Increased modal width
-    const containerHeight = containerDimensions.height || (isModal ? 360 : 112) // Increased modal height
-    const scale50Percent = 0.5
-    const scaleToFitWidth = containerWidth / pageDimensions.width
-    const scaleToFitHeight = containerHeight / pageDimensions.height
-    const fitScale = Math.min(scaleToFitWidth, scaleToFitHeight)
-    // Ensure a minimum scale for modal to avoid very small PDFs
-    return isModal ? Math.max(fitScale, 0.8) : scale50Percent
-  }
-
-  const scale =
-    pageDimensions.width && pageDimensions.height
-      ? calculateScale()
-      : isModal
-      ? 1.0
-      : 0.6
-
   return (
-    <div className="pdf-wrapper relative w-full h-full rounded-xl">
-      <div className="pdf-controls absolute top-2 right-2 z-20">
-        <a
-          href={file}
-          download
-          className="download-button flex items-center justify-center w-8 h-8 bg-blue-600/80 hover:bg-blue-700/80 rounded-md transition-colors"
-          title="Download PDF">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="white"
-            className="w-5 h-5">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-            />
-          </svg>
-        </a>
-      </div>
-      <div
-        ref={containerRef}
-        className="pdf-container w-full overflow-y-auto rounded-xl"
-        style={{ maxHeight: isModal ? "20rem" : "7rem" }} // Increased modal maxHeight
-      >
-        <Document
-          file={file}
-          onLoadSuccess={onDocumentLoadSuccess}
-          loading={
-            <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 text-xs rounded-xl">
-              Loading PDF...
-            </div>
-          }
-          error={
-            <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 text-xs rounded-xl">
-              Failed to load PDF
-            </div>
-          }>
-          {numPages &&
-            Array.from({ length: numPages }, (_, i) => (
-              <div
-                key={i}
-                className="page-wrapper w-full overflow-x-auto flex justify-center mb-2">
-                <Page
-                  pageNumber={i + 1}
-                  scale={scale}
-                  renderTextLayer={false}
-                  renderAnnotationLayer={false}
-                  className="pdf-page"
-                />
-              </div>
-            ))}
-        </Document>
-      </div>
+    <div className="pdf-wrapper relative w-full h-full rounded-xl flex items-center justify-center">
+      <a
+        href={file}
+        download
+        className="flex flex-col items-center justify-center w-full h-full bg-gray-100 dark:bg-gray-700 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+        title="Download PDF">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          className="w-12 h-12 text-gray-500 dark:text-gray-300">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 10v6m0 0l-3-3m3 3l3-3m-9 3V5a2 2 0 012-2h4a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2z"
+          />
+        </svg>
+        <span className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+          Download PDF
+        </span>
+      </a>
     </div>
   )
 }
@@ -206,18 +124,6 @@ const MobileHouseLayouts = () => {
           height: 100%;
           background: #fff;
         }
-        .pdf-container {
-          width: 100%;
-        }
-        .page-wrapper {
-          min-height: 100%;
-        }
-        .pdf-page {
-          margin: 0 auto;
-        }
-        .download-button {
-          z-index: 20;
-        }
       `}</style>
       <div className="absolute inset-0 bg-black/50 z-0" />
       <div className="relative z-10 flex flex-col items-center justify-start self-center">
@@ -236,7 +142,7 @@ const MobileHouseLayouts = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
-          className="grid grid-cols-1 gap-1 max-w-sm mx-auto px-3">
+          className="grid grid-cols-1 gap-4 max-w-sm mx-auto px-3">
           {filteredLayouts.map((layout, index) => (
             <motion.div
               key={layout.id}
@@ -329,8 +235,6 @@ const MobileHouseLayouts = () => {
             className="bg-white dark:bg-gray-800 rounded-xl w-full max-w-md max-h-[80vh] overflow-y-auto shadow-2xl">
             <div className="flex flex-col">
               <div className="relative h-80">
-                {" "}
-                {/* Increased modal height */}
                 <Swiper
                   modules={[Navigation, Pagination, Autoplay]}
                   spaceBetween={5}
