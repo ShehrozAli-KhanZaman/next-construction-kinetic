@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import Background from "@/components/Background"
 import emailjs from "emailjs-com"
 import Link from "next/link"
+import ScrollUpButton from "../ui/ScrollUpButton"
 
 export default function CostCalculator() {
   const [formData, setFormData] = useState({
@@ -72,11 +73,12 @@ export default function CostCalculator() {
       {/* <Background type="NET" color={0x3498db} /> */}
       <div className="absolute inset-0 bg-black/50 z-0" />
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center  px-4 md:px-5">
+        <ScrollUpButton />
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="w-full max-w-7xl bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
+          className="w-full max-w-7xl bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row mt-4">
           {/* Left Form Section */}
           {/* Left Quotation Form Section */}
           <div className="w-full md:w-1/2 relative p-4 md:p-6 max-h-[75vh] overflow-auto flex flex-col justify-center items-center">

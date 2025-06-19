@@ -11,6 +11,8 @@ import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout"
 import "@react-pdf-viewer/core/lib/styles/index.css"
 import "@react-pdf-viewer/default-layout/lib/styles/index.css"
 import Image from "next/image"
+import ScrollDownButton from "./ScrollDownButton"
+import ScrollUpButton from "./ScrollUpButton"
 
 const DesktopHouseLayouts = () => {
   const [selectedLayout, setSelectedLayout] = useState(null)
@@ -160,11 +162,12 @@ const DesktopHouseLayouts = () => {
       <div className="absolute inset-0 bg-black/50 z-0" />
 
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center self-center">
+        <ScrollUpButton />
         <motion.h1
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
-          className="text-xl font-bold text-center text-white uppercase tracking-wider">
+          className="text-lg font-bold text-center text-white tracking-wider">
           House Layouts
         </motion.h1>
         <div className="bg-black flex justify-center items-center ">
@@ -185,7 +188,7 @@ const DesktopHouseLayouts = () => {
               className="cursor-pointer bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow hover:shadow-md transition-all duration-300"
               onClick={() => openLayout(layout)}>
               <div className="flex flex-col">
-                <div className="relative w-full h-44 lg:h-56">
+                <div className="relative w-full h-44 lg:h-52">
                   <Swiper
                     modules={[Navigation, Pagination, Autoplay]}
                     spaceBetween={5}
@@ -294,6 +297,7 @@ const DesktopHouseLayouts = () => {
             </motion.div>
           ))}
         </motion.div>
+        <ScrollDownButton />
       </div>
 
       {selectedLayout && (

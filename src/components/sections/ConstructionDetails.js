@@ -1,4 +1,5 @@
 "use client"
+
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import Particles from "react-tsparticles"
@@ -6,8 +7,9 @@ import { loadFull } from "tsparticles"
 import BoxComponent from "../ui/BoxComponent"
 import ModalComponent from "../ui/ModalComponent"
 import { textSections } from "@/lib/utils"
-import Image from "next/image"
-
+import { FaArrowDown } from "react-icons/fa"
+import { FaArrowUp } from "react-icons/fa"
+import { useActiveSection } from "@/context/ActiveSectionContext"
 export default function ConstructionDetails() {
   const tabs = textSections
   const [activeTab, setActiveTab] = useState(null) // Initial state is null
@@ -23,11 +25,25 @@ export default function ConstructionDetails() {
   const particlesInit = async (main) => {
     await loadFull(main)
   }
-
+  const buttonVariants = {
+    hover: { scale: 1.1 },
+    tap: { scale: 0.9 },
+  }
   const handleTabClick = (tabId) => {
     setActiveTab(tabId)
   }
+  const { activeSection, setActiveSection, setScrollDirection } =
+    useActiveSection()
 
+  const handlePrevSection = () => {
+    setScrollDirection("up")
+    setActiveSection((prev) => prev - 1)
+  }
+  const handleNextSection = () => {
+    setScrollDirection("down")
+    setActiveSection((prev) => prev + 1)
+  }
+  let totalSections = 4
   return (
     <section className="relative min-h-screen w-full text-white overflow-hidden flex items-center justify-center py-10 px-4">
       {/* Particles Background */}
@@ -53,24 +69,17 @@ export default function ConstructionDetails() {
       <div className="z-10 flex flex-col md:flex-row gap-6 w-full max-w-7xl min-h-screen items-center justify-center">
         {/* Left Column: Logo, Heading, and Sidemenu-style Tabs */}
         <div className="w-full md:w-1/5 flex flex-col gap-4 items-center justify-center min-h-[50vh] md:min-h-screen">
-          {/* Logo */}
-          {/* <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="flex justify-center">
-            <div className="relative">
-              <div className="absolute -inset-2 bg-gradient-to-r from-yellow-400 to-gray-500 rounded-lg blur-md opacity-70"></div>
-              <Image
-                src="/images/Logo/LogoTransparent.png"
-                alt="Construction Kinetics"
-                width={100}
-                height={100}
-                className="rounded-lg shadow-lg relative"
-              />
-            </div>
-          </motion.div> */}
-
+          <motion.button
+            variants={buttonVariants}
+            whileHover="hover"
+            whileTap="tap"
+            onClick={handlePrevSection}
+            disabled={activeSection <= 0}
+            className="flex items-center justify-center w-12 h-12 bg-transparent border border-white/20 rounded-full text-white hover:border-white/40 transition-colors disabled:opacity-50 disabled:cursor-not-allowed align-center"
+            style={{ transformOrigin: "center" }}
+            aria-label="Scroll to previous section">
+            <FaArrowUp size={24} />
+          </motion.button>
           {/* Heading */}
           <motion.h2
             initial={{ scale: 0.8, opacity: 0 }}
@@ -97,6 +106,17 @@ export default function ConstructionDetails() {
               </motion.div>
             ))}
           </div>
+          <motion.button
+            variants={buttonVariants}
+            whileHover="hover"
+            whileTap="tap"
+            onClick={handleNextSection}
+            disabled={activeSection >= totalSections - 1}
+            className="flex items-center justify-center w-12 h-12 bg-transparent border border-white/20 rounded-full text-white hover:border-white/40 transition-colors disabled:opacity-50 disabled:cursor-not-allowed align-center"
+            style={{ transformOrigin: "center" }}
+            aria-label="Scroll to next section">
+            <FaArrowDown size={24} />
+          </motion.button>
         </div>
 
         {/* Right Column: Box (Hidden on Mobile) */}
@@ -119,6 +139,8 @@ export default function ConstructionDetails() {
           </div>
         )}
       </div>
+
+      {/* Navigation Buttons */}
     </section>
   )
 }

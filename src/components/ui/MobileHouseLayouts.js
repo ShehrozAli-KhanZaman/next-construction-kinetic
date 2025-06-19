@@ -10,6 +10,8 @@ import "swiper/css"
 import "swiper/css/navigation"
 import "swiper/css/pagination"
 import Image from "next/image"
+import ScrollUpButton from "./ScrollUpButton"
+import ScrollDownButton from "./ScrollDownButton"
 
 const PdfViewer = ({ file, isModal = false }) => {
   return (
@@ -126,6 +128,9 @@ const MobileHouseLayouts = () => {
         }
       `}</style>
       <div className="absolute inset-0 bg-black/50 z-0" />
+      <div className="bg-red-500 flex justify-center items-center mb-10">
+        <ScrollUpButton />
+      </div>
       <div className="relative z-10 flex flex-col items-center justify-start self-center">
         <motion.h1
           initial={{ y: -50, opacity: 0 }}
@@ -218,7 +223,6 @@ const MobileHouseLayouts = () => {
           ))}
         </motion.div>
       </div>
-
       {selectedLayout && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -339,6 +343,9 @@ const MobileHouseLayouts = () => {
           </motion.div>
         </motion.div>
       )}
+      <div className="bg-red-500 flex justify-center items-center mt-20">
+        <ScrollDownButton />
+      </div>
     </section>
   )
 }
