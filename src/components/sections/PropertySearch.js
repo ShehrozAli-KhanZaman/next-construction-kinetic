@@ -9,6 +9,8 @@ import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import SelectableButtonGroup from "../ui/SelectableButtonGroup"
 import Select from "react-select"
+import ScrollDownButton from "../ui/ScrollDownButton"
+
 const propertyTypes = ["Plot", "House"]
 
 const dropdownVariants = {
@@ -54,30 +56,11 @@ export default function PropertySearch() {
   const handleSearch = () => {
     setLoading(true)
     try {
-      // if (
-      //   !formData.location &&
-      //   formData.propertyType === "House" &&
-      //   selectedId === 1
-      // ) {
-      //   toast.error("Please select a location first.", {
-      //     position: "top-center",
-      //     autoClose: 5000,
-      //     hideProgressBar: false,
-      //     closeOnClick: true,
-      //     pauseOnHover: true,
-      //     draggable: true,
-      //     progress: undefined,
-      //     theme: "dark",
-      //   })
-      //   return // Stop the search if location is not selected
-      // }
-
       let path =
         formData.propertyType === "Plot"
           ? "/properties/plots"
           : "/properties/houses"
 
-      // If RENT is selected
       if (selectedId === 2) {
         path =
           formData.propertyType === "Plot"
@@ -108,7 +91,6 @@ export default function PropertySearch() {
         params.push(`max_price=${formData.priceRange.max}`)
       }
 
-      // Always add pool
       params.push(`pool=all`)
 
       const queryString = params.join("&")
@@ -148,13 +130,10 @@ export default function PropertySearch() {
   const buttons = [
     { id: 1, label: "BUY", onPress: handleOptionA },
     { id: 2, label: "RENT", onPress: handleOptionB },
-    // { id: 3, label: "Option C", onPress: handleOptionC },
   ]
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
-      {/* <Background type="GLOBE" color={0x1a1a1a} /> */}
-      {/* <div className="absolute inset-0 bg-black/50 z-0" /> */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center pt-16 md:pt-20 pb-15">
         <motion.h1
           initial={{ y: -50, opacity: 0 }}
@@ -171,7 +150,6 @@ export default function PropertySearch() {
         {/* Mobile View */}
         <div className="md:hidden w-full max-w-4xl bg-white/10 backdrop-blur-md rounded-lg p-5 mb-40">
           <div className="grid grid-cols-1 gap-4">
-            {/* Property Type */}
             <div>
               <label className="block text-xs font-medium text-white mb-1">
                 Property Type
@@ -191,7 +169,6 @@ export default function PropertySearch() {
               </select>
             </div>
 
-            {/* Location */}
             <div>
               <label className="block text-xs font-medium text-white mb-1">
                 Location
@@ -211,8 +188,6 @@ export default function PropertySearch() {
               </select>
             </div>
 
-            {/* Toggle more options */}
-
             <div className="text-left">
               <motion.button
                 variants={dropdownVariants}
@@ -224,7 +199,6 @@ export default function PropertySearch() {
               </motion.button>
             </div>
 
-            {/* Size & Price (collapsed by default) */}
             {showMobileOptions && (
               <>
                 <div className="grid grid-cols-2 gap-4">
@@ -291,23 +265,7 @@ export default function PropertySearch() {
               </>
             )}
 
-            {/* Search Button */}
             <div className="flex justify-center">
-              {/* <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handleSearch}
-                disabled={loading}
-                className="w-full px-6 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-xs">
-                {loading ? (
-                  <div className="flex items-center gap-2">
-                    <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
-                    <span>Searching...</span>
-                  </div>
-                ) : (
-                  "Find"
-                )}
-              </motion.button> */}
               <button
                 onClick={handleSearch}
                 disabled={loading}
@@ -353,25 +311,10 @@ export default function PropertySearch() {
             <motion.div
               variants={dropdownVariants}
               initial="hidden"
-              animate="visible"
-              // className="w-1/3"
-            >
+              animate="visible">
               <label className="block text-xs font-medium text-white mb-1">
                 Location
               </label>
-              {/* <Select
-                options={locationOptions}
-                value={
-                  locationOptions.find(
-                    (opt) => opt.value === formData.location
-                  ) || null
-                }
-                onChange={(e) => handleChange("location", e?.value)}
-                isClearable
-                placeholder="Select Area"
-                styles={customStyles}
-                className="col-span-2 md:col-span-1"
-              /> */}
               <select
                 value={formData.location}
                 onChange={(e) => handleChange("location", e.target.value)}
@@ -402,15 +345,6 @@ export default function PropertySearch() {
                 <span>Find</span>
               )}
             </button>
-
-            {/* <motion.button
-              variants={dropdownVariants}
-              initial="hidden"
-              animate="visible"
-              onClick={handleSearch}
-              className="px-6 py-2 text-sm bg-[#33a137] text-white rounded-lg hover:bg-[#f7b928] transition-colors duration-200 self-end">
-              Find
-            </motion.button> */}
           </div>
 
           <div className="mt-2 text-left">
@@ -436,9 +370,7 @@ export default function PropertySearch() {
                   <motion.div
                     variants={rangeInputVariants}
                     initial="hidden"
-                    animate="visible"
-                    // className="w-1/5"
-                  >
+                    animate="visible">
                     <label className="block text-[11px] font-medium text-white mb-1">
                       Min Size
                     </label>
@@ -455,9 +387,7 @@ export default function PropertySearch() {
                   <motion.div
                     variants={rangeInputVariants}
                     initial="hidden"
-                    animate="visible"
-                    // className="w-1/5"
-                  >
+                    animate="visible">
                     <label className="block text-[11px] font-medium text-white mb-1">
                       Max Size
                     </label>
@@ -474,9 +404,7 @@ export default function PropertySearch() {
                   <motion.div
                     variants={rangeInputVariants}
                     initial="hidden"
-                    animate="visible"
-                    // className="w-1/5"
-                  >
+                    animate="visible">
                     <label className="block text-[11px] font-medium text-white mb-1">
                       Min Price
                     </label>
@@ -493,9 +421,7 @@ export default function PropertySearch() {
                   <motion.div
                     variants={rangeInputVariants}
                     initial="hidden"
-                    animate="visible"
-                    // className="w-1/5"
-                  >
+                    animate="visible">
                     <label className="block text-[11px] font-medium text-white mb-1">
                       Max Price
                     </label>
@@ -514,6 +440,8 @@ export default function PropertySearch() {
             )}
           </AnimatePresence>
         </div>
+
+        <ScrollDownButton />
       </div>
     </section>
   )
@@ -524,7 +452,7 @@ const customStyles = {
     ...base,
     backgroundColor: "rgba(255, 255, 255, 0.1)",
     borderColor: "rgba(255, 255, 255, 0.2)",
-    borderRadius: "0.375rem", // rounded-md
+    borderRadius: "0.375rem",
     padding: "2px 6px",
     fontSize: "12px",
     color: "white",
