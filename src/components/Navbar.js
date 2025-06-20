@@ -8,13 +8,22 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useTheme } from "@/context/ThemeContext"
 import { Moon, Sun, Menu, X } from "lucide-react"
 import { useActiveSection } from "@/context/ActiveSectionContext"
+import { loginUser } from "@/utils/auth"
 
 export default function NavBar() {
   const [navbar, setNavbar] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [render, setRender] = useState(true)
   const { theme, toggleTheme } = useTheme()
   const { setActiveSection, setScrollDirection } = useActiveSection()
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setRender(false)
+    }, 5000) // 2 seconds total loading time
+
+    return () => clearTimeout(timer)
+  }, [])
   const navRef = useRef(null)
   const pathname = usePathname()
   const isHomePage = pathname === "/"
@@ -23,9 +32,12 @@ export default function NavBar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20)
     }
+    if (render) {
+      loginUser()
+    }
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+  })
 
   const navVariants = {
     hidden: { opacity: 0, y: -20 },
