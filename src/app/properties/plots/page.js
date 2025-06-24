@@ -290,11 +290,11 @@ export default function PlotsPage() {
                         className={
                           isDark
                             ? index % 2 === 0
-                              ? "bg-gray-900 hover:bg-gray-800"
-                              : "bg-gray-800 hover:bg-gray-700"
+                              ? "bg-gray-900 hover:bg-blue-600 hover:text-white transition duration-200 ease-in-out cursor-pointer"
+                              : "bg-gray-800 hover:bg-blue-600 hover:text-white transition duration-200 ease-in-out cursor-pointer"
                             : index % 2 === 0
-                            ? "bg-white hover:bg-gray-100"
-                            : "bg-gray-100 hover:bg-gray-200"
+                            ? "bg-white hover:bg-blue-100 hover:text-gray-900 transition duration-200 ease-in-out cursor-pointer"
+                            : "bg-gray-100 hover:bg-blue-100 hover:text-gray-900 transition duration-200 ease-in-out cursor-pointer"
                         }>
                         <td className="px-4 py-1">
                           {new Date(

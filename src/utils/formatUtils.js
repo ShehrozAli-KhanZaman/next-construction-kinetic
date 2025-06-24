@@ -19,24 +19,38 @@ export const formatPrice = (price) => {
 }
 
 export const formatSize = (size) => {
-  if (!size) return "N/A"
+  // Handle invalid or non-positive sizes
+  if (!size || size <= 0 || isNaN(size)) return "N/A"
+
+  // Helper function to format number (remove trailing zeros and handle large numbers)
+  const formatNumber = (num) => {
+    const rounded = Number(num.toFixed(2)) // Round to 2 decimal places
+    return rounded % 1 === 0
+      ? rounded.toLocaleString() // No decimals for whole numbers
+      : rounded.toFixed(0).replace(/\.?0+$/, "") // Remove trailing zeros
+  }
+
+  // Helper function to determine singular/plural unit
+  const getUnit = (value, singular) => {
+    return Number(value) === 1 ? singular : `${singular}s`
+  }
 
   // Convert to acres if size is 1 acre or more
   if (size >= 43560) {
     const acres = size / 43560
-    return `${acres.toFixed(2)} Acre`
+    return `${formatNumber(acres)} ${getUnit(acres, "Acre")}`
   }
 
   // Convert to kanals if size is 1 kanal or more
   if (size >= 5445) {
     const kanals = size / 5445
-    return `${kanals.toFixed(2)} Kanal`
+    return `${formatNumber(kanals)} ${getUnit(kanals, "Kanal")}`
   }
 
   // Convert to marlas if size is 1 marla or more
   if (size >= 272.25) {
     const marlas = size / 272.25
-    return `${marlas.toFixed(2)} Marla`
+    return `${formatNumber(marlas)} ${getUnit(marlas, "Marla")}`
   }
 
   // For smaller sizes, show in square feet

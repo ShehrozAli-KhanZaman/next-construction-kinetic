@@ -33,7 +33,7 @@ export const SearchPropApi = async (searchParams) => {
   }
 
   // Build the query string using the searchParams
-  let endpoint = "/prop/search?" + buildQueryString(searchParams)
+  let endpoint = "/realtorproperty/search?" + buildQueryString(searchParams)
 
   return fetch(baseURL + endpoint, requestOptions)
     .then((response) => response.json())
