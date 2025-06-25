@@ -4,13 +4,15 @@ import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { SearchPropApi } from "@/utils/propertyApi"
 import { formatPrice, formatSize } from "@/utils/formatUtils"
-import { Filter, Moon, Sun } from "lucide-react"
+import { Filter, FilterIcon, List, Moon, Sun } from "lucide-react"
 import ContactButtons from "@/components/ui/ContactButtons"
 import PaginationControls from "@/components/ui/PaginationControls"
 import FilterBar from "@/components/FilterBar"
 import FloatingButton from "@/components/ui/FloatingButton"
 import LocationSelect from "@/components/ui/LocationSelect"
 import ContactPopup from "@/components/ui/ContactPopup"
+import TableHeader from "./TableHeader"
+import SortModal from "@/components/ui/SortModal"
 
 export default function PlotsPage() {
   const handleFiltersChange = (filters) => {
@@ -24,6 +26,7 @@ export default function PlotsPage() {
   const [id, setId] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [sortConfig, setSortConfig] = useState({
     key: null,
     direction: "asc",
@@ -166,6 +169,16 @@ export default function PlotsPage() {
                     <LocationSelect onChange={handleFiltersChange} />
                     <div className="flex items-center space-x-2">
                       <button
+                        className="px-4 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300"
+                        onClick={() => setIsModalOpen(true)}>
+                        <List className="text-white" size={20} />
+                      </button>
+                      <SortModal
+                        isOpen={isModalOpen}
+                        onClose={() => setIsModalOpen(false)}
+                        handleSort={handleSort}
+                      />
+                      <button
                         onClick={() => setFiltersVisible(!filtersVisible)}
                         className="px-4 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
                         <Filter size={20} />
@@ -191,26 +204,36 @@ export default function PlotsPage() {
                 {/* Mobile Header: Two rows (h2 + buttons, then location select) */}
                 <div className="px-4 sm:hidden">
                   <div className="flex items-center justify-between mb-2">
-                    <h2 className="text-xl font-semibold text-white rounded-lg px-4 py-3 shadow-md">
+                    <h2 className="text-xl font-semibold text-white rounded-lg px-2 py-3 shadow-md">
                       Plot Listings
                     </h2>
                     <div className="flex items-center space-x-2">
                       <button
+                        className="px-2 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300"
+                        onClick={() => setIsModalOpen(true)}>
+                        <List className="text-white" size={18} />
+                      </button>
+                      <SortModal
+                        isOpen={isModalOpen}
+                        onClose={() => setIsModalOpen(false)}
+                        handleSort={handleSort}
+                      />
+                      <button
                         onClick={() => setFiltersVisible(!filtersVisible)}
-                        className="px-4 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
-                        <Filter size={20} />
+                        className="px-2 py-2 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
+                        <Filter size={18} />
                       </button>
                       <button
                         onClick={toggleTableTheme}
-                        className="flex items-center justify-center px-4 py-2 text-white hover:bg-primary/80 rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-110">
+                        className="flex items-center justify-center px-2 py-2 text-white hover:bg-primary/80 rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-110">
                         {isDark ? (
                           <Sun
-                            size={20}
+                            size={18}
                             className="transition-transform duration-300 ease-in-out transform hover:rotate-180"
                           />
                         ) : (
                           <Moon
-                            size={20}
+                            size={18}
                             className="transition-transform duration-300 ease-in-out transform hover:rotate-180"
                           />
                         )}
@@ -235,48 +258,11 @@ export default function PlotsPage() {
                     className={`${
                       isDark ? "bg-gray-800" : "bg-gray-200"
                     } sticky top-0 z-10`}>
-                    <tr className="text-sm font-semibold">
-                      <th
-                        className="px-4 py-1 text-center cursor-pointer"
-                        onClick={() => handleSort("prop_create_date")}>
-                        Date{" "}
-                        {sortConfig.key === "prop_create_date" &&
-                          (sortConfig.direction === "asc" ? "↑" : "↓")}
-                      </th>
-                      {!searchParams.get("area") && (
-                        <th
-                          className="px-4 py-1 text-center cursor-pointer"
-                          onClick={() => handleSort("prop_address.area")}>
-                          Area{" "}
-                          {sortConfig.key === "prop_address.area" &&
-                            (sortConfig.direction === "asc" ? "↑" : "↓")}
-                        </th>
-                      )}
-                      <th
-                        className="px-4 py-1 text-center cursor-pointer"
-                        onClick={() => handleSort("prop_address")}>
-                        Plot No{" "}
-                        {sortConfig.key === "prop_address" &&
-                          (sortConfig.direction === "asc" ? "↑" : "↓")}
-                      </th>
-                      <th
-                        className="px-4 py-1 text-center cursor-pointer"
-                        onClick={() => handleSort("prop_price")}>
-                        Price{" "}
-                        {sortConfig.key === "prop_price" &&
-                          (sortConfig.direction === "asc" ? "↑" : "↓")}
-                      </th>
-                      <th
-                        className="px-4 py-1 text-center cursor-pointer"
-                        onClick={() => handleSort("prop_size")}>
-                        Size{" "}
-                        {sortConfig.key === "prop_size" &&
-                          (sortConfig.direction === "asc" ? "↑" : "↓")}
-                      </th>
-                      <th className="px-4 py-1 text-center">Type</th>
-                      <th className="px-4 py-1 text-center">Remarks</th>
-                      <th className="px-4 py-1 text-center">Details</th>
-                    </tr>
+                    <TableHeader
+                      sortConfig={sortConfig}
+                      handleSort={handleSort}
+                      searchParams={searchParams}
+                    />
                   </thead>
                   <tbody
                     className={`text-sm ${
@@ -297,9 +283,7 @@ export default function PlotsPage() {
                             : "bg-gray-100 hover:bg-blue-100 hover:text-gray-900 transition duration-200 ease-in-out cursor-pointer"
                         }>
                         <td className="px-4 py-1">
-                          {new Date(
-                            plot.prop_last_updated
-                          ).toLocaleDateString()}
+                          {new Date(plot.prop_create_date).toLocaleDateString()}
                         </td>
                         {!searchParams.get("area") && (
                           <td className="px-4 py-1 whitespace-nowrap">
