@@ -42,14 +42,14 @@ export const formatSize = (size) => {
   }
 
   // Convert to kanals if size is 1 kanal or more
-  if (size >= 5445) {
-    const kanals = size / 5445
+  if (size >= 9000) {
+    const kanals = size / 4500
     return `${formatNumber(kanals)} ${getUnit(kanals, "Kanal")}`
   }
 
   // Convert to marlas if size is 1 marla or more
-  if (size >= 272.25) {
-    const marlas = size / 272.25
+  if (size >= 225) {
+    const marlas = size / 225
     return `${formatNumber(marlas)} ${getUnit(marlas, "Marla")}`
   }
 
