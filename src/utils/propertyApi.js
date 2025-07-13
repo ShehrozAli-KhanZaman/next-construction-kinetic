@@ -1,6 +1,6 @@
 import { getStoredToken } from "./auth"
+import { baseURL } from "./common"
 
-const baseURL = "https://api.real-exchange.com:9001"
 const buildQueryString = (params) => {
   return Object.entries(params)
     .filter(

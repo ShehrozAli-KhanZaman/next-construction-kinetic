@@ -3,7 +3,7 @@ export const loginUser = async () => {
   myHeaders.append("Content-Type", "application/json")
 
   var raw = JSON.stringify({
-    user_phone: "+923494040587",
+    user_phone: "+923494040586",
     user_pw: "P@ssword1",
   })
 

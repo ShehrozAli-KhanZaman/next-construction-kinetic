@@ -3,13 +3,12 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useRouter } from "next/navigation"
-import Background from "@/components/Background"
 import { locations } from "@/lib/location"
-import { toast, ToastContainer } from "react-toastify"
+import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import SelectableButtonGroup from "../ui/SelectableButtonGroup"
-import Select from "react-select"
 import ScrollDownButton from "../ui/ScrollDownButton"
+import LocationSelect from "../LocationSelectProp"
 
 const propertyTypes = ["Plot", "House"]
 
@@ -119,6 +118,7 @@ export default function PropertySearch() {
   const handleOptionB = () =>
     new Promise(() => {
       setSelectedId(2)
+      handleChange("propertyType", "House")
     })
 
   const handleOptionC = () =>
@@ -131,7 +131,9 @@ export default function PropertySearch() {
     { id: 1, label: "BUY", onPress: handleOptionA },
     { id: 2, label: "RENT", onPress: handleOptionB },
   ]
-
+  const handleFilterChange = (filter) => {
+    handleChange("location", filter)
+  }
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center pt-16 md:pt-20 pb-15">
@@ -157,7 +159,8 @@ export default function PropertySearch() {
               <select
                 value={formData.propertyType}
                 onChange={(e) => handleChange("propertyType", e.target.value)}
-                className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-sm">
+                className="w-full px-3 py-2 bg-transparent border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-sm max-w-[275px]"
+                disabled={selectedId === 2}>
                 {propertyTypes.map((type) => (
                   <option
                     key={type}
@@ -169,7 +172,8 @@ export default function PropertySearch() {
               </select>
             </div>
 
-            <div>
+            <LocationSelect onChange={handleFilterChange} />
+            {/* <div>
               <label className="block text-xs font-medium text-white mb-1">
                 Location
               </label>
@@ -186,7 +190,7 @@ export default function PropertySearch() {
                   </option>
                 ))}
               </select>
-            </div>
+            </div> */}
 
             <div className="text-left">
               <motion.button
@@ -297,7 +301,8 @@ export default function PropertySearch() {
               <select
                 value={formData.propertyType}
                 onChange={(e) => handleChange("propertyType", e.target.value)}
-                className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-[12px]">
+                className="w-full px-3 py-2 bg-transparent border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-[12px]"
+                disabled={selectedId === 2}>
                 {propertyTypes.map((type) => (
                   <option
                     key={type}
@@ -308,7 +313,8 @@ export default function PropertySearch() {
                 ))}
               </select>
             </motion.div>
-            <motion.div
+            <LocationSelect onChange={handleFilterChange} />
+            {/* <motion.div
               variants={dropdownVariants}
               initial="hidden"
               animate="visible">
@@ -331,7 +337,7 @@ export default function PropertySearch() {
                   </option>
                 ))}
               </select>
-            </motion.div>
+            </motion.div> */}
             <button
               onClick={handleSearch}
               disabled={loading}

@@ -12,7 +12,7 @@ const ContactButtons = ({
   return (
     <div className="flex justify-center items-center space-x-4">
       {/* WhatsApp Button */}
-      <a
+      {/* <a
         href={`https://wa.me/message/2HVNP5DPG5BOP1?text=${encodeURIComponent(
           whatsappMessage
         )}`}
@@ -20,7 +20,7 @@ const ContactButtons = ({
         rel="noopener noreferrer"
         className="flex items-center justify-center p-1 bg-green-500 text-white rounded-full shadow-lg transform transition-all hover:scale-110 hover:brightness-110">
         <FaWhatsapp size={14} />
-      </a>
+      </a> */}
 
       {/* Phone Button */}
       <a
