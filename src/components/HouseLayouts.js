@@ -6,12 +6,15 @@ import Select from "react-select"
 import { useRouter } from "next/navigation"
 import { layoutsImagesPdfs } from "@/lib/utils"
 import SelectableButtonGroup from "./ui/SelectableButtonGroup"
+import { useActiveSection } from "@/context/ActiveSectionContext"
+import { FaArrowUp, FaArrowDown } from "react-icons/fa"
 
 const HouseLayouts = () => {
   const [selectedAuthority, setSelectedAuthority] = useState("DHA")
   const [selectedSize, setSelectedSize] = useState("5 Marla")
   const [selectedPdf, setSelectedPdf] = useState("")
   const router = useRouter()
+  const { activeSection, setActiveSection, setScrollDirection } = useActiveSection()
 
   const handleAuthorityChange = (authority) => {
     setSelectedAuthority(authority)
@@ -43,6 +46,21 @@ const HouseLayouts = () => {
       link.click()
       document.body.removeChild(link)
     }
+  }
+
+  const handlePrevSection = () => {
+    setScrollDirection("up")
+    setActiveSection((prev) => prev - 1)
+  }
+
+  const handleNextSection = () => {
+    setScrollDirection("down")
+    setActiveSection((prev) => prev + 1)
+  }
+
+  const buttonVariants = {
+    hover: { scale: 1.1 },
+    tap: { scale: 0.9 },
   }
 
   const containerVariants = {
@@ -149,7 +167,20 @@ const HouseLayouts = () => {
   }
 
   return (
-    <section className="min-h-screen flex items-center justify-center p-4 pt-20">
+    <section className="relative min-h-screen flex items-center justify-center p-4 pt-20">
+      {/* Custom Up Navigation Button - Positioned to avoid navbar */}
+      <motion.button
+        variants={buttonVariants}
+        whileHover="hover"
+        whileTap="tap"
+        onClick={handlePrevSection}
+        disabled={activeSection <= 0}
+        className="absolute top-24 left-1/2 transform -translate-x-1/2 flex items-center justify-center w-12 h-12 bg-transparent border border-white/20 rounded-full text-white hover:border-white/40 transition-colors disabled:opacity-50 disabled:cursor-not-allowed z-10"
+        style={{ transformOrigin: "center" }}
+        aria-label="Scroll to previous section">
+        <FaArrowUp size={20} />
+      </motion.button>
+
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -220,7 +251,7 @@ const HouseLayouts = () => {
 
         {/* Action Buttons */}
         {selectedPdf && (
-          <motion.div variants={itemVariants} className="space-y-3">
+          <motion.div variants={itemVariants} className="space-y-3 mb-16">
             {/* View Online Button */}
             <motion.button
               onClick={handleViewOnline}
@@ -269,6 +300,19 @@ const HouseLayouts = () => {
           </motion.div>
         )}
       </motion.div>
+
+      {/* Custom Down Navigation Button - Positioned to avoid overlapping with download button */}
+      <motion.button
+        variants={buttonVariants}
+        whileHover="hover"
+        whileTap="tap"
+        onClick={handleNextSection}
+        disabled={activeSection >= 3}
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex items-center justify-center w-12 h-12 bg-transparent border border-white/20 rounded-full text-white hover:border-white/40 transition-colors disabled:opacity-50 disabled:cursor-not-allowed z-10"
+        style={{ transformOrigin: "center" }}
+        aria-label="Scroll to next section">
+        <FaArrowDown size={20} />
+      </motion.button>
     </section>
   )
 }
