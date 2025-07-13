@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import Background from "@/components/Background"
 import emailjs from "emailjs-com"
 import Link from "next/link"
 import ScrollUpButton from "../ui/ScrollUpButton"
+import { useActiveSection } from "@/context/ActiveSectionContext"
 
 export default function CostCalculator() {
   const [formData, setFormData] = useState({
@@ -22,6 +23,17 @@ export default function CostCalculator() {
   })
 
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const { activeSection, setActiveSection, setScrollDirection } =
+    useActiveSection()
+
+  const handlePrevSection = () => {
+    setScrollDirection("down")
+    setActiveSection(0)
+  }
+
+  useEffect(() => {
+    setIsSubmitted(false)
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -52,9 +64,13 @@ export default function CostCalculator() {
         templateParams,
         "OPtAKYuroNBRiNBLT" // Public Key
       )
-      console.log("Email successfully sent!", result.text)
+      console.log(result?.text)
     } catch (error) {
       console.error("Email send error:", error)
+    } finally {
+      setTimeout(() => {
+        handlePrevSection()
+      }, 5000)
     }
   }
 
@@ -125,7 +141,9 @@ export default function CostCalculator() {
                   We will get back to you shortly with a detailed quotation.
                 </p>
                 <Link href="https://realtormfi.com/">
-                  <button className="mt-4 px-6 py-2 text-sm font-medium text-white bg-green-600 dark:bg-green-700 rounded-full hover:bg-green-500 dark:hover:bg-green-600 transition-colors duration-300">
+                  <button
+                    className="mt-4 px-6 py-2 text-sm font-medium text-white bg-green-600 dark:bg-green-700 rounded-full hover:bg-green-500 dark:hover:bg-green-600 transition-colors duration-300"
+                    onClick={() => setIsSubmitted(false)}>
                     Back to Home
                   </button>
                 </Link>
