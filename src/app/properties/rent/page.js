@@ -259,7 +259,7 @@ export default function RentListingsPage() {
                     <th
                       onClick={() => handleSort("rent_date")}
                       className="px-4 py-3 text-center cursor-pointer">
-                      Date{" "}
+                      Last Updated{" "}
                       {sortConfig.key === "rent_date" &&
                         (sortConfig.direction === "asc" ? "↑" : "↓")}
                     </th>
