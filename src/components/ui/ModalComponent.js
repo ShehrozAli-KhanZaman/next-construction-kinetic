@@ -55,7 +55,7 @@ const ModalComponent = ({ activeTab, tabs, setActiveTab }) => {
   )
 
   const hasSteps = stepsKey && steps[stepsKey]
-  const charLimit = hasSteps ? 400 : 700
+  const charLimit = hasSteps ? 700 : 700
   const fullText =
     typeof tab.description === "string"
       ? tab.description
@@ -141,7 +141,7 @@ const ModalComponent = ({ activeTab, tabs, setActiveTab }) => {
               </div>
             </div>
           </div>
-          {data.note && <p className="text-gray-200 text-xs">{data.note}</p>}
+          {/* {data.note && <p className="text-gray-200 text-xs">{data.note}</p>} */}
         </div>
       )
     }
@@ -169,7 +169,7 @@ const ModalComponent = ({ activeTab, tabs, setActiveTab }) => {
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-2">
-            <div className="relative w-full h-[80vh] overflow-y-auto rounded-xl bg-white/10 border border-white/20 shadow-lg backdrop-blur-lg mt-12">
+            <div className="relative w-full h-[83vh] overflow-y-auto rounded-xl bg-white/10 border border-white/20 shadow-lg backdrop-blur-lg mt-8">
               {/* Background */}
               <div className="absolute inset-0 z-10">
                 <Image
@@ -214,35 +214,44 @@ const ModalComponent = ({ activeTab, tabs, setActiveTab }) => {
                     renderTable(tab.description)
                   ) : (
                     <>
-                      <p className="text-gray-200">
+                      {/* <p className="text-gray-200">
                         {showFullText
                           ? fullText
                           : fullText?.slice(0, charLimit) + "..."}
-                      </p>
-                      {fullText?.length > charLimit && (
+                      </p> */}
+                      <p
+                        className="leading-tight text-gray-200"
+                        dangerouslySetInnerHTML={{
+                          __html: fullText.replace(/\n/g, "<br>"),
+                          // showFullText
+                          //   ? fullText.replace(/\n/g, "<br>")
+                          //   : fullText.slice(0, charLimit) + "...",
+                        }}
+                      />
+                      {/* {fullText?.length > charLimit && (
                         <button
                           className="mt-1 text-emerald-400 text-xs hover:underline"
                           onClick={() => setShowFullText(!showFullText)}>
                           {showFullText ? "Read Less" : "Read More"}
                         </button>
-                      )}
+                      )} */}
                     </>
                   )}
                 </div>
 
-                {hasSteps && !showFullText && (
+                {/* {hasSteps && !showFullText && (
                   <div>
                     <h4 className="text-white font-semibold mb-2 text-sm">
                       Steps
                     </h4>
                     <StepsGrid steps={steps[stepsKey]} />
                   </div>
-                )}
+                )} */}
               </div>
 
               <button
                 onClick={() => setActiveTab(null)}
-                className="absolute top-3 right-4 text-white text-2xl hover:text-red-400 z-50"
+                className="absolute top-3 right-4 text-orange-500 text-3xl font-bold hover:text-yellow-500 transition duration-200 z-50"
                 aria-label="Close">
                 ×
               </button>

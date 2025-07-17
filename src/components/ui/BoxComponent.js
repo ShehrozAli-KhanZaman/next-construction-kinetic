@@ -54,7 +54,7 @@ const BoxComponent = ({ activeTab, tabs, setActiveTab }) => {
   )
 
   const hasSteps = stepsKey && steps[stepsKey]
-  const charLimit = hasSteps ? 400 : 700
+  const charLimit = hasSteps ? 700 : 700
   const fullText =
     typeof tab.description === "string"
       ? tab.description
@@ -168,9 +168,9 @@ const BoxComponent = ({ activeTab, tabs, setActiveTab }) => {
       </div>
 
       {/* Content */}
-      <div className="relative z-20 p-6 md:p-8 text-white flex flex-col gap-6">
+      <div className="relative z-20 p-5 md:p-8 text-white flex flex-col gap-4">
         {/* First Row: Text/Table and Lottie */}
-        <div className="flex flex-col md:flex-row gap-6 justify-between">
+        <div className="flex flex-col md:flex-row gap-4 justify-between">
           {/* Text or Table Section */}
           <div className="flex-1 text-sm md:text-base">
             {tab.icon && <tab.icon className="w-6 h-6 text-white mb-2" />}
@@ -181,24 +181,28 @@ const BoxComponent = ({ activeTab, tabs, setActiveTab }) => {
               renderTable(tab.description)
             ) : (
               <>
-                <p className="leading-tight text-gray-200">
-                  {showFullText
-                    ? fullText
-                    : fullText?.slice(0, charLimit) + "..."}
-                </p>
-                {fullText?.length > charLimit && (
+                <p
+                  className="leading-tight text-gray-200"
+                  dangerouslySetInnerHTML={{
+                    __html: fullText.replace(/\n/g, "<br>"),
+                    // showFullText
+                    //   ? fullText.replace(/\n/g, "<br>")
+                    //   : fullText.slice(0, charLimit) + "...",
+                  }}
+                />
+                {/* {fullText?.length > charLimit && (
                   <button
                     className="mt-2 text-emerald-400 text-sm hover:underline"
                     onClick={() => setShowFullText(!showFullText)}>
                     {showFullText ? "Read Less" : "Read More"}
                   </button>
-                )}
+                )} */}
               </>
             )}
           </div>
 
           {/* Lottie Section */}
-          <div className="flex justify-center md:w-1/3">
+          <div className="flex justify-center md:w-0.4/3">
             {lottieData && (
               <Lottie
                 animationData={lottieData}
@@ -211,12 +215,12 @@ const BoxComponent = ({ activeTab, tabs, setActiveTab }) => {
         </div>
 
         {/* Second Row: Steps */}
-        {hasSteps && !showFullText && (
+        {/* {hasSteps && !showFullText && (
           <div>
             <h3 className="text-white font-semibold mb-2">Steps</h3>
             <StepsGrid steps={steps[stepsKey]} />
           </div>
-        )}
+        )} */}
       </div>
     </div>
   )
