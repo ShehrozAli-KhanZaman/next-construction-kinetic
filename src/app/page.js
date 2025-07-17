@@ -8,6 +8,7 @@ import PropertySearch from "@/components/sections/PropertySearch"
 import ConstructionDetails from "@/components/sections/ConstructionDetails"
 import CostCalculator from "@/components/sections/CostCalculator"
 import HouseLayouts from "@/components/HouseLayouts"
+import PlanDesignBuild from "@/components/sections/PlanDesignBuild"
 import { ToastContainer } from "react-toastify"
 import Background from "@/components/Background"
 import { useActiveSection } from "@/context/ActiveSectionContext"
@@ -23,6 +24,7 @@ export default function Home() {
 
   const sections = [
     { component: PropertySearch },
+    { component: PlanDesignBuild },
     { component: ConstructionDetails },
     { component: HouseLayouts },
     { component: CostCalculator },
