@@ -243,7 +243,7 @@ export default function HousesPage() {
                       <th
                         className="px-4 py-3 text-center cursor-pointer"
                         onClick={() => handleSort("house_date")}>
-                        Date{" "}
+                        Last Updated{" "}
                         {sortConfig.key === "house_date" &&
                           (sortConfig.direction === "asc" ? "↑" : "↓")}
                       </th>

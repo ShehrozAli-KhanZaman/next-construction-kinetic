@@ -167,7 +167,7 @@ const HouseLayouts = () => {
   }
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center p-4 pt-20">
+    <section className="relative min-h-screen flex items-center justify-center p-4 pt-15">
       {/* Custom Up Navigation Button - Positioned to avoid navbar */}
       <motion.button
         variants={buttonVariants}

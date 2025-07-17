@@ -9,7 +9,7 @@ const TableHeader = ({ sortConfig, handleSort, searchParams }) => {
           <span
             className="cursor-pointer"
             onClick={() => handleSort("prop_create_date")}>
-            Date
+            Last Updated
           </span>
           {sortConfig.key === "prop_create_date" &&
             (sortConfig.direction === "asc" ? "↑" : "↓")}

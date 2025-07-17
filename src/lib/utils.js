@@ -100,8 +100,12 @@ export const textSections = [
     image: "/images/Background/bg7.jpg",
     icon: Building2,
     lotti: "/animations/mobbuild.json",
-    description:
-      "The grey structure construction of a house is the most critical phase of the building process, as it establishes the structural integrity and durability of the entire project. This stage includes the construction of the foundation, walls, columns, beams, slabs, staircases, and the roof, using high-quality materials such as reinforced concrete, bricks, and cement.\n\nThe process begins with detailed planning, site preparation, and excavation, followed by laying the foundation with precision to ensure load distribution and stability. Walls are erected using standard brick masonry, ensuring proper alignment, plumb, and bonding, while reinforced concrete is used to construct columns, beams, and slabs for structural strength.\n\nRough plastering is applied to the walls to protect against environmental factors and prepare surfaces for future finishes. Proper curing is performed throughout to prevent cracking and ensure long-term durability.\n\nAttention to engineering standards, quality control, and skilled execution during this phase ensures the structure’s resilience and creates a strong framework for all subsequent construction and finishing activities.",
+    description: `The grey structure construction of a house is the most critical phase of the building process, as it establishes the structural integrity and durability of the entire project.
+This stage includes the construction of the foundation, walls, columns, beams, slabs, staircases, and the roof, using high-quality materials such as reinforced concrete, bricks, and cement.
+The process begins with detailed planning, site preparation, and excavation, followed by laying the foundation with precision to ensure load distribution and stability.
+Walls are erected using standard brick masonry, ensuring proper alignment, plumb, and bonding, while reinforced concrete is used to construct columns, beams, and slabs for structural strength.
+Rough plastering is applied to the walls to protect against environmental factors and prepare surfaces for future finishes. Proper curing is performed throughout to prevent cracking and ensure long-term durability.
+Attention to engineering standards, quality control, and skilled execution during this phase ensures the structure’s resilience and creates a strong framework for all subsequent construction and finishing activities.`,
   },
   {
     id: "finishing",
@@ -109,8 +113,14 @@ export const textSections = [
     image: "/images/Background/bg5.jpg",
     icon: Paintbrush2,
     lotti: "/animations/buildings.json",
-    description:
-      "The finishing phase of house construction is a highly meticulous process that transforms the grey structure into a functional, aesthetically refined, and habitable space.\n\nThis stage encompasses a wide range of intricate tasks, including detailed plastering, precise flooring installation, painting, and the installation of fixtures and fittings. Smooth plastering and surface leveling prepare walls and ceilings for final treatments, ensuring a flawless foundation for paint, wallpaper, or textured finishes.\n\nPremium flooring materials such as marble, granite, tiles, or hardwood are installed with precision, enhancing both durability and visual appeal. Electrical and plumbing systems are completed with the integration of high-quality fixtures, including switches, outlets, lighting systems, and sanitary ware.\n\nDoors, windows, and cabinetry are installed with a focus on alignment, durability, and aesthetic coherence. Final touches such as decorative moldings, skirting, and customized finishes bring a cohesive and elegant look to the interiors.\n\nThis phase demands exceptional craftsmanship, adherence to design specifications, and the use of superior materials to ensure a seamless blend of form and function, delivering a space that is not only beautiful but also enduring and efficient.",
+    description: `The finishing phase of house construction is a highly meticulous process that transforms the grey structure into a functional, aesthetically refined, and habitable space.
+This stage encompasses a wide range of intricate tasks, including detailed plastering, precise flooring installation, painting, and the installation of fixtures and fittings.
+Smooth plastering and surface leveling prepare walls and ceilings for final treatments.
+Premium flooring materials such as marble, granite, tiles, or hardwood are installed with precision, enhancing both durability and visual appeal.
+Electrical and plumbing systems are completed with fixtures, including switches, outlets, lighting systems, and sanitary ware.
+Doors, windows, and cabinetry are installed with a focus on alignment, durability, and aesthetic coherence.
+ Final touches such as decorative mouldings, skirting, and customized finishes bring a cohesive and elegant look to the interiors.
+This phase demands exceptional craftsmanship and the use of superior materials, delivering a space that is not only beautiful but also enduring and efficient.`,
   },
 ]
 
