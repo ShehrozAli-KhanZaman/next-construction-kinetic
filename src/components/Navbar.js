@@ -64,8 +64,8 @@ export default function NavBar() {
 
   const navItems = [
     { name: "PROPERTIES", href: "/", section: 0 },
-    { name: "CONSTRUCTION", section: 1 },
-    { name: "HOUSE LAYOUTS  ", section: 2 },
+    { name: "CONSTRUCTION",href: "/", section: 2 },
+    { name: "HOUSE LAYOUTS  ",href: "/", section: 3 },
     // { name: "UAE CHAPTER", href: "/uae" },
     // { name: "LHR VERTICAL PROJECTS", href: "/vertical-projects" },
     { name: "CONTACT US", href: "/contact" },
@@ -91,14 +91,6 @@ export default function NavBar() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="flex items-center gap-2">
-                {/* Logo with circular white background 
-                <div
-                  className="flex items-center justify-center w-[45px] h-[45px] md:w-[60px] md:h-[60px] rounded-full shadow-lg ring-2 ring-white/30 backdrop-blur-md isolate"
-                  style={{
-                    background:
-                      "radial-gradient(circle, rgba(255, 255, 255, 0.7) 40%, rgba(255, 255, 255, 0) 80%)",
-                  }}>
-                */}
                 <div className="flex items-center justify-center w-[45px] h-[45px] md:w-[60px] md:h-[60px] rounded-full bg-white/100 shadow-lg">
                   <Image
                     src="/images/Logo/LogoTransparent.png"

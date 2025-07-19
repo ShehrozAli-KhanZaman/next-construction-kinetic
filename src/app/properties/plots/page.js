@@ -8,7 +8,6 @@ import { Filter, FilterIcon, List, Moon, Sun } from "lucide-react"
 import ContactButtons from "@/components/ui/ContactButtons"
 import PaginationControls from "@/components/ui/PaginationControls"
 import FilterBar from "@/components/FilterBar"
-import FloatingButton from "@/components/ui/FloatingButton"
 import LocationSelect from "@/components/ui/LocationSelect"
 import ContactPopup from "@/components/ui/ContactPopup"
 import TableHeader from "./TableHeader"
@@ -328,7 +327,6 @@ export default function PlotsPage() {
                 propertyType={"PLOT"}
               />
             )}
-            <FloatingButton />
             {pagination.totalPages > 1 && (
               <PaginationControls
                 currentPage={pagination.currentPage}

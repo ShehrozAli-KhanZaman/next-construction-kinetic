@@ -7,7 +7,6 @@ import { formatPrice, formatSize } from "@/utils/formatUtils"
 import { Moon, Sun, Filter } from "lucide-react"
 import ContactButtons from "@/components/ui/ContactButtons"
 import PaginationControls from "@/components/ui/PaginationControls"
-import FloatingButton from "@/components/ui/FloatingButton"
 import LocationSelect from "@/components/ui/LocationSelect"
 import ContactPopup from "@/components/ui/ContactPopup"
 
@@ -360,7 +359,6 @@ export default function RentListingsPage() {
               propertyType={"RENT"}
             />
           )}
-          <FloatingButton />
 
           {totalItems > itemsPerPage && (
             <PaginationControls

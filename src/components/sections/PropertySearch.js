@@ -7,8 +7,9 @@ import { locations } from "@/lib/location"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import SelectableButtonGroup from "../ui/SelectableButtonGroup"
-import ScrollDownButton from "../ui/ScrollDownButton"
 import LocationSelect from "../LocationSelectProp"
+import { FaArrowDown, FaArrowUp } from "react-icons/fa"
+import { useActiveSection } from "@/context/ActiveSectionContext"
 
 const propertyTypes = ["Plot", "House"]
 
@@ -30,6 +31,7 @@ const rangeInputVariants = {
 
 export default function PropertySearch() {
   const router = useRouter()
+  const { activeSection, setActiveSection, setScrollDirection } = useActiveSection()
   const [showMoreOptions, setShowMoreOptions] = useState(false)
   const [showMobileOptions, setShowMobileOptions] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -134,6 +136,16 @@ export default function PropertySearch() {
   const handleFilterChange = (filter) => {
     handleChange("location", filter)
   }
+
+  const handlePrevSection = () => {
+    setScrollDirection("up")
+    setActiveSection((prev) => prev - 1)
+  }
+  const handleNextSection = () => {
+    setScrollDirection("down")
+    setActiveSection((prev) => prev + 1)
+  }
+
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center pt-16 md:pt-20 pb-15">
@@ -447,7 +459,17 @@ export default function PropertySearch() {
           </AnimatePresence>
         </div>
 
-        <ScrollDownButton />
+        <div className="flex gap-4 mt-4 justify-center">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleNextSection}
+            className="flex items-center justify-center w-12 h-12 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition-colors"
+            aria-label="Scroll to next section"
+          >
+            <FaArrowDown size={22} />
+          </motion.button>
+        </div>
       </div>
     </section>
   )
