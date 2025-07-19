@@ -6,6 +6,7 @@ import { ActiveSectionProvider } from "@/context/ActiveSectionContext"
 import NavBar from "@/components/Navbar"
 import Preloader from "@/components/Preloader"
 import ClientWrapper from "@/components/ClientWrapper"
+import FloatingButton from "@/components/ui/FloatingButton"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -24,6 +25,7 @@ export default function RootLayout({ children }) {
               {/* <Preloader /> */}
               <NavBar />
               {children}
+              <FloatingButton />
             </ClientWrapper>
           </ActiveSectionProvider>
         </ThemeProvider>

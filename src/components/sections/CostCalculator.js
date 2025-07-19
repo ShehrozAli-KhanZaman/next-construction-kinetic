@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import Background from "@/components/Background"
 import emailjs from "emailjs-com"
 import Link from "next/link"
-import ScrollUpButton from "../ui/ScrollUpButton"
+import { FaArrowDown, FaArrowUp } from "react-icons/fa"
 import { useActiveSection } from "@/context/ActiveSectionContext"
 
 export default function CostCalculator() {
@@ -27,8 +27,12 @@ export default function CostCalculator() {
     useActiveSection()
 
   const handlePrevSection = () => {
+    setScrollDirection("up")
+    setActiveSection((prev) => prev - 1)
+  }
+  const handleNextSection = () => {
     setScrollDirection("down")
-    setActiveSection(0)
+    setActiveSection((prev) => prev + 1)
   }
 
   useEffect(() => {
@@ -89,15 +93,14 @@ export default function CostCalculator() {
       {/* <Background type="NET" color={0x3498db} /> */}
       <div className="absolute inset-0 bg-black/50 z-0" />
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center  px-4 md:px-5">
-        <ScrollUpButton />
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="w-full max-w-7xl bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row mt-4">
+          className="w-full max-w-7xl bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row mt-2">
           {/* Left Form Section */}
           {/* Left Quotation Form Section */}
-          <div className="w-full md:w-1/2 relative p-4 md:p-6 max-h-[75vh] overflow-auto flex flex-col justify-center items-center">
+          <div className="w-full md:w-1/2 relative p-4 md:p-6 max-h-[78vh] overflow-auto flex flex-col justify-center items-center">
             {/* Background Glow */}
             <motion.div
               className="absolute w-72 h-72 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 opacity-30 blur-3xl rounded-full -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -302,8 +305,8 @@ export default function CostCalculator() {
             )}
           </div>
 
-          {/* Right Info Section - Hidden on mobile */}
-          <div className="hidden md:flex w-full md:w-1/2 relative bg-gray-100 dark:bg-gray-900 p-6 md:p-8 flex-col justify-center items-center text-center max-h-[90vh] overflow-hidden">
+          {/* Right Section */}
+          <div className="hidden md:flex w-full md:w-1/2 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 p-6 md:p-8 flex flex-col justify-center">
             {/* Decorative Background Glow Ring */}
             <motion.div
               className="absolute w-72 h-72 bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 opacity-30 blur-3xl rounded-full -z-10"
@@ -338,6 +341,20 @@ export default function CostCalculator() {
             </motion.div>
           </div>
         </motion.div>
+
+        {/* Navigation Buttons */}
+        <div className="flex gap-4 mt-4">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handlePrevSection}
+            className="flex items-center justify-center w-12 h-12 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="Scroll to previous section"
+            disabled={activeSection <= 0}
+          >
+            <FaArrowUp size={22} />
+          </motion.button>
+        </div>
       </div>
     </section>
   )

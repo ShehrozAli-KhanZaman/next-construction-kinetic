@@ -7,9 +7,9 @@ import { loadFull } from "tsparticles"
 import BoxComponent from "../ui/BoxComponent"
 import ModalComponent from "../ui/ModalComponent"
 import { textSections } from "@/lib/utils"
-import { FaArrowDown } from "react-icons/fa"
-import { FaArrowUp } from "react-icons/fa"
+import { FaArrowDown, FaArrowUp } from "react-icons/fa"
 import { useActiveSection } from "@/context/ActiveSectionContext"
+
 export default function ConstructionDetails() {
   const tabs = textSections
   const [activeTab, setActiveTab] = useState(null) // Initial state is null
@@ -43,9 +43,9 @@ export default function ConstructionDetails() {
     setScrollDirection("down")
     setActiveSection((prev) => prev + 1)
   }
-  let totalSections = 4
+  let totalSections = 5
   return (
-    <section className="relative min-h-screen w-full text-white overflow-hidden flex items-center justify-center py-10 px-4">
+    <section className="relative min-h-screen w-full text-white overflow-hidden flex items-center justify-center py-4 px-4">
       {/* Particles Background */}
       <Particles
         id="tsparticles"
@@ -69,17 +69,6 @@ export default function ConstructionDetails() {
       <div className="z-10 flex flex-col md:flex-row gap-6 w-full max-w-7xl min-h-screen items-center justify-center">
         {/* Left Column: Logo, Heading, and Sidemenu-style Tabs */}
         <div className="w-full md:w-1/5 flex flex-col gap-4 items-center justify-center min-h-[50vh] md:min-h-screen">
-          <motion.button
-            variants={buttonVariants}
-            whileHover="hover"
-            whileTap="tap"
-            onClick={handlePrevSection}
-            disabled={activeSection <= 0}
-            className="flex items-center justify-center w-12 h-12 bg-transparent border border-white/20 rounded-full text-white hover:border-white/40 transition-colors disabled:opacity-50 disabled:cursor-not-allowed align-center"
-            style={{ transformOrigin: "center" }}
-            aria-label="Scroll to previous section">
-            <FaArrowUp size={24} />
-          </motion.button>
           {/* Heading */}
           <motion.h2
             initial={{ scale: 0.8, opacity: 0 }}
@@ -106,17 +95,6 @@ export default function ConstructionDetails() {
               </motion.div>
             ))}
           </div>
-          <motion.button
-            variants={buttonVariants}
-            whileHover="hover"
-            whileTap="tap"
-            onClick={handleNextSection}
-            disabled={activeSection >= totalSections - 1}
-            className="flex items-center justify-center w-12 h-12 bg-transparent border border-white/20 rounded-full text-white hover:border-white/40 transition-colors disabled:opacity-50 disabled:cursor-not-allowed align-center"
-            style={{ transformOrigin: "center" }}
-            aria-label="Scroll to next section">
-            <FaArrowDown size={24} />
-          </motion.button>
         </div>
 
         {/* Right Column: Box (Hidden on Mobile) */}
@@ -141,6 +119,27 @@ export default function ConstructionDetails() {
       </div>
 
       {/* Navigation Buttons */}
+      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex gap-4 z-50">
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={handlePrevSection}
+          className="flex items-center justify-center w-12 h-12 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          aria-label="Scroll to previous section"
+          disabled={activeSection <= 0}
+        >
+          <FaArrowUp size={22} />
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={handleNextSection}
+          className="flex items-center justify-center w-12 h-12 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition-colors"
+          aria-label="Scroll to next section"
+        >
+          <FaArrowDown size={22} />
+        </motion.button>
+      </div>
     </section>
   )
 }

@@ -47,11 +47,14 @@ export default function PlanDesignBuild() {
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="text-base md:text-lg text-center mb-6 max-w-2xl"
+          className="text-base md:text-lg text-center mb-6 max-w-2xl relative "
         >
-          From concept to completion, we offer expert architectural and construction services that turn your vision into reality.<br/>
-          Modern designs, quality materials, and trusted craftsmanship.<br/>
-          Smart planning, modern aesthetics, and flawless execution — made to impress, built to last.
+          <span className="absolute inset-0 bg-black/60 rounded-lg -z-10"></span>
+          <span className="relative z-10">
+            From concept to completion, we offer expert architectural and construction services that turn your vision into reality.<br/>
+            Modern designs, quality materials, and trusted craftsmanship.<br/>
+            Smart planning, modern aesthetics, and flawless execution — made to impress, built to last.
+          </span>
         </motion.p>
         
         {/* Desktop Images */}
@@ -111,6 +114,36 @@ export default function PlanDesignBuild() {
                 />
               ))}
             </div>
+          </div>
+        </div>
+
+        {/* Client Section */}
+        <div className="flex items-center gap-4">
+          <motion.img
+            src="/images/Logo/LogoTransparent.png"
+            alt="Muhammad Farhan Ilyas"
+            className="w-12 h-12 rounded-full object-cover border-2 border-gray-300"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          />
+          <div className="flex flex-col">
+            <motion.h3
+              className="text-lg font-semibold text-white"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
+              Muhammad Farhan Ilyas
+            </motion.h3>
+            <motion.p
+              className="text-sm text-white"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
+              CEO - Realtor MFI
+            </motion.p>
           </div>
         </div>
 

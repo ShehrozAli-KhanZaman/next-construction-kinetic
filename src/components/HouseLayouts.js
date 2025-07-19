@@ -167,20 +167,7 @@ const HouseLayouts = () => {
   }
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center p-4 pt-15">
-      {/* Custom Up Navigation Button - Positioned to avoid navbar */}
-      <motion.button
-        variants={buttonVariants}
-        whileHover="hover"
-        whileTap="tap"
-        onClick={handlePrevSection}
-        disabled={activeSection <= 0}
-        className="absolute top-24 left-1/2 transform -translate-x-1/2 flex items-center justify-center w-12 h-12 bg-transparent border border-white/20 rounded-full text-white hover:border-white/40 transition-colors disabled:opacity-50 disabled:cursor-not-allowed z-10"
-        style={{ transformOrigin: "center" }}
-        aria-label="Scroll to previous section">
-        <FaArrowUp size={20} />
-      </motion.button>
-
+    <section className="relative min-h-screen flex items-start md:items-center justify-center p-4 pt-12">
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -190,7 +177,7 @@ const HouseLayouts = () => {
         {/* Heading */}
         <motion.h1
           variants={itemVariants}
-          className="text-2xl md:text-3xl font-bold bg-white bg-clip-text text-transparent tracking-wide mb-8 text-center"
+          className="text-xl md:text-2xl font-bold bg-white bg-clip-text text-transparent tracking-wide mb-4 md:mb-6 text-center"
         >
           House Layouts
         </motion.h1>
@@ -204,7 +191,7 @@ const HouseLayouts = () => {
                 whileHover={{ scale: 1.05, y: -3 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleAuthorityChange(authority)}
-                className={`relative px-6 py-3 rounded-xl text-sm font-bold transition-all duration-300 flex-1 overflow-hidden ${
+                className={`relative px-4 md:px-6 py-2 md:py-3 rounded-xl text-sm font-bold transition-all duration-300 flex-1 overflow-hidden ${
                   selectedAuthority === authority
                     ? "bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/30 border border-blue-400/30"
                     : "bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 text-gray-700 dark:text-gray-200 hover:from-gray-200 hover:to-gray-300 dark:hover:from-gray-600 dark:hover:to-gray-500 shadow-md border border-gray-200/50 dark:border-gray-600/50"
@@ -244,6 +231,7 @@ const HouseLayouts = () => {
             onChange={handlePdfSelect}
             placeholder="Choose a PDF..."
             isDisabled={pdfOptions.length === 0}
+            isSearchable={false}
             styles={darkModeStyles}
             className="text-sm"
           />
@@ -301,18 +289,28 @@ const HouseLayouts = () => {
         )}
       </motion.div>
 
-      {/* Custom Down Navigation Button - Positioned to avoid overlapping with download button */}
-      <motion.button
-        variants={buttonVariants}
-        whileHover="hover"
-        whileTap="tap"
-        onClick={handleNextSection}
-        disabled={activeSection >= 3}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex items-center justify-center w-12 h-12 bg-transparent border border-white/20 rounded-full text-white hover:border-white/40 transition-colors disabled:opacity-50 disabled:cursor-not-allowed z-10"
-        style={{ transformOrigin: "center" }}
-        aria-label="Scroll to next section">
-        <FaArrowDown size={20} />
-      </motion.button>
+      {/* Navigation Buttons */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-4">
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={handlePrevSection}
+          className="flex items-center justify-center w-12 h-12 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          aria-label="Scroll to previous section"
+          disabled={activeSection <= 0}
+        >
+          <FaArrowUp size={22} />
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={handleNextSection}
+          className="flex items-center justify-center w-12 h-12 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition-colors"
+          aria-label="Scroll to next section"
+        >
+          <FaArrowDown size={22} />
+        </motion.button>
+      </div>
     </section>
   )
 }
