@@ -53,8 +53,8 @@ export default function Preloader() {
                 }}
                 className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center">
                 <Image
-                  src="/images/Logo/LogoTransparent.png"
-                  alt="Construction Kinetics"
+                  src="/images/Logo/RealtorMfiLogo.png"
+                  alt="Realtor MFI"
                   width={80}
                   height={80}
                   className="rounded-lg shadow-lg w-auto h-auto max-w-[80px] max-h-[80px]"
@@ -63,7 +63,7 @@ export default function Preloader() {
 
               <div className="text-center">
                 <h2 className="text-lg md:text-2xl font-bold mb-2 text-gray-900 dark:text-white">
-                  Construction Kinetics
+                  Realtor MFI
                 </h2>
                 <p className="text-gray-700 dark:text-gray-300 text-sm md:text-base">
                   Building dreams with excellence

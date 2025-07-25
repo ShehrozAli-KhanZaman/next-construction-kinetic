@@ -36,7 +36,7 @@ const SelectableButtonGroup = ({ buttons = [], initialSelectedId = null }) => {
             disabled={isLoading}
             className={`animated-hover-btn selectable-btn ${
               isSelected ? "selected" : "no-gradient"
-            } flex self-end justify-center items-center px-4 md:px-6 py-2 md:py-3 text-sm rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed`}>
+            } flex self-end justify-center items-center px-4 md:px-6 py-2 md:py-3 text-sm rounded-lg transition-colors duration-200  disabled:cursor-not-allowed`}>
             <span>{button.label}</span>
           </button>
         )

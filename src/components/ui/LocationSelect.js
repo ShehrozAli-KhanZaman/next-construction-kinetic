@@ -40,7 +40,7 @@ const LocationSelect = ({ onChange, paramName = "area" }) => {
   }
 
   return (
-    <div className="w-full max-w-[300px]">
+    <div className="w-full max-w-[320px] md:max-w-[350px] lg:max-w-[400px]">
       <Select
         options={locationOptions}
         value={selectedLocation}

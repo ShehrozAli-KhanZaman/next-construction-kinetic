@@ -459,12 +459,13 @@ export default function PropertySearch() {
           </AnimatePresence>
         </div>
 
-        <div className="flex gap-4 mt-4 justify-center">
+        {/* Navigation Buttons */}
+        <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex gap-4 z-50">
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleNextSection}
-            className="flex items-center justify-center w-12 h-12 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition-colors"
+            className="flex items-center justify-center w-12 h-12 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors shadow-lg"
             aria-label="Scroll to next section"
           >
             <FaArrowDown size={22} />

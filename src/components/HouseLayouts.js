@@ -211,7 +211,7 @@ const HouseLayouts = () => {
         </motion.div>
 
         {/* Size Selection with SelectableButtonGroup */}
-        <motion.div variants={itemVariants} className="mb-4">
+        <motion.div variants={itemVariants} className="mb-4 p-4 rounded-xl bg-black/20 backdrop-blur-sm border border-white/10">
           <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 uppercase tracking-wide">
             Select Size
           </h3>
@@ -290,12 +290,12 @@ const HouseLayouts = () => {
       </motion.div>
 
       {/* Navigation Buttons */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-4">
+      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex gap-4 z-50">
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           onClick={handlePrevSection}
-          className="flex items-center justify-center w-12 h-12 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center justify-center w-12 h-12 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
           aria-label="Scroll to previous section"
           disabled={activeSection <= 0}
         >
@@ -305,7 +305,7 @@ const HouseLayouts = () => {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           onClick={handleNextSection}
-          className="flex items-center justify-center w-12 h-12 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition-colors"
+          className="flex items-center justify-center w-12 h-12 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors shadow-lg"
           aria-label="Scroll to next section"
         >
           <FaArrowDown size={22} />
