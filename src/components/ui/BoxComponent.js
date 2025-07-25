@@ -54,13 +54,25 @@ const BoxComponent = ({ activeTab, tabs, setActiveTab }) => {
   )
 
   const hasSteps = stepsKey && steps[stepsKey]
-  const charLimit = hasSteps ? 700 : 700
-  const fullText =
-    typeof tab.description === "string"
-      ? tab.description
-      : Array.isArray(tab.description)
-      ? tab.description.join(" ")
-      : null
+  
+  // Split text into paragraphs for Grey Structure and Finishing
+  const getTextContent = () => {
+    if (typeof tab.description === "string") {
+      return tab.description
+    } else if (Array.isArray(tab.description)) {
+      return tab.description.join(" ")
+    }
+    return null
+  }
+  
+  const fullText = getTextContent()
+  
+  // For Grey Structure and Finishing, split into paragraphs
+  const paragraphs = fullText ? fullText.split('\n').filter(p => p.trim()) : []
+  const isGreyOrFinishing = tab.id === "grey" || tab.id === "finishing"
+  const displayText = isGreyOrFinishing && !showFullText 
+    ? paragraphs.slice(0, 2).join('\n') 
+    : fullText
 
   const renderTable = (data) => {
     if (!data) return null
@@ -149,7 +161,9 @@ const BoxComponent = ({ activeTab, tabs, setActiveTab }) => {
   }
 
   return (
-    <div className="w-full max-w-5xl max-h-[95vh] min-h-[70vh] overflow-y-auto rounded-xl bg-white/10 border border-white/20 shadow-lg backdrop-blur-lg">
+    <div className={`w-full max-w-5xl max-h-[95vh] min-h-[70vh] rounded-xl bg-white/10 border border-white/20 shadow-lg backdrop-blur-lg ${
+      showFullText && isGreyOrFinishing ? 'overflow-y-auto' : 'overflow-hidden'
+    }`}>
       {/* Background image */}
       <div className="absolute inset-0 z-10">
         <Image
@@ -168,7 +182,9 @@ const BoxComponent = ({ activeTab, tabs, setActiveTab }) => {
       </div>
 
       {/* Content */}
-      <div className="relative z-20 p-5 md:p-8 text-white flex flex-col gap-4">
+      <div className={`relative z-20 p-5 md:p-8 text-white flex flex-col gap-4 ${
+        showFullText && isGreyOrFinishing ? 'custom-scrollbar' : ''
+      }`}>
         {/* First Row: Text/Table and Lottie */}
         <div className="flex flex-col md:flex-row gap-4 justify-between">
           {/* Text or Table Section */}
@@ -184,19 +200,16 @@ const BoxComponent = ({ activeTab, tabs, setActiveTab }) => {
                 <p
                   className="leading-tight text-gray-200"
                   dangerouslySetInnerHTML={{
-                    __html: fullText.replace(/\n/g, "<br>"),
-                    // showFullText
-                    //   ? fullText.replace(/\n/g, "<br>")
-                    //   : fullText.slice(0, charLimit) + "...",
+                    __html: displayText.replace(/\n/g, "<br>"),
                   }}
                 />
-                {/* {fullText?.length > charLimit && (
+                {isGreyOrFinishing && (
                   <button
-                    className="mt-2 text-emerald-400 text-sm hover:underline"
+                    className="mt-2 text-yellow-400 hover:text-yellow-300 text-sm font-semibold hover:underline transition-colors duration-200"
                     onClick={() => setShowFullText(!showFullText)}>
                     {showFullText ? "Read Less" : "Read More"}
                   </button>
-                )} */}
+                )}
               </>
             )}
           </div>
@@ -215,12 +228,12 @@ const BoxComponent = ({ activeTab, tabs, setActiveTab }) => {
         </div>
 
         {/* Second Row: Steps */}
-        {/* {hasSteps && !showFullText && (
+        {hasSteps && !showFullText && (
           <div>
             <h3 className="text-white font-semibold mb-2">Steps</h3>
             <StepsGrid steps={steps[stepsKey]} />
           </div>
-        )} */}
+        )}
       </div>
     </div>
   )

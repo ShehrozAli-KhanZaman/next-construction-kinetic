@@ -103,7 +103,7 @@ const StepsGrid = ({ title, items, section }) => (
   </section>
 )
 
-export default function ConstructionKinetics({ params }) {
+export default function RealtorMFI({ params }) {
   const { tabId } = params
   const section = textSections.find((sec) => sec.id === tabId)
 
@@ -134,7 +134,7 @@ export default function ConstructionKinetics({ params }) {
           transition={{ duration: 0.6 }}
           className="text-center md:text-left">
           <h1 className="text-3xl md:text-5xl font-bold leading-tight bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-emerald-300">
-            Build Better with Construction Kinetics
+            Build Better with Realtor MFI
           </h1>
           <p className="text-gray-400 mt-4 text-sm md:text-base max-w-md">
             High-quality housing construction backed by trust, transparency, and
@@ -159,7 +159,7 @@ export default function ConstructionKinetics({ params }) {
 
       {/* Main Description */}
       <Card
-        title={section?.title || "Construction Kinetics"}
+        title={section?.title || "Realtor MFI"}
         content={section?.content || ""}
       />
 

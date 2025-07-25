@@ -216,11 +216,18 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
-                        Office
+                        Office Addresses
                       </h3>
-                      <p className="text-gray-700 dark:text-gray-300">
-                        147 B, Commercial Area, AWT Phase 2 Lahore
-                      </p>
+                      <div className="space-y-2">
+                        <p className="text-gray-700 dark:text-gray-300">
+                          <strong>Main Office:</strong><br />
+                          147 B, Commercial Area, AWT Housing Scheme, LHR
+                        </p>
+                        <p className="text-gray-700 dark:text-gray-300">
+                          <strong>Branch Office:</strong><br />
+                          30 - CCA 1, Phase 6, DHA LHR
+                        </p>
+                      </div>
                     </div>
                   </motion.div>
                 </div>

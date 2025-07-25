@@ -47,7 +47,7 @@ export default function PlanDesignBuild() {
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="text-base md:text-lg text-center mb-6 max-w-2xl relative "
+          className="text-base md:text-lg text-center mb-4 max-w-2xl relative "
         >
           <span className="absolute inset-0 bg-black/60 rounded-lg -z-10"></span>
           <span className="relative z-10">
@@ -58,7 +58,7 @@ export default function PlanDesignBuild() {
         </motion.p>
         
         {/* Desktop Images */}
-        <div className="hidden md:flex flex-wrap justify-center gap-3 mb-6 w-full">
+        <div className="hidden md:flex flex-wrap justify-center gap-3 mb-3 w-full">
           {images.map((src, idx) => (
             <motion.img
               key={src}
@@ -73,7 +73,7 @@ export default function PlanDesignBuild() {
         </div>
 
         {/* Mobile Carousel */}
-        <div className="md:hidden w-full max-w-xs mb-6">
+        <div className="md:hidden w-full max-w-xs mb-4">
           <div className="relative">
             <motion.img
               key={currentImageIndex}
@@ -120,7 +120,7 @@ export default function PlanDesignBuild() {
         {/* Client Section */}
         <div className="flex items-center gap-4">
           <motion.img
-            src="/images/Logo/LogoTransparent.png"
+            src="/images/Logo/Ceo.jpg"
             alt="Muhammad Farhan Ilyas"
             className="w-12 h-12 rounded-full object-cover border-2 border-gray-300"
             initial={{ opacity: 0, scale: 0.8 }}

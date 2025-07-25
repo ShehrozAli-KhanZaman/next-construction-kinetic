@@ -90,25 +90,16 @@ export default function NavBar() {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex items-center gap-2">
-                <div className="flex items-center justify-center w-[45px] h-[45px] md:w-[60px] md:h-[60px] rounded-full bg-white/100 shadow-lg">
+                className="flex items-center">
+                <div className="bg-slate-100/95 backdrop-blur-sm rounded-lg p-1 shadow-lg border border-slate-300/50">
                   <Image
-                    src="/images/Logo/LogoTransparent.png"
+                    src="/images/Logo/RealtorMfiLogo.png"
                     alt="REALTOR MFI"
-                    width={30}
-                    height={30}
-                    className="w-[30px] h-[30px] md:w-[40px] md:h-[40px]"
+                    width={120}
+                    height={20}
+                    className="w-[100px] h-[18px] sm:w-[110px] sm:h-[20px] md:w-[120px] md:h-[22px] lg:w-[130px] lg:h-[25px]"
                   />
                 </div>
-
-                {/* Text visible only in mobile view */}
-                <span
-                  className={`font-semibold text-base sm:text-lg md:hidden ${
-                    scrolled ? "text-primary dark:text-primary" : "text-white"
-                  }`}
-                  style={{ fontFamily: "Playfair Display, serif" }}>
-                  REALTOR MFI
-                </span>
               </motion.div>
             </Link>
 
@@ -146,28 +137,21 @@ export default function NavBar() {
               ))}
             </motion.ul>
 
-            {/* CENTER LOGO WITH WHITE CIRCLE (No Title) */}
+            {/* CENTER LOGO */}
             <Link href="/" onClick={() => handleNavClick(0)}>
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex items-center gap-2">
-                <div
-                  className="flex items-center justify-center w-[70px] h-[70px] rounded-full shadow-2xl ring-2 ring-white/30 backdrop-blur-md isolate"
-                  style={{
-                    background:
-                      "radial-gradient(circle, rgba(255, 255, 255, 0.7) 40%, rgba(255, 255, 255, 0) 80%)",
-                  }}>
+                className="flex items-center">
+                <div className="bg-slate-100/95 backdrop-blur-sm rounded-lg shadow-lg border border-slate-300/50">
                   <Image
-                    src="/images/Logo/LogoTransparent.png"
+                    src="/images/Logo/RealtorMfiLogo.png"
                     alt="REALTOR MFI"
-                    width={60}
-                    height={60}
-                    className="w-[60px] h-[60px]"
+                    width={160}
+                    height={40}
+                    className="w-[130px] h-[35px] md:w-[140px] md:h-[37px] lg:w-[150px] lg:h-[40px] xl:w-[160px] xl:h-[42px]"
                   />
                 </div>
-
-                {/* No title in desktop */}
               </motion.div>
             </Link>
 

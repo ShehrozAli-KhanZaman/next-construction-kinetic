@@ -11,8 +11,16 @@ import FloatingButton from "@/components/ui/FloatingButton"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "Construction Kinetics",
+  title: "Realtor MFI",
   description: "Your trusted partner in construction and real estate",
+  icons: {
+    icon: [
+      { url: '/images/Logo/RealtorMfiLogo.png', sizes: '32x32', type: 'image/png' },
+      { url: '/images/Logo/RealtorMfiLogo.png', sizes: '16x16', type: 'image/png' },
+    ],
+    shortcut: '/images/Logo/RealtorMfiLogo.png',
+    apple: '/images/Logo/RealtorMfiLogo.png',
+  },
 }
 
 export default function RootLayout({ children }) {

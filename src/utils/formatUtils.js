@@ -17,7 +17,19 @@ export const formatPrice = (price) => {
   const thousands = price / 1000
   return `${thousands.toFixed(0)} Thousand`
 }
+export const formatPriceRent = (price) => {
+  if (!price) return ""
 
+  // Convert to lakhs if price is 1 lakh or more
+  if (price >= 100000) {
+    const lakhs = price / 100000
+    return `${lakhs.toFixed(0)}K`
+  }
+
+  // For smaller amounts, show in thousands
+  const thousands = price / 1000
+  return `${thousands.toFixed(0)}K`
+}
 export const formatSize = (size) => {
   // Handle invalid or non-positive sizes
   if (!size || size <= 0 || isNaN(size)) return "N/A"

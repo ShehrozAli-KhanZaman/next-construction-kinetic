@@ -55,13 +55,25 @@ const ModalComponent = ({ activeTab, tabs, setActiveTab }) => {
   )
 
   const hasSteps = stepsKey && steps[stepsKey]
-  const charLimit = hasSteps ? 700 : 700
-  const fullText =
-    typeof tab.description === "string"
-      ? tab.description
-      : Array.isArray(tab.description)
-      ? tab.description.join(" ")
-      : null
+  
+  // Split text into paragraphs for Grey Structure and Finishing
+  const getTextContent = () => {
+    if (typeof tab.description === "string") {
+      return tab.description
+    } else if (Array.isArray(tab.description)) {
+      return tab.description.join(" ")
+    }
+    return null
+  }
+  
+  const fullText = getTextContent()
+  
+  // For Grey Structure and Finishing, split into paragraphs
+  const paragraphs = fullText ? fullText.split('\n').filter(p => p.trim()) : []
+  const isGreyOrFinishing = tab.id === "grey" || tab.id === "finishing"
+  const displayText = isGreyOrFinishing && !showFullText 
+    ? paragraphs.slice(0, 2).join('\n') 
+    : fullText
 
   const renderTable = (data) => {
     if (!data) return null
@@ -169,7 +181,9 @@ const ModalComponent = ({ activeTab, tabs, setActiveTab }) => {
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-2">
-            <div className="relative w-full h-[83vh] overflow-y-auto rounded-xl bg-white/10 border border-white/20 shadow-lg backdrop-blur-lg mt-8">
+            <div className={`relative w-full h-[83vh] rounded-xl bg-white/10 border border-white/20 shadow-lg backdrop-blur-lg mt-8 ${
+              showFullText && isGreyOrFinishing ? 'overflow-y-auto' : 'overflow-hidden'
+            }`}>
               {/* Background */}
               <div className="absolute inset-0 z-10">
                 <Image
@@ -188,7 +202,9 @@ const ModalComponent = ({ activeTab, tabs, setActiveTab }) => {
                 />
               </div>
 
-              <div className="relative z-20 p-4 text-white flex flex-col gap-4">
+              <div className={`relative z-20 p-4 text-white flex flex-col gap-4 ${
+                showFullText && isGreyOrFinishing ? 'custom-scrollbar' : ''
+              }`}>
                 <h2 className="text-lg font-bold">Construction planning?</h2>
                 <div className="flex flex-row justify-between items-center gap-4">
                   <div className="relative z-20 p-4 text-white flex flex-col gap-4">
@@ -214,39 +230,31 @@ const ModalComponent = ({ activeTab, tabs, setActiveTab }) => {
                     renderTable(tab.description)
                   ) : (
                     <>
-                      {/* <p className="text-gray-200">
-                        {showFullText
-                          ? fullText
-                          : fullText?.slice(0, charLimit) + "..."}
-                      </p> */}
                       <p
                         className="leading-tight text-gray-200"
                         dangerouslySetInnerHTML={{
-                          __html: fullText.replace(/\n/g, "<br>"),
-                          // showFullText
-                          //   ? fullText.replace(/\n/g, "<br>")
-                          //   : fullText.slice(0, charLimit) + "...",
+                          __html: displayText.replace(/\n/g, "<br>"),
                         }}
                       />
-                      {/* {fullText?.length > charLimit && (
+                      {isGreyOrFinishing && (
                         <button
-                          className="mt-1 text-emerald-400 text-xs hover:underline"
+                          className="mt-1 text-yellow-400 hover:text-yellow-300 text-xs font-semibold hover:underline transition-colors duration-200"
                           onClick={() => setShowFullText(!showFullText)}>
                           {showFullText ? "Read Less" : "Read More"}
                         </button>
-                      )} */}
+                      )}
                     </>
                   )}
                 </div>
 
-                {/* {hasSteps && !showFullText && (
+                {hasSteps && !showFullText && (
                   <div>
                     <h4 className="text-white font-semibold mb-2 text-sm">
                       Steps
                     </h4>
                     <StepsGrid steps={steps[stepsKey]} />
                   </div>
-                )} */}
+                )}
               </div>
 
               <button

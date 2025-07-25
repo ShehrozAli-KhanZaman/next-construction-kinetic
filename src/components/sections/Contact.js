@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import Background from "@/components/Background"
 import Image from "next/image"
 import Link from "next/link"
-import { Mail, Phone, Globe, Instagram, Facebook, Twitter } from "lucide-react"
+import { Mail, Phone, Globe, Instagram, Facebook, Twitter, MapPin } from "lucide-react"
 
 export default function Contact() {
   const footerVariants = {
@@ -54,8 +54,8 @@ export default function Contact() {
                   className="relative">
                   <div className="absolute -inset-2 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-lg blur-md opacity-70"></div>
                   <Image
-                    src="/images/Logo/LogoTransparent.png"
-                    alt="Construction Kinetics"
+                    src="/images/Logo/RealtorMfiLogo.png"
+                    alt="Realtor MFI"
                     width={90}
                     height={90}
                     className="rounded-lg shadow-lg relative"
@@ -63,7 +63,7 @@ export default function Contact() {
                 </motion.div>
               </Link>
               <h3 className="text-xl font-bold mt-4 mb-3 text-white">
-                Construction Kinetics
+                Realtor MFI
               </h3>
               <p className="text-sm text-gray-400 max-w-xs text-center md:text-left">
                 Transforming architectural dreams into reality with quality
@@ -184,6 +184,21 @@ export default function Contact() {
                     realtormfi.com
                   </a>
                 </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-primary mt-1">
+                    <MapPin size={18} />
+                  </div>
+                  <div className="text-gray-300">
+                    <div className="mb-2">
+                      <strong>Main Office:</strong><br />
+                      147 B, Commercial Area, AWT Housing Scheme, LHR
+                    </div>
+                    <div>
+                      <strong>Branch Office:</strong><br />
+                      30 - CCA 1, Phase 6, DHA LHR
+                    </div>
+                  </div>
+                </li>
               </ul>
             </motion.div>
           </div>
@@ -193,7 +208,7 @@ export default function Contact() {
             variants={itemVariants}
             className="border-t border-gray-800 pt-8 mt-8 text-center">
             <p className="text-sm text-gray-400">
-              &copy; {new Date().getFullYear()} Construction Kinetics. All
+              &copy; {new Date().getFullYear()} Realtor MFI. All
               rights reserved.
             </p>
           </motion.div>

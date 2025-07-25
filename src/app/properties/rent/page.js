@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { RentDataApi } from "@/utils/propertyApi"
-import { formatPrice, formatSize } from "@/utils/formatUtils"
+import { formatPrice, formatPriceRent, formatSize } from "@/utils/formatUtils"
 import { Moon, Sun, Filter } from "lucide-react"
 import ContactButtons from "@/components/ui/ContactButtons"
 import PaginationControls from "@/components/ui/PaginationControls"
@@ -281,7 +281,7 @@ export default function RentListingsPage() {
                     <th
                       onClick={() => handleSort("rent_price")}
                       className="px-4 py-3 text-center cursor-pointer">
-                      Price{" "}
+                      Rent{" "}
                       {sortConfig.key === "rent_price" &&
                         (sortConfig.direction === "asc" ? "↑" : "↓")}
                     </th>
@@ -328,7 +328,7 @@ export default function RentListingsPage() {
                         {rent.rent_number}
                       </td>
                       <td className="px-4 py-1 whitespace-nowrap">
-                        {formatPrice(rent.rent_price)}
+                        {formatPriceRent(rent.rent_price)}
                       </td>
                       <td className="px-4 py-1 whitespace-nowrap">
                         {formatSize(rent.rent_size)}
