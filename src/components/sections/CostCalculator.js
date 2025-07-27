@@ -343,7 +343,7 @@ export default function CostCalculator() {
         </motion.div>
 
         {/* Navigation Buttons */}
-        <div className="flex gap-4 mt-4">
+        <div className="flex gap-4 mt-2">
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}

@@ -91,15 +91,13 @@ export default function NavBar() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="flex items-center">
-                <div className="bg-slate-100/95 backdrop-blur-sm rounded-lg p-1 shadow-lg border border-slate-300/50">
-                  <Image
-                    src="/images/Logo/RealtorMfiLogo.png"
-                    alt="REALTOR MFI"
-                    width={120}
-                    height={20}
-                    className="w-[100px] h-[18px] sm:w-[110px] sm:h-[20px] md:w-[120px] md:h-[22px] lg:w-[130px] lg:h-[25px]"
-                  />
-                </div>
+                <Image
+                  src="/images/Logo/RealtorMFI.png"
+                  alt="REALTOR MFI"
+                  width={120}
+                  height={20}
+                  className="w-[175px] h-[45px] sm:w-[185px] sm:h-[48px] md:w-[195px] md:h-[50px] lg:w-[205px] lg:h-[52px]"
+                />
               </motion.div>
             </Link>
 
@@ -143,15 +141,13 @@ export default function NavBar() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="flex items-center">
-                <div className="bg-slate-100/95 backdrop-blur-sm rounded-lg shadow-lg border border-slate-300/50">
-                  <Image
-                    src="/images/Logo/RealtorMfiLogo.png"
-                    alt="REALTOR MFI"
-                    width={160}
-                    height={40}
-                    className="w-[130px] h-[35px] md:w-[140px] md:h-[37px] lg:w-[150px] lg:h-[40px] xl:w-[160px] xl:h-[42px]"
-                  />
-                </div>
+                <Image
+                  src="/images/Logo/RealtorMFI.png"
+                  alt="REALTOR MFI"
+                  width={160}
+                  height={40}
+                  className="w-[150px] h-[35px] md:w-[160px] md:h-[37px] lg:w-[170px] lg:h-[40px] xl:w-[180px] xl:h-[42px]"
+                />
               </motion.div>
             </Link>
 

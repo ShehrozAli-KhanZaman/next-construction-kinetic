@@ -33,8 +33,8 @@ export default function PlanDesignBuild() {
   }
 
   return (
-    <section className="relative min-h-screen w-full flex flex-col items-center justify-center py-6 px-4 pt-20 md:pt-24">
-      <div className="flex flex-col items-center w-full max-w-4xl mx-auto">
+    <section className="relative min-h-screen w-full flex flex-col items-center justify-center py-6 px-3 pt-12 md:pt-24">
+      <div className="flex flex-col items-center w-full max-w-4xl mx-auto relative z-10">
         <motion.h2
           initial={{ y: -30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -56,6 +56,8 @@ export default function PlanDesignBuild() {
             Smart planning, modern aesthetics, and flawless execution — made to impress, built to last.
           </span>
         </motion.p>
+        
+
         
         {/* Desktop Images */}
         <div className="hidden md:flex flex-wrap justify-center gap-3 mb-3 w-full">
@@ -147,7 +149,7 @@ export default function PlanDesignBuild() {
           </div>
         </div>
 
-        <div className="flex gap-4 mt-2">
+        <div className="flex gap-4 mt-4">
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
