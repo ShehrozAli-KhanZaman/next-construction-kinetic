@@ -68,7 +68,7 @@ export default function ConstructionDetails() {
 
       <div className="z-10 flex flex-col md:flex-row gap-6 w-full max-w-7xl min-h-screen items-center justify-center">
         {/* Left Column: Logo, Heading, and Sidemenu-style Tabs */}
-        <div className="w-full md:w-1/5 flex flex-col gap-4 items-center justify-center min-h-[50vh] md:min-h-screen">
+        <div className="w-full md:w-1/5 flex flex-col gap-4 items-center justify-center min-h-[70vh] md:min-h-screen">
           {/* Heading */}
           <motion.h2
             initial={{ scale: 0.8, opacity: 0 }}

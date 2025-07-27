@@ -189,10 +189,14 @@ const BoxComponent = ({ activeTab, tabs, setActiveTab }) => {
         <div className="flex flex-col md:flex-row gap-4 justify-between">
           {/* Text or Table Section */}
           <div className="flex-1 text-sm md:text-base">
-            {tab.icon && <tab.icon className="w-6 h-6 text-white mb-2" />}
-            <h2 className="text-lg md:text-2xl font-semibold mb-2">
-              {tab.title}
-            </h2>
+            {!showFullText && (
+              <>
+                {tab.icon && <tab.icon className="w-6 h-6 text-white mb-2" />}
+                <h2 className="text-lg md:text-2xl font-semibold mb-2">
+                  {tab.title}
+                </h2>
+              </>
+            )}
             {tab.id === "duration" || tab.id === "cost" ? (
               renderTable(tab.description)
             ) : (
@@ -215,16 +219,18 @@ const BoxComponent = ({ activeTab, tabs, setActiveTab }) => {
           </div>
 
           {/* Lottie Section */}
-          <div className="flex justify-center md:w-0.4/3">
-            {lottieData && (
-              <Lottie
-                animationData={lottieData}
-                loop
-                autoplay
-                className="w-48 h-48 md:w-72 md:h-72"
-              />
-            )}
-          </div>
+          {!showFullText && (
+            <div className="flex justify-center md:w-0.4/3">
+              {lottieData && (
+                <Lottie
+                  animationData={lottieData}
+                  loop
+                  autoplay
+                  className="w-48 h-48 md:w-72 md:h-72"
+                />
+              )}
+            </div>
+          )}
         </div>
 
         {/* Second Row: Steps */}

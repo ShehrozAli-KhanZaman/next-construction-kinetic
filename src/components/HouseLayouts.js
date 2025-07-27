@@ -167,7 +167,7 @@ const HouseLayouts = () => {
   }
 
   return (
-    <section className="relative min-h-screen flex items-start md:items-center justify-center p-4 pt-12">
+    <section className="relative min-h-screen flex items-start justify-center p-4 pt-10">
       <motion.div
         variants={containerVariants}
         initial="hidden"

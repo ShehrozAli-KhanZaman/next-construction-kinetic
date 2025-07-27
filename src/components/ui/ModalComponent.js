@@ -205,27 +205,31 @@ const ModalComponent = ({ activeTab, tabs, setActiveTab }) => {
               <div className={`relative z-20 p-4 text-white flex flex-col gap-4 ${
                 showFullText && isGreyOrFinishing ? 'custom-scrollbar' : ''
               }`}>
-                <h2 className="text-lg font-bold">Construction planning?</h2>
-                <div className="flex flex-row justify-between items-center gap-4">
-                  <div className="relative z-20 p-4 text-white flex flex-col gap-4">
-                    {tab.icon && (
-                      <tab.icon className="w-5 h-5 text-white mb-1" />
-                    )}
-                    <h3 className="text-base font-semibold">{tab.title}</h3>
-                  </div>
-                  {lottieData && (
-                    <div className="flex justify-center">
-                      <Lottie
-                        animationData={lottieData}
-                        loop
-                        autoplay
-                        className="w-28 h-28"
-                      />
+                {!showFullText && (
+                  <>
+                    <h2 className="text-lg font-bold">Construction planning?</h2>
+                    <div className="flex flex-row justify-between items-center gap-4">
+                      <div className="relative z-20 p-4 text-white flex flex-col gap-4">
+                        {tab.icon && (
+                          <tab.icon className="w-5 h-5 text-white mb-1" />
+                        )}
+                        <h3 className="text-base font-semibold">{tab.title}</h3>
+                      </div>
+                      {lottieData && (
+                        <div className="flex justify-center">
+                          <Lottie
+                            animationData={lottieData}
+                            loop
+                            autoplay
+                            className="w-28 h-28"
+                          />
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
+                  </>
+                )}
 
-                <div className="text-xs">
+                <div className={`text-xs ${showFullText && isGreyOrFinishing ? 'pt-10' : ''}`}>
                   {tab.id === "duration" || tab.id === "cost" ? (
                     renderTable(tab.description)
                   ) : (
@@ -262,6 +266,14 @@ const ModalComponent = ({ activeTab, tabs, setActiveTab }) => {
                 className="absolute top-3 right-4 text-orange-500 text-3xl font-bold hover:text-yellow-500 transition duration-200 z-50"
                 aria-label="Close">
                 ×
+              </button>
+              
+              {/* Bottom Left Close Button */}
+              <button
+                onClick={() => setActiveTab(null)}
+                className="absolute bottom-2.5 left-4 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-3 py-1 rounded-full text-sm font-semibold transition-all duration-200 z-50 shadow-lg hover:shadow-xl border border-red-400/30"
+                aria-label="Close">
+                Close
               </button>
             </div>
           </motion.div>

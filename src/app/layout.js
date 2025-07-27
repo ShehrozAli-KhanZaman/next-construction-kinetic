@@ -15,11 +15,11 @@ export const metadata = {
   description: "Your trusted partner in construction and real estate",
   icons: {
     icon: [
-      { url: '/images/Logo/RealtorMfiLogo.png', sizes: '32x32', type: 'image/png' },
-      { url: '/images/Logo/RealtorMfiLogo.png', sizes: '16x16', type: 'image/png' },
+      { url: '/images/Logo/favicon.png', sizes: '32x32', type: 'image/png' },
+      { url: '/images/Logo/favicon.png', sizes: '16x16', type: 'image/png' },
     ],
-    shortcut: '/images/Logo/RealtorMfiLogo.png',
-    apple: '/images/Logo/RealtorMfiLogo.png',
+    shortcut: '/images/Logo/favicon.png',
+    apple: '/images/Logo/favicon.png',
   },
 }
 
