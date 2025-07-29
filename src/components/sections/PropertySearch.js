@@ -42,6 +42,7 @@ export default function PropertySearch() {
     sizeRange: { min: "", max: "" },
     priceRange: { min: "0", max: "90000000000000000" },
   })
+  const [displaySizeRange, setDisplaySizeRange] = useState({ min: "", max: "" })
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -49,10 +50,30 @@ export default function PropertySearch() {
   const locationOptions = locations.map((loc) => ({ label: loc, value: loc }))
 
   const handleRangeChange = (range, field, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [range]: { ...prev[range], [field]: value },
-    }))
+    if (range === "sizeRange") {
+      // Update display value (what user sees)
+      setDisplaySizeRange((prev) => ({
+        ...prev,
+        [field]: value,
+      }))
+      
+      // Convert marla to square feet and update form data (what gets saved)
+      let convertedValue = value
+      if (value) {
+        convertedValue = (parseFloat(value) * 225).toString()
+      }
+      
+      setFormData((prev) => ({
+        ...prev,
+        [range]: { ...prev[range], [field]: convertedValue },
+      }))
+    } else {
+      // For other ranges (price), use the value as is
+      setFormData((prev) => ({
+        ...prev,
+        [range]: { ...prev[range], [field]: value },
+      }))
+    }
   }
   const handleSearch = () => {
     setLoading(true)
@@ -220,30 +241,30 @@ export default function PropertySearch() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-medium text-white mb-1">
-                      Min Size (sq ft)
+                      Min Size (marla)
                     </label>
                     <input
                       type="number"
-                      value={formData.sizeRange.min}
+                      value={displaySizeRange.min}
                       onChange={(e) =>
                         handleRangeChange("sizeRange", "min", e.target.value)
                       }
                       className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-sm"
-                      placeholder="Min size"
+                      placeholder="Min marla"
                     />
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-white mb-1">
-                      Max Size (sq ft)
+                      Max Size (marla)
                     </label>
                     <input
                       type="number"
-                      value={formData.sizeRange.max}
+                      value={displaySizeRange.max}
                       onChange={(e) =>
                         handleRangeChange("sizeRange", "max", e.target.value)
                       }
                       className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary text-sm"
-                      placeholder="Max size"
+                      placeholder="Max marla"
                     />
                   </div>
                 </div>
@@ -390,16 +411,16 @@ export default function PropertySearch() {
                     initial="hidden"
                     animate="visible">
                     <label className="block text-[11px] font-medium text-white mb-1">
-                      Min Size
+                      Min Size (marla)
                     </label>
                     <input
                       type="number"
-                      value={formData.sizeRange.min}
+                      value={displaySizeRange.min}
                       onChange={(e) =>
                         handleRangeChange("sizeRange", "min", e.target.value)
                       }
                       className="w-full p-2 text-[12px] bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-primary focus:border-transparent"
-                      placeholder="Min"
+                      placeholder="Min marla"
                     />
                   </motion.div>
                   <motion.div
@@ -407,16 +428,16 @@ export default function PropertySearch() {
                     initial="hidden"
                     animate="visible">
                     <label className="block text-[11px] font-medium text-white mb-1">
-                      Max Size
+                      Max Size (marla)
                     </label>
                     <input
                       type="number"
-                      value={formData.sizeRange.max}
+                      value={displaySizeRange.max}
                       onChange={(e) =>
                         handleRangeChange("sizeRange", "max", e.target.value)
                       }
                       className="w-full p-2 text-[12px] bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-primary focus:border-transparent"
-                      placeholder="Max"
+                      placeholder="Max marla"
                     />
                   </motion.div>
                   <motion.div
