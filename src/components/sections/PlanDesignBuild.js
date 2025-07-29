@@ -130,22 +130,23 @@ export default function PlanDesignBuild() {
             transition={{ duration: 0.5, delay: 0.4 }}
           />
           <div className="flex flex-col">
-            <motion.h3
+            <motion.div
               className="text-lg font-semibold text-white"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.5 }}
             >
-              Muhammad Farhan Ilyas
-            </motion.h3>
-            <motion.p
-              className="text-sm text-white"
+              <span>Muhammad Farhan Ilyas</span>
+            </motion.div>
+            <motion.div
+              className="flex justify-between items-center text-sm"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.6 }}
             >
-              CEO - Realtor MFI
-            </motion.p>
+              <span className="text-white">MBA LUMS</span>
+              <span className="text-orange-400">CEO - Realtor MFI</span>
+            </motion.div>
           </div>
         </div>
 
