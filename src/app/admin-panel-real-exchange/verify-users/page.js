@@ -4,7 +4,7 @@ import { useState } from "react"
 import axios from "axios"
 import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import { User, Smartphone, Shield, CheckCircle } from "lucide-react"
+import { User, Smartphone, Shield, CheckCircle, Clock } from "lucide-react"
 import { getStoredToken } from "@/utils/auth"
 import { baseURL } from "@/utils/common"
 import Image from "next/image"
@@ -12,11 +12,25 @@ import Image from "next/image"
 export default function VerifyUsersPanel() {
   const [phone, setPhone] = useState("")
   const [verified, setVerified] = useState("true")
+  const [enableFreeTrial, setEnableFreeTrial] = useState(false)
   const [loading, setLoading] = useState(false)
   const endpoint = "/acc/update_verified_acc"
+  const freeTrialEndpoint = "/acc/update_expiry_user"
 
   const validatePhone = (phone) => {
     return phone.startsWith("+92") && phone.length >= 12
+  }
+
+  const formatDate = (dateString) => {
+    if (!dateString) return ""
+    const date = new Date(dateString)
+    return date.toISOString().replace("T", " ").slice(0, 19)
+  }
+
+  const getSevenDaysFromNow = () => {
+    const date = new Date()
+    date.setDate(date.getDate() + 7)
+    return formatDate(date.toISOString())
   }
 
   const handleVerifyUser = async (e) => {
@@ -40,7 +54,8 @@ export default function VerifyUsersPanel() {
     setLoading(true)
 
     try {
-      const config = {
+      // First API call - Update verification status
+      const verifyConfig = {
         method: "post",
         url: baseURL + endpoint,
         headers: {
@@ -53,11 +68,36 @@ export default function VerifyUsersPanel() {
         },
       }
 
-      const response = await axios.request(config)
-      toast.success("User verification status updated successfully")
+      await axios.request(verifyConfig)
+
+      // Second API call - Enable free trial if checkbox is checked
+      if (enableFreeTrial) {
+        const freeTrialConfig = {
+          method: "post",
+          url: baseURL + freeTrialEndpoint,
+          headers: {
+            "Auth-Token": authToken,
+            "Content-Type": "application/json",
+          },
+          data: {
+            user_phone: phone,
+            user_status: "free_trial",
+            user_acc_expiry: getSevenDaysFromNow(),
+            user_device_id: false,
+          },
+        }
+
+        await axios.request(freeTrialConfig)
+        toast.success("User verification status updated and free trial enabled successfully")
+      } else {
+        toast.success("User verification status updated successfully")
+      }
+
       setPhone("") // Clear form after success
+      setEnableFreeTrial(false) // Reset checkbox
     } catch (error) {
-      toast.error("Failed to update user verification status")
+      console.error("Error updating user:", error)
+      toast.error("Failed to update user status")
     } finally {
       setLoading(false)
     }
@@ -124,6 +164,12 @@ export default function VerifyUsersPanel() {
                     to apply changes. Success or error notifications will appear.
                   </div>
                 </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-400">•</span>
+                  <div>
+                    <span className="font-medium">Free Trial:</span> Check "Enable Free Trial" to automatically set user status to free trial with 7-day expiry.
+                  </div>
+                </li>
               </ul>
             </div>
 
@@ -161,14 +207,30 @@ export default function VerifyUsersPanel() {
                   <Shield className="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6 text-white" />
                 </div>
               </div>
+              <div>
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={enableFreeTrial}
+                    onChange={(e) => setEnableFreeTrial(e.target.checked)}
+                    className="w-5 h-5 text-green-600 bg-gray-700 border-gray-600 rounded focus:ring-green-500 focus:ring-2"
+                  />
+                  <span className="text-sm font-medium text-gray-300">Enable Free Trial</span>
+                  <Clock className="w-5 h-5 text-green-400" />
+                </label>
+                {enableFreeTrial && (
+                  <p className="text-xs text-green-400 mt-2 ml-8">
+                    Will set user to free trial with 7-day expiry
+                  </p>
+                )}
+              </div>
               <button
                 onClick={handleVerifyUser}
                 disabled={loading}
-                className={`w-full py-4 rounded-xl text-white text-base font-semibold flex items-center justify-center gap-3 ${
-                  loading
-                    ? "bg-green-400"
-                    : "bg-green-600 hover:bg-green-700"
-                } transition-all duration-300 transform hover:-translate-y-1 shadow-md`}>
+                className={`w-full py-4 rounded-xl text-white text-base font-semibold flex items-center justify-center gap-3 ${loading
+                  ? "bg-green-400"
+                  : "bg-green-600 hover:bg-green-700"
+                  } transition-all duration-300 transform hover:-translate-y-1 shadow-md`}>
                 <CheckCircle className="w-6 h-6" />
                 {loading ? "Verifying..." : "Verify User"}
               </button>
