@@ -1,10 +1,10 @@
-export const loginUser = async () => {
+export const loginUser = async ({ user_phone, user_pw, isAdmin = false }) => {
   var myHeaders = new Headers()
   myHeaders.append("Content-Type", "application/json")
 
   var raw = JSON.stringify({
-    user_phone: "+923494040586",
-    user_pw: "P@ssword1",
+    user_phone: isAdmin ? user_phone : "+923494040586",
+    user_pw: isAdmin ? user_pw : "P@ssword1",
   })
 
   var requestOptions = {

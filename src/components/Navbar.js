@@ -64,8 +64,8 @@ export default function NavBar() {
 
   const navItems = [
     { name: "PROPERTIES", href: "/", section: 0 },
-    { name: "CONSTRUCTION",href: "/", section: 2 },
-    { name: "HOUSE LAYOUTS  ",href: "/", section: 3 },
+    { name: "CONSTRUCTION", href: "/", section: 2 },
+    { name: "HOUSE LAYOUTS  ", href: "/", section: 3 },
     // { name: "UAE CHAPTER", href: "/uae" },
     // { name: "LHR VERTICAL PROJECTS", href: "/vertical-projects" },
     { name: "CONTACT US", href: "/contact" },
@@ -78,11 +78,10 @@ export default function NavBar() {
       animate="visible"
       className="w-full">
       <nav
-        className={`w-full fixed top-0 left-0 right-0 z-30 transition-all duration-300 py-1 ${
-          scrolled
-            ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-md"
-            : "bg-transparent dark:bg-transparent py-2"
-        }`}>
+        className={`w-full fixed top-0 left-0 right-0 z-30 transition-all duration-300 py-1 ${scrolled
+          ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-md"
+          : "bg-transparent dark:bg-transparent py-2"
+          }`}>
         <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
           {/* MOBILE MENU */}
           <div className="flex justify-between items-center md:hidden">
@@ -92,7 +91,7 @@ export default function NavBar() {
                 whileTap={{ scale: 0.95 }}
                 className="flex items-center">
                 <Image
-                  src="/images/Logo/RealtorMFI.png"
+                  src="/images/Logo/RealtorMfiNew.png"
                   alt="REALTOR MFI"
                   width={120}
                   height={20}
@@ -102,11 +101,10 @@ export default function NavBar() {
             </Link>
 
             <button
-              className={`p-2 rounded-md text-primary dark:text-white outline-none focus:border-primary focus:border ${
-                scrolled
-                  ? "bg-primary/10 dark:bg-primary/20"
-                  : "bg-white/20 dark:bg-gray-900/30"
-              }`}
+              className={`p-2 rounded-md text-primary dark:text-white outline-none focus:border-primary focus:border ${scrolled
+                ? "bg-primary/10 dark:bg-primary/20"
+                : "bg-white/20 dark:bg-gray-900/30"
+                }`}
               onClick={() => setNavbar(!navbar)}>
               {navbar ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -120,11 +118,10 @@ export default function NavBar() {
                 <motion.li key={item.name} variants={itemVariants}>
                   <Link
                     href={item.href || "#"}
-                    className={`text-[11px] hover:text-primary dark:hover:text-secondary font-medium relative group transition-colors duration-300 ${
-                      scrolled
-                        ? "text-gray-800 dark:text-gray-200"
-                        : "text-white"
-                    }`}
+                    className={`text-[11px] hover:text-primary dark:hover:text-secondary font-medium relative group transition-colors duration-300 ${scrolled
+                      ? "text-gray-800 dark:text-gray-200"
+                      : "text-white"
+                      }`}
                     onClick={() =>
                       item.section !== undefined && handleNavClick(item.section)
                     }>
@@ -142,7 +139,7 @@ export default function NavBar() {
                 whileTap={{ scale: 0.95 }}
                 className="flex items-center">
                 <Image
-                  src="/images/Logo/RealtorMFI.png"
+                  src="/images/Logo/RealtorMfiNew.png"
                   alt="REALTOR MFI"
                   width={160}
                   height={40}
@@ -157,11 +154,10 @@ export default function NavBar() {
                 <motion.li key={item.name} variants={itemVariants}>
                   <Link
                     href={item.href || "#"}
-                    className={`text-[11px] hover:text-primary dark:hover:text-secondary font-medium relative group transition-colors duration-300 ${
-                      scrolled
-                        ? "text-gray-800 dark:text-gray-200"
-                        : "text-white"
-                    }`}
+                    className={`text-[11px] hover:text-primary dark:hover:text-secondary font-medium relative group transition-colors duration-300 ${scrolled
+                      ? "text-gray-800 dark:text-gray-200"
+                      : "text-white"
+                      }`}
                     onClick={() =>
                       item.section !== undefined && handleNavClick(item.section)
                     }>
@@ -175,11 +171,10 @@ export default function NavBar() {
 
           {/* MOBILE MENU DROPDOWN */}
           <div
-            className={`md:hidden ${
-              navbar
-                ? "block absolute left-0 right-0 top-[60px] bg-white dark:bg-gray-900 shadow-lg z-40"
-                : "hidden"
-            }`}>
+            className={`md:hidden ${navbar
+              ? "block absolute left-0 right-0 top-[60px] bg-white dark:bg-gray-900 shadow-lg z-40"
+              : "hidden"
+              }`}>
             <motion.ul
               ref={navRef}
               variants={navVariants}
@@ -191,11 +186,10 @@ export default function NavBar() {
                   className="text-xs text-center border-b border-gray-200 dark:border-gray-700 py-2">
                   <Link
                     href={item.href || "#"}
-                    className={`${
-                      scrolled
-                        ? "text-gray-800 dark:text-gray-200"
-                        : "text-gray-800 dark:text-gray-200"
-                    } hover:text-primary dark:hover:text-secondary font-medium transition-colors duration-300`}
+                    className={`${scrolled
+                      ? "text-gray-800 dark:text-gray-200"
+                      : "text-gray-800 dark:text-gray-200"
+                      } hover:text-primary dark:hover:text-secondary font-medium transition-colors duration-300`}
                     onClick={() => {
                       if (item.section !== undefined)
                         handleNavClick(item.section)
