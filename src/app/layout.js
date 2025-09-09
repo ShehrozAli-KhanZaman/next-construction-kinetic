@@ -7,6 +7,7 @@ import NavBar from "@/components/Navbar"
 import Preloader from "@/components/Preloader"
 import ClientWrapper from "@/components/ClientWrapper"
 import FloatingButton from "@/components/ui/FloatingButton"
+import ConditionalLayout from "@/components/ConditionalLayout"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -30,10 +31,9 @@ export default function RootLayout({ children }) {
         <ThemeProvider>
           <ActiveSectionProvider>
             <ClientWrapper>
-              {/* <Preloader /> */}
-              <NavBar />
-              {children}
-              <FloatingButton />
+              <ConditionalLayout>
+                {children}
+              </ConditionalLayout>
             </ClientWrapper>
           </ActiveSectionProvider>
         </ThemeProvider>
