@@ -9,8 +9,9 @@ export default function ConditionalLayout({ children }) {
 
     // Check if current path is an admin route
     const isAdminRoute = pathname?.startsWith('/protected-real-exchange-admin-panel-v01');
+    const isPrivacyPolicyRoute = pathname?.startsWith('/privacy-policy');
 
-    if (isAdminRoute) {
+    if (isAdminRoute || isPrivacyPolicyRoute) {
         // For admin routes, only render children without navbar and floating button
         return <>{children}</>;
     }
