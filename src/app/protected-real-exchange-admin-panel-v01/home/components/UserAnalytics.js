@@ -148,7 +148,7 @@ export default function UserAnalytics() {
 
             {/* Action Button */}
             <div className="mt-6">
-                <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 px-4 rounded-lg font-medium transition-all duration-200">
+                <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 px-4 rounded-lg font-medium transition-all duration-200" onClick={() => window.location.href = '/protected-real-exchange-admin-panel-v01/home/users'}>
                     View Detailed Analytics →
                 </button>
             </div>

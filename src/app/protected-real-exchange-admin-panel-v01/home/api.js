@@ -1,11 +1,9 @@
 import { baseUrl } from "@/utils/baseUrl"
+import { getAdminToken } from "@/utils/adminAuth"
 
-// Get auth token from localStorage or sessionStorage
+// Get admin auth token from localStorage
 const getAuthToken = () => {
-    if (typeof window !== 'undefined') {
-        return localStorage.getItem('userToken') || sessionStorage.getItem('authToken');
-    }
-    return null;
+    return getAdminToken();
 };
 
 export const getAdminCount = async () => {
