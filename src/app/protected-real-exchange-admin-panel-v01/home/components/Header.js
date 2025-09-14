@@ -10,8 +10,10 @@ import {
     Globe,
     Settings,
     MoreVertical,
-    Menu
+    Menu,
+    LogOut
 } from 'lucide-react';
+import { adminLogout } from '@/utils/adminAuth';
 
 export default function Header({ onMenuClick }) {
     const [notifications] = useState({
@@ -19,6 +21,11 @@ export default function Header({ onMenuClick }) {
         message: 5,
         folder: 2
     });
+
+    const handleLogout = () => {
+        adminLogout();
+        window.location.href = '/protected-real-exchange-admin-panel-v01';
+    };
 
     return (
         <header className="bg-gray-800 border-b border-gray-700 px-6 py-4">
@@ -120,6 +127,13 @@ export default function Header({ onMenuClick }) {
                     <div className="flex items-center space-x-2">
                         <button className="p-2 rounded-lg hover:bg-gray-700 transition-colors">
                             <Settings className="w-5 h-5 text-gray-400" />
+                        </button>
+                        <button
+                            onClick={handleLogout}
+                            className="p-2 rounded-lg hover:bg-red-700 transition-colors"
+                            title="Logout"
+                        >
+                            <LogOut className="w-5 h-5 text-gray-400 hover:text-red-400" />
                         </button>
                         <button className="p-2 rounded-lg hover:bg-gray-700 transition-colors">
                             <MoreVertical className="w-5 h-5 text-gray-400" />

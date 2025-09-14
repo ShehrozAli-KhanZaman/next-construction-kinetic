@@ -152,11 +152,10 @@ export default function PropertiesPage() {
                   <button
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
-                      currentPage === 1
+                    className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${currentPage === 1
                         ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                         : "bg-white text-gray-700 hover:bg-gray-50"
-                    }`}>
+                      }`}>
                     Previous
                   </button>
                   <span className="text-sm text-gray-700">
@@ -165,11 +164,10 @@ export default function PropertiesPage() {
                   <button
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
-                      currentPage === totalPages
+                    className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${currentPage === totalPages
                         ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                         : "bg-white text-gray-700 hover:bg-gray-50"
-                    }`}>
+                      }`}>
                     Next
                   </button>
                 </div>

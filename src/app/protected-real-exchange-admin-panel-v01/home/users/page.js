@@ -8,6 +8,7 @@ import UserFilters from './components/UserFilters';
 import UserTabs from './components/UserTabs';
 import UserList from './components/UserList';
 import PaginationControls from '../components/PaginationControls';
+import { getAdminToken } from '@/utils/adminAuth';
 
 export default function UsersPage() {
     const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -62,7 +63,7 @@ export default function UsersPage() {
             const response = await fetch(`https://api.real-exchange.com:9010/spr/user_verification_tracker?search_type=${searchType}&page=${pagination.current_page}&limit=${pagination.limit}&days_back=${daysBack}`, {
                 method: 'POST',
                 headers: {
-                    'Auth-Token': localStorage.getItem('userToken') || sessionStorage.getItem('authToken')
+                    'Auth-Token': getAdminToken()
                 }
             });
 

@@ -12,8 +12,10 @@ import {
     Shield,
     ChevronDown,
     ChevronRight,
-    X
+    X,
+    LogOut
 } from 'lucide-react';
+import { adminLogout } from '@/utils/adminAuth';
 
 export default function Sidebar({ isOpen, onClose }) {
     const [expandedItems, setExpandedItems] = useState({
@@ -30,6 +32,11 @@ export default function Sidebar({ isOpen, onClose }) {
         }));
     };
 
+    const handleLogout = () => {
+        adminLogout();
+        window.location.href = '/protected-real-exchange-admin-panel-v01';
+    };
+
     const menuItems = [
         {
             id: 'dashboard',
@@ -38,7 +45,7 @@ export default function Sidebar({ isOpen, onClose }) {
             active: true,
             subItems: [
                 { label: 'Dashboard Overview', href: '/protected-real-exchange-admin-panel-v01/home' },
-                { label: 'User Analytics', href: '/protected-real-exchange-admin-panel-v01/home' },
+                { label: 'User Analytics', href: '/protected-real-exchange-admin-panel-v01/home/users' },
                 // { label: 'Reports', href: '/protected-real-exchange-admin-panel-v01/reports' }
             ]
         },
@@ -48,8 +55,8 @@ export default function Sidebar({ isOpen, onClose }) {
             icon: Users,
             subItems: [
                 { label: 'All Users', href: '/protected-real-exchange-admin-panel-v01/home/users' },
-                { label: 'Verify Users', href: '/admin-panel-real-exchange/verify-users' },
-                { label: 'Update User Status', href: '/admin-panel-real-exchange' }
+                { label: 'Verify Users', href: '/protected-real-exchange-admin-panel-v01/home/verify-users' },
+                { label: 'Update User Status', href: '/protected-real-exchange-admin-panel-v01/home/update-user-status' }
             ]
         },
         // {
@@ -199,9 +206,16 @@ export default function Sidebar({ isOpen, onClose }) {
 
                 {/* Footer */}
                 <div className="p-6 border-t border-gray-700">
+                    {/* Logout Button */}
+                    <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center space-x-3 p-3 rounded-lg text-gray-300 hover:text-white hover:bg-red-600 transition-colors mb-4"
+                    >
+                        <LogOut className="w-5 h-5" />
+                        <span className="font-medium">Logout</span>
+                    </button>
 
-
-                    <div className="mt-6 text-center">
+                    <div className="text-center">
                         <p className="text-xs text-gray-500">
                             Real Exchange Admin Panel © 2025-26<br />
                             All Rights Reserved
