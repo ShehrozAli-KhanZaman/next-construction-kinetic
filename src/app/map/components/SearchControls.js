@@ -103,6 +103,7 @@ const SearchControls = ({
                         value={selectedCity}
                         onChange={(e) => handleCityChange(e.target.value)}
                         className="w-full px-1.5 py-1 sm:px-3 sm:py-2 border border-gray-300 rounded-md text-xs sm:text-base text-black bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        disabled={true}
                     >
                         <option value="" className="text-black">City</option>
                         {PAKISTAN_DATA.data.map(city => (

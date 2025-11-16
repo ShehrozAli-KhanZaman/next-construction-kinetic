@@ -20,7 +20,9 @@ export default function MapPage() {
         <div className="relative h-screen w-full">
             {/* Map (full-screen) */}
             <MapboxMap
+                selectedCity={city}
                 selectedArea={area}
+                selectedSector={sector}
                 selectedPlot={plotNumber}
                 onPlotClick={handlePlotClick}
                 className="w-full h-full"

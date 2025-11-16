@@ -109,6 +109,19 @@ export const DHA_OVERLAY_CONFIG = {
             { id: "p7-b8", image: "/images/DHA/p7/p7z2.png", bounds: [[31.436845, 74.470105], [31.447375, 74.488991]], zIndex: 10 },
         ],
     },
+    "DHA phase 9 town": {
+        overlays: [
+            {
+                id: "p9t",
+                image: "/images/DHA/p9t.png",
+                bounds: [
+                    [31.430000, 74.420000],
+                    [31.450000, 74.460000],
+                ],
+                zIndex: 3,
+            },
+        ],
+    },
 };
 
 // Search data structure matching React Native implementation
@@ -118,8 +131,8 @@ export const PAKISTAN_DATA = {
             city: "Lahore",
             city_area: [
                 {
-                    "phase": "DHA 9 Town",
-                    "phase_area": [
+                    phase: "DHA phase 9 town",
+                    phase_area: [
                         {
                             "sector": "Block A",
                             "Plots": [

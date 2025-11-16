@@ -9,11 +9,19 @@ import { MAPBOX_CONFIG } from '../config/mapbox';
 // Set Mapbox access token
 mapboxgl.accessToken = MAPBOX_CONFIG.PUBLIC_TOKEN;
 
-const MapboxMap = ({ selectedArea, selectedPlot, onPlotClick, className = "" }) => {
+const MapboxMap = ({
+    selectedCity,
+    selectedArea,
+    selectedSector,
+    selectedPlot,
+    onPlotClick,
+    className = "",
+}) => {
     const mapContainer = useRef(null);
     const map = useRef(null);
     const [mapLoaded, setMapLoaded] = useState(false);
     const [plotMarkers, setPlotMarkers] = useState([]);
+    const geocodeCache = useRef(new Map());
 
     useEffect(() => {
         if (!mapContainer.current || map.current) return;
@@ -30,7 +38,7 @@ const MapboxMap = ({ selectedArea, selectedPlot, onPlotClick, className = "" }) 
 
         map.current.on('load', () => {
             setMapLoaded(true);
-            addDHAOverlays();
+            // addDHAOverlays();
         });
 
         return () => {
@@ -99,16 +107,11 @@ const MapboxMap = ({ selectedArea, selectedPlot, onPlotClick, className = "" }) 
     };
 
     useEffect(() => {
-        if (!mapLoaded || !map.current) return;
+        if (!mapLoaded || !map.current || !selectedArea || selectedSector) return;
 
-        // Add overlays for selected area
-        addDHAOverlays(selectedArea);
-
-        // Fit map to selected area bounds
-        if (selectedArea && DHA_OVERLAY_CONFIG[selectedArea]) {
+        if (DHA_OVERLAY_CONFIG[selectedArea]) {
             const overlays = DHA_OVERLAY_CONFIG[selectedArea].overlays;
             if (overlays.length > 0) {
-                // Calculate bounds from all overlays in the area
                 const allBounds = overlays.map(overlay => overlay.bounds);
                 const minLat = Math.min(...allBounds.map(bounds => bounds[0][0]));
                 const maxLat = Math.max(...allBounds.map(bounds => bounds[1][0]));
@@ -120,8 +123,122 @@ const MapboxMap = ({ selectedArea, selectedPlot, onPlotClick, className = "" }) 
                     maxZoom: 15
                 });
             }
+        } else {
+            const query = selectedArea + ", Punjab, Pakistan";
+            const fitToFeature = (feature) => {
+                if (!feature || !map.current) return;
+
+                if (feature.bbox && feature.bbox.length === 4) {
+                    const [minLng, minLat, maxLng, maxLat] = feature.bbox;
+                    map.current.fitBounds([[minLng, minLat], [maxLng, maxLat]], {
+                        padding: 40,
+                        maxZoom: 17
+                    });
+                } else if (feature.center && feature.center.length === 2) {
+                    map.current.flyTo({
+                        center: feature.center,
+                        zoom: 15,
+                        essential: true
+                    });
+                }
+            };
+            const fetchGeocode = async () => {
+                try {
+                    const params = new URLSearchParams({
+                        access_token: MAPBOX_CONFIG.PUBLIC_TOKEN,
+                        limit: '1'
+                    });
+
+                    const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?${params.toString()}`);
+
+                    if (!response.ok) {
+                        console.error('Failed to fetch sector location', response.statusText);
+                        return;
+                    }
+
+                    const data = await response.json();
+                    const feature = data.features?.[0];
+                    if (!feature) return;
+
+                    fitToFeature(feature);
+                } catch (error) {
+                    if (error.name !== 'AbortError') {
+                        console.error('Error fetching sector location', error);
+                    }
+                }
+            };
+            fetchGeocode();
         }
-    }, [selectedArea, mapLoaded]);
+    }, [selectedArea, selectedSector, mapLoaded]);
+
+    useEffect(() => {
+        if (!mapLoaded || !map.current || !selectedSector) return;
+        let end = ", Punjab, Pakistan"
+        const queryParts = [selectedSector, selectedArea, selectedCity, end].filter(Boolean);
+        if (queryParts.length === 0) return;
+
+        const query = queryParts.join(', ');
+        const cacheKey = query.toLowerCase();
+
+        const fitToFeature = (feature) => {
+            if (!feature || !map.current) return;
+
+            if (feature.bbox && feature.bbox.length === 4) {
+                const [minLng, minLat, maxLng, maxLat] = feature.bbox;
+                map.current.fitBounds([[minLng, minLat], [maxLng, maxLat]], {
+                    padding: 40,
+                    maxZoom: 17
+                });
+            } else if (feature.center && feature.center.length === 2) {
+                map.current.flyTo({
+                    center: feature.center,
+                    zoom: 15,
+                    essential: true
+                });
+            }
+        };
+
+        const cachedFeature = geocodeCache.current.get(cacheKey);
+        if (cachedFeature) {
+            fitToFeature(cachedFeature);
+            return;
+        }
+
+        const controller = new AbortController();
+
+        const fetchGeocode = async () => {
+            try {
+                const params = new URLSearchParams({
+                    access_token: MAPBOX_CONFIG.PUBLIC_TOKEN,
+                    limit: '1'
+                });
+
+                const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?${params.toString()}`, {
+                    signal: controller.signal
+                });
+
+                if (!response.ok) {
+                    console.error('Failed to fetch sector location', response.statusText);
+                    return;
+                }
+
+                const data = await response.json();
+                const feature = data.features?.[0];
+                if (!feature) return;
+
+                geocodeCache.current.set(cacheKey, feature);
+                fitToFeature(feature);
+            } catch (error) {
+                if (error.name !== 'AbortError') {
+                    console.error('Error fetching sector location', error);
+                }
+            }
+        };
+
+        fetchGeocode();
+
+        return () => controller.abort();
+    }, [selectedSector, selectedArea, selectedCity, mapLoaded]);
 
     useEffect(() => {
         if (!mapLoaded || !map.current) return;
