@@ -3,11 +3,45 @@
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { DHA_OVERLAY_CONFIG, DEFAULT_CENTER, MIN_ZOOM, MAX_ZOOM } from '../data/mapData';
+import { DHA_OVERLAY_CONFIG, DEFAULT_CENTER, MIN_ZOOM, MAX_ZOOM, PAKISTAN_DATA } from '../data/mapData';
 import { MAPBOX_CONFIG } from '../config/mapbox';
 
 // Set Mapbox access token
 mapboxgl.accessToken = MAPBOX_CONFIG.PUBLIC_TOKEN;
+
+// Resolve local coordinates (lat, lng) for a sector/block or its phase from PAKISTAN_DATA
+function getLocalCenterFromData(city, area, sector) {
+    if (!PAKISTAN_DATA?.data) return null;
+
+    const cityObj = PAKISTAN_DATA.data.find(c =>
+        c.city?.toLowerCase() === (city || "").toLowerCase()
+    );
+    if (!cityObj?.city_area) return null;
+
+    const phaseObj = cityObj.city_area.find(p =>
+        p.phase?.toLowerCase() === (area || "").toLowerCase()
+    );
+    if (!phaseObj) return null;
+
+    // Prefer sector coordinates if present
+    if (sector && Array.isArray(phaseObj.phase_area)) {
+        const sectorObj = phaseObj.phase_area.find(s =>
+            s.sector?.toLowerCase() === sector.toLowerCase()
+        );
+        if (sectorObj?.coordinates && sectorObj.coordinates.length >= 2) {
+            const [lat, lng] = sectorObj.coordinates;
+            return { lat, lng, zoom: 16 };
+        }
+    }
+
+    // Fallback to phase-level coordinates
+    if (phaseObj.coordinates && phaseObj.coordinates.length >= 2) {
+        const [lat, lng] = phaseObj.coordinates;
+        return { lat, lng, zoom: 15 };
+    }
+
+    return null;
+}
 
 const MapboxMap = ({
     selectedCity,
@@ -176,6 +210,17 @@ const MapboxMap = ({
         let end = ", Punjab, Pakistan"
         const queryParts = [selectedSector, selectedArea, selectedCity, end].filter(Boolean);
         if (queryParts.length === 0) return;
+
+        // 1) Try local coordinates first (no network call) from mapData
+        const local = getLocalCenterFromData(selectedCity, selectedArea, selectedSector);
+        if (local) {
+            map.current.flyTo({
+                center: [local.lng, local.lat],
+                zoom: local.zoom ?? 15,
+                essential: true
+            });
+            return;
+        }
 
         const query = queryParts.join(', ');
         const cacheKey = query.toLowerCase();

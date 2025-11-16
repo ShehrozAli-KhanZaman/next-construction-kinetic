@@ -134,8 +134,11 @@ export const PAKISTAN_DATA = {
                     phase: "DHA phase 9 town",
                     phase_area: [
                         {
-                            "sector": "Block A",
-                            "Plots": [
+                            sector: "Sector A",
+                            coordinates: [
+                                31.444987, 74.442042,
+                            ],
+                            Plots: [
                                 "1",
                                 "2",
                                 "3",
@@ -2519,8 +2522,11 @@ export const PAKISTAN_DATA = {
                             ]
                         },
                         {
-                            "sector": "Block B",
-                            "Plots": [
+                            sector: "Sector B",
+                            coordinates: [
+                                31.441629, 74.444127
+                            ],
+                            Plots: [
                                 "1",
                                 "1/1",
                                 "1/2",
@@ -3992,8 +3998,11 @@ export const PAKISTAN_DATA = {
                             ]
                         },
                         {
-                            "sector": "Block C",
-                            "Plots": [
+                            sector: "Sector C",
+                            coordinates: [
+                                31.440374, 74.435497
+                            ],
+                            Plots: [
                                 "1",
                                 "2",
                                 "3",
@@ -5381,8 +5390,11 @@ export const PAKISTAN_DATA = {
                             ]
                         },
                         {
-                            "sector": "Block D",
-                            "Plots": [
+                            sector: "Sector D",
+                            coordinates: [
+                                31.436083, 74.441549
+                            ],
+                            Plots: [
                                 "1",
                                 "2",
                                 "3",
@@ -7553,8 +7565,11 @@ export const PAKISTAN_DATA = {
                             ]
                         },
                         {
-                            "sector": "Block E",
-                            "Plots": [
+                            sector: "Sector E",
+                            coordinates: [
+                                31.449792, 74.443588
+                            ],
+                            Plots: [
                                 "1",
                                 "2",
                                 "3",
