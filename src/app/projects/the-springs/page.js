@@ -535,8 +535,8 @@ export default function TheSpringsProjectPage() {
                   href="/"
                   className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-slate-600 text-slate-300 hover:bg-slate-800 font-medium transition-colors"
                 >
-                  View More Projects
-                  <ChevronRight size={18} />
+                  Go Back
+                  <ChevronLeft size={18} />
                 </Link>
               </div>
             </motion.section>

@@ -76,7 +76,7 @@ export default function Projects() {
           className="text-center mb-4"
         >
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/70 text-sm font-medium tracking-widest uppercase">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse text-white" />
             Featured Project
           </span>
         </motion.div>
@@ -112,46 +112,43 @@ export default function Projects() {
                     </span>
                   </motion.h2>
 
-                  <p className="text-sm text-emerald-400/90 font-medium">
-                    {featuredProject.developer}
-                  </p>
-
-                  <div className="flex items-start gap-3 text-white/70">
-                    <FaMapMarkerAlt className="mt-0.5 flex-shrink-0 text-emerald-400/80" />
-                    <p className="text-sm md:text-base leading-relaxed">
-                      {featuredProject.description}
+                  <div className="hidden md:block space-y-4">
+                    <p className="text-sm text-emerald-400/90 font-medium">
+                      {featuredProject.developer}
                     </p>
+
+                    <div className="flex items-start gap-3 text-white/70">
+                      {/* <FaMapMarkerAlt className="mt-0.5 flex-shrink-0 text-emerald-400/80" /> */}
+                      <p className="text-sm md:text-base leading-relaxed">
+                        {featuredProject.description}
+                      </p>
+                    </div>
+
                   </div>
 
                   {/* Location badge */}
                   <div className="flex flex-wrap gap-2">
-                    <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-400/20 text-emerald-300 text-xs md:text-sm">
+                    <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-400/20 text-white text-base md:text-base">
                       <FaMapMarkerAlt className="text-emerald-400" size={12} />
                       {featuredProject.location}
                     </span>
                   </div>
                 </div>
 
-                {/* Right - Highlights (hidden on mobile) */}
-                <div className="hidden lg:block lg:w-80 flex-shrink-0">
-                  <div className="rounded-xl bg-black/30 border border-white/5 p-4 md:p-5">
-                    <p className="text-xs font-semibold text-emerald-400/90 uppercase tracking-wider mb-4">
-                      Prime location benefits
-                    </p>
-                    <ul className="space-y-2">
-                      {featuredProject.highlights.map((item, i) => (
-                        <motion.li
-                          key={item}
-                          initial={{ opacity: 0, x: 10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.2 + i * 0.05 }}
-                          className="flex items-center gap-2 text-sm text-white/80"
-                        >
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0" />
-                          {item}
-                        </motion.li>
-                      ))}
-                    </ul>
+                {/* Right - YouTube video (visible on all screens) */}
+                <div
+                  className="w-full lg:w-80 flex-shrink-0"
+                  onClick={(e) => e.stopPropagation()}
+                  role="presentation"
+                >
+                  <div className="relative aspect-video rounded-xl overflow-hidden bg-black/30 border border-white/5">
+                    <iframe
+                      src="https://www.youtube.com/embed/WdJnuc3SQKI?autoplay=1&mute=0&loop=1&playlist=WdJnuc3SQKI"
+                      title="The Springs Apartment Homes"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      className="absolute inset-0 w-full h-full"
+                    />
                   </div>
                 </div>
               </div>
