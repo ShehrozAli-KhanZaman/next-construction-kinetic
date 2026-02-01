@@ -80,7 +80,8 @@ const SearchControls = ({
         const city = PAKISTAN_DATA.data.find(c => c.city === selectedCity);
         const area = city?.city_area.find(ar => ar.phase === selectedArea);
         const sector = area?.phase_area.find(se => se.sector === sectorValue);
-        const nextPlots = sector?.Plots?.map(p => String(p)) || [];
+        // Plots are now objects: { plot_number, size, feature, coordinates }
+        const nextPlots = sector?.Plots?.map(p => String(p?.plot_number ?? p)) || sector?.plots?.map(p => String(p?.plot_number ?? p)) || [];
         setPlots(nextPlots);
 
         setSector(sectorValue);
@@ -157,9 +158,9 @@ const SearchControls = ({
                         className="w-full px-1.5 py-1 sm:px-3 sm:py-2 border-0 rounded-sm text-xs sm:text-base text-black bg-white focus:outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
                     >
                         <option value="" className="text-black">Plot</option>
-                        {plots.map(plot => (
-                            <option key={plot} value={plot} className="text-black">
-                                {plot}
+                        {plots.map(plotNumber => (
+                            <option key={plotNumber} value={plotNumber} className="text-black">
+                                {plotNumber}
                             </option>
                         ))}
                     </select>

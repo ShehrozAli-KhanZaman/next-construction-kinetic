@@ -43,6 +43,29 @@ function getLocalCenterFromData(city, area, sector) {
     return null;
 }
 
+// Resolve plot coordinates by plot number from PAKISTAN_DATA
+function getPlotCoords(city, area, sector, plotNumber) {
+    if (!PAKISTAN_DATA?.data || !plotNumber) return null;
+
+    const cityObj = PAKISTAN_DATA.data.find(c =>
+        c.city?.toLowerCase() === (city || "").toLowerCase()
+    );
+    const phaseObj = cityObj?.city_area?.find(p =>
+        p.phase?.toLowerCase() === (area || "").toLowerCase()
+    );
+    const sectorObj = phaseObj?.phase_area?.find(s =>
+        s.sector?.toLowerCase() === (sector || "").toLowerCase()
+    );
+    if (!sectorObj?.Plots) return null;
+
+    // Plots are objects: { plot_number, size, feature, coordinates }
+    const plotObj = sectorObj.Plots.find(p => String(p?.plot_number) === String(plotNumber));
+    if (plotObj?.coordinates && plotObj.coordinates.length >= 2) {
+        const [lat, lng] = plotObj.coordinates;
+        return { lat, lng };
+    }
+    return null;
+}
 const MapboxMap = ({
     selectedCity,
     selectedArea,
@@ -302,7 +325,11 @@ const MapboxMap = ({
             // Calculate center of the selected area for marker placement
             let markerCoords = [DEFAULT_CENTER.lng, DEFAULT_CENTER.lat];
 
-            if (selectedArea && DHA_OVERLAY_CONFIG[selectedArea]) {
+            // Prefer precise plot coordinates from data
+            const plotCenter = getPlotCoords(selectedCity, selectedArea, selectedSector, selectedPlot);
+            if (plotCenter) {
+                markerCoords = [plotCenter.lng, plotCenter.lat];
+            } else if (selectedArea && DHA_OVERLAY_CONFIG[selectedArea]) {
                 const overlays = DHA_OVERLAY_CONFIG[selectedArea].overlays;
                 if (overlays.length > 0) {
                     // Use the first overlay's center as marker position
@@ -326,7 +353,7 @@ const MapboxMap = ({
         return () => {
             newMarkers.forEach(marker => marker.remove());
         };
-    }, [selectedPlot, selectedArea, mapLoaded, onPlotClick]);
+    }, [selectedPlot, selectedArea, selectedSector, selectedCity, mapLoaded, onPlotClick]);
 
     return (
         <div className={`relative w-full h-full ${className}`}>
