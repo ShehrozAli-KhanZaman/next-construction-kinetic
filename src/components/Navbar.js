@@ -64,11 +64,11 @@ export default function NavBar() {
 
   const navItems = [
     { name: "PROPERTIES", href: "/", section: 0 },
-    { name: "CONSTRUCTION", href: "/", section: 2 },
-    { name: "HOUSE LAYOUTS  ", href: "/", section: 3 },
+    { name: "CONSTRUCTION", href: "/", section: 3 },
+    { name: "HOUSE LAYOUTS  ", href: "/", section: 4 },
     // { name: "UAE CHAPTER", href: "/uae" },
     // { name: "LHR VERTICAL PROJECTS", href: "/vertical-projects" },
-    { name: "CONTACT US", href: "/contact" },
+    { name: "CONTACT US", href: "https://wa.me/message/2HVNP5DPG5BOP1" },//"/contact"
   ]
 
   return (

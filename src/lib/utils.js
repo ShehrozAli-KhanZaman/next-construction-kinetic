@@ -78,14 +78,14 @@ export const textSections = [
     description: {
       rates: {
         grayStructure: [
-          ["DHA", "Rs 3150/sqft"],
-          ["LDA", "Rs 2650/sqft"],
-          ["Bahria Town", "Rs 2700/sqft"],
+          ["DHA", "Rs 3500/sqft"],
+          ["LDA", "Rs 3000/sqft"],
+          ["Bahria Town", "Rs 3000/sqft"],
         ],
         finishing: [
-          ["Basic", "Rs 2200/sqft"],
-          ["Standard", "Rs 2500/sqft"],
-          ["Premium", "Rs 3200/sqft"],
+          ["Basic", "Rs 3000/sqft"],
+          ["Standard", "Rs 3500/sqft"],
+          ["Premium", "Rs 4000+/sqft"],
         ],
       },
       note: "Details for all work i.e. ceiling, flooring, wood work, electric, windows and glasses, paint polish, electronics and appliances can be shared on request",

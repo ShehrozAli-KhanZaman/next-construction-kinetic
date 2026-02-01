@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react"
 import { AnimatePresence } from "framer-motion"
 import AnimatedSection from "@/components/AnimatedSection"
 import PropertySearch from "@/components/sections/PropertySearch"
+import Projects from "@/components/sections/Projects"
 import ConstructionDetails from "@/components/sections/ConstructionDetails"
 import CostCalculator from "@/components/sections/CostCalculator"
 import HouseLayouts from "@/components/HouseLayouts"
@@ -24,6 +25,7 @@ export default function Home() {
 
   const sections = [
     { component: PropertySearch },
+    { component: Projects },
     { component: PlanDesignBuild },
     { component: ConstructionDetails },
     { component: HouseLayouts },
