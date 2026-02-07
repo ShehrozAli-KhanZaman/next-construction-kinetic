@@ -1,6 +1,11 @@
 "use client"
 
-import PdfViewer from "../../components/ui/PdfViewer"
+import dynamic from "next/dynamic"
+
+const PdfViewer = dynamic(
+  () => import("../../components/ui/PdfViewer"),
+  { ssr: false }
+)
 
 export default PdfViewer
 

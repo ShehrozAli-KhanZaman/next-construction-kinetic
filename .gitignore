@@ -19,6 +19,7 @@
 
 # production
 /build
+/deploy
 
 # misc
 .DS_Store
@@ -42,3 +43,8 @@ next-env.d.ts
 
 # json files
 /public/images/DHA
+
+# deploy
+/deploy
+/deploy/*
+DEPLOY.md
