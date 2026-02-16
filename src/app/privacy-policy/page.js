@@ -5,6 +5,10 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata = {
     title: "Privacy Policy - Real Exchange",
     description: "Privacy Policy for Real Exchange - Your trusted partner in construction and real estate",
+    robots: {
+        index: false,
+        follow: false,
+    },
 }
 
 export default function PrivacyPolicy() {
