@@ -86,9 +86,8 @@ export default function ConstructionDetails() {
                 initial={{ y: 50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.6, delay: index * 0.1 + 0.4 }}
-                className={`cursor-pointer p-3 rounded-lg bg-white/10 border border-white/20 hover:bg-white/20 transition-colors flex items-center gap-2 ${
-                  activeTab === tab.id ? "bg-white/30" : ""
-                }`}
+                className={`cursor-pointer p-3 rounded-lg bg-white/10 border border-white/20 hover:bg-white/20 transition-colors flex items-center gap-2 ${activeTab === tab.id ? "bg-white/30" : ""
+                  }`}
                 onClick={() => handleTabClick(tab.id)}>
                 {tab.icon && <tab.icon className="w-5 h-5 text-white" />}
                 <h3 className="text-base font-medium">{tab.title}</h3>
