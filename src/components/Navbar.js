@@ -33,7 +33,7 @@ export default function NavBar() {
       setScrolled(window.scrollY > 20)
     }
     if (render) {
-      loginUser()
+      loginUser({})
     }
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)

@@ -1,4 +1,5 @@
-export const loginUser = async ({ user_phone, user_pw, isAdmin = false }) => {
+export const loginUser = async (param = {}) => {
+  const { user_phone, user_pw, isAdmin = false } = param
   var myHeaders = new Headers()
   myHeaders.append("Content-Type", "application/json")
 

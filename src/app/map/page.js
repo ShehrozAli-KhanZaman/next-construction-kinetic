@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import MapboxMap from './components/MapboxMap';
 import SearchControls from './components/SearchControls';
+import Image from 'next/image';
 
 export default function MapPage() {
     const [city, setCity] = useState("Lahore");
@@ -67,6 +68,11 @@ export default function MapPage() {
                     )}
                 </div>
             )}
+            {/* Map Overlay Info (bottom-left to avoid overlapping the controls) */}
+
+            <div className="absolute bottom-2 right-2 bg-transparent rounded-lg p-3 z-10">
+                <Image src="/images/Logo/Ck/ReLogo.png" alt="Real Exchange" width={100} height={100} className="w-auto h-auto" />
+            </div>
         </div>
     );
 }
