@@ -1,5 +1,13 @@
 import { phase1 } from "./phase1";
+import { phase11 } from "./phase11";
+import { phase11Halloki } from "./phase11Halloki";
+import { phase2 } from "./phase2";
+import { phase3 } from "./phase3";
+import { phase4 } from "./phase4";
+import { phase5 } from "./phase5";
+import { phase6 } from "./phase6";
 import { phase7 } from "./phase7";
+import { phase8 } from "./phase8";
 import { phase9Prism } from "./phase9Prism";
 import { phase9Town } from "./phase9Town";
 
@@ -136,25 +144,64 @@ export const PAKISTAN_DATA = {
             city: "Lahore",
             city_area: [
                 {
-                    phase: "DHA phase 9 town",
+                    phase: phase11.phase,
+                    phase_area: phase11.phase_area,
+                    coordinates: phase11.coordinates
+                },
+                {
+                    phase: phase11Halloki.phase,
+                    phase_area: phase11Halloki.phase_area,
+                    coordinates: phase11Halloki.coordinates
+                },
+                {
+                    phase: phase9Town.phase,
                     phase_area: phase9Town.phase_area,
-                    coordinates:phase9Town.coordinates,
+                    coordinates: phase9Town.coordinates,
                 },
                 {
-                    phase: "DHA phase 9 prism",
+                    phase: phase9Prism.phase,
                     phase_area: phase9Prism.phase_area,
-                    coordinates:phase9Prism.coordinates,
+                    coordinates: phase9Prism.coordinates,
                 },
-                { phase: "DHA Phase 1", phase_area: phase1.phase_area, coordinates: phase1.coordinates },
-                { phase: "DHA phase 2", phase_area: [{ sector: "Sector Q", Plots: [1, 2, 3, 4] }], coordinates: null },
-                { phase: "DHA phase 3", phase_area: [{ sector: "Sector W", Plots: [1, 2, 3, 4] }], coordinates: null },
-                { phase: "DHA phase 4", phase_area: [{ sector: "Sector AA", Plots: [1, 2, 3, 4] }], coordinates: null },
-                { phase: "DHA phase 5", phase_area: [{ sector: "Sector A", Plots: [1, 2, 3, 4] }], coordinates: null },
-                { phase: "DHA phase 6", phase_area: [{ sector: "Sector A", Plots: [1, 2, 3, 4] }], coordinates: null },
                 {
-                    phase: "DHA phase 7",
+                    phase: phase8.phase,
+                    phase_area: phase8.phase_area,
+                    coordinates: phase8.coordinates
+                },
+                {
+                    phase: phase7.phase,
                     phase_area: phase7.phase_area,
                     coordinates: phase7.coordinates,
+                },
+                {
+                    phase: phase6.phase,
+                    phase_area: phase6.phase_area,
+                    coordinates: phase6.coordinates
+                },
+                {
+                    phase: phase5.phase,
+                    phase_area: phase5.phase_area,
+                    coordinates: phase5.coordinates
+                },
+                {
+                    phase: phase4.phase,
+                    phase_area: phase4.phase_area,
+                    coordinates: phase4.coordinates
+                },
+                {
+                    phase: phase3.phase,
+                    phase_area: phase3.phase_area,
+                    coordinates: phase3.coordinates
+                },
+                {
+                    phase: phase2.phase,
+                    phase_area: phase2.phase_area,
+                    coordinates: phase2.coordinates
+                },
+                {
+                    phase: phase1.phase,
+                    phase_area: phase1.phase_area,
+                    coordinates: phase1.coordinates
                 },
             ],
         },

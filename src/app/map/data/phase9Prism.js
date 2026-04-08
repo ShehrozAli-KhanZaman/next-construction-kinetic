@@ -1,10 +1,7 @@
 export const phase9Prism = {
-    "phase": "DHA Phase 9 Prism",
+    phase: "DHA Phase 9 Prism",
     coordinates: [31.427131, 74.428053],
     phase_area: [
-    {
-        "phase": "DHA Phase 9 Prism",
-        "phase_area": [
             {
                 "sector": "Sector A",
                 "plots": [
@@ -163270,6 +163267,4 @@ export const phase9Prism = {
                 ]
             }
         ]
-    }
-]
 }
