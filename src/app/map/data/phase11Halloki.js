@@ -4,6 +4,7 @@ export const phase11Halloki = {
     phase_area: [
         {
             "sector": "Halloki Gardens - Block A",
+            "coordinates": [31.378949, 74.270393],
             "plots": [
                 {
                     "plot_number": "1",
@@ -2968,6 +2969,7 @@ export const phase11Halloki = {
 
         {
             "sector": "Halloki Gardens - Block B",
+            "coordinates": [31.378949, 74.270393],
             "plots": [
                 {
                     "plot_number": "1",

@@ -4,6 +4,7 @@ export const phase2 = {
     phase_area:  [
             {
                 "sector": "Sector Q",
+                "coordinates": [31.481392, 74.408958],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -2607,6 +2608,7 @@ export const phase2 = {
             },
             {
                 "sector": "Sector R",
+                "coordinates": [31.477623, 74.403784],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -4370,6 +4372,7 @@ export const phase2 = {
             },
             {
                 "sector": "Sector S",
+                "coordinates": [31.473515, 74.398557],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -8173,6 +8176,7 @@ export const phase2 = {
             },
             {
                 "sector": "Sector T",
+                "coordinates": [31.472126, 74.403655],
                 "plots": [
                     {
                         "plot_number": "13/1",
@@ -9636,6 +9640,7 @@ export const phase2 = {
             },
             {
                 "sector": "Sector U",
+                "coordinates": [31.474639, 74.407526],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -11099,6 +11104,7 @@ export const phase2 = {
             },
             {
                 "sector": "Sector V",
+                "coordinates": [31.477070, 74.411536],
                 "plots": [
                     {
                         "plot_number": "18/1",
@@ -12628,6 +12634,7 @@ export const phase2 = {
             },
             {
                 "sector": "Sector S (commercial)",
+                "coordinates": [31.470537, 74.390571],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -13203,6 +13210,7 @@ export const phase2 = {
             },
             {
                 "sector": "Sector R (commercial)",
+                "coordinates": [31.475219, 74.402869],
                 "plots": [
                     {
                         "plot_number": "96",

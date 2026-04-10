@@ -1,6 +1,6 @@
 export const phase1 = {
     phase: "DHA Phase 1",
-    coordinates: [31.438539, 74.439519],
+    coordinates: [31.483324, 74.396880],
     phase_area: [
         {
             "sector": "Sector A",
