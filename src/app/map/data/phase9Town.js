@@ -1,5 +1,6 @@
 export const phase9Town = {
-    phase: "DHA phase 9 town",
+    phase: "DHA Phase 9 town",
+    coordinates:[31.438193, 74.437703],
     phase_area: [
         {
             sector: "Sector A",

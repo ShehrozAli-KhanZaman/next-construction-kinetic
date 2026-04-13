@@ -37,6 +37,7 @@ function getLocalCenterFromData(city, area, sector) {
     // Fallback to phase-level coordinates
     if (phaseObj.coordinates && phaseObj.coordinates.length >= 2) {
         const [lat, lng] = phaseObj.coordinates;
+        console.log(`Using phase-level coordinates for ${area}:`, { lat, lng });
         return { lat, lng, zoom: 15 };
     }
 
@@ -205,6 +206,8 @@ const MapboxMap = ({
                         access_token: MAPBOX_CONFIG.PUBLIC_TOKEN,
                         limit: '1'
                     });
+
+                    console.log('Fetching geocode for area:', query);
 
                     const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?${params.toString()}`);
 
