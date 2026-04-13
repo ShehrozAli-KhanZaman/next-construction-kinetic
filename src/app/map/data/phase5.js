@@ -4,6 +4,7 @@ export const phase5 = {
     phase_area: [
             {
                 "sector": "Sector A",
+                "coordinates": [31.465982, 74.427541],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -4599,6 +4600,7 @@ export const phase5 = {
             },
             {
                 "sector": "Sector B",
+                "coordinates": [31.467311, 74.421700],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -6632,6 +6634,7 @@ export const phase5 = {
             },
             {
                 "sector": "Sector C",
+                "coordinates": [31.461543, 74.418585],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -8449,6 +8452,7 @@ export const phase5 = {
             },
             {
                 "sector": "Sector CCA 1",
+                "coordinates": [31.461872, 74.414878],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -9252,6 +9256,7 @@ export const phase5 = {
             },
             {
                 "sector": "Sector CCA 2",
+                "coordinates": [31.460038, 74.416987],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -9449,6 +9454,7 @@ export const phase5 = {
             },
             {
                 "sector": "Sector D",
+                "coordinates": [31.466737, 74.417027],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -13906,6 +13912,7 @@ export const phase5 = {
             },
             {
                 "sector": "Sector E",
+                "coordinates": [31.460487, 74.411363],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -15915,6 +15922,7 @@ export const phase5 = {
             },
             {
                 "sector": "Sector F",
+                "coordinates": [31.465891, 74.409912],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -17864,6 +17872,7 @@ export const phase5 = {
             },
             {
                 "sector": "Sector G",
+                "coordinates": [31.462712, 74.407858],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -22807,6 +22816,7 @@ export const phase5 = {
             },
             {
                 "sector": "Sector H",
+                "coordinates": [31.459165, 74.406225],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -26376,6 +26386,7 @@ export const phase5 = {
             },
             {
                 "sector": "Sector J",
+                "coordinates": [31.458765, 74.419818],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -28541,6 +28552,7 @@ export const phase5 = {
             },
             {
                 "sector": "Sector K",
+                "coordinates": [31.463572, 74.401241],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -31588,6 +31600,7 @@ export const phase5 = {
             },
             {
                 "sector": "Sector L",
+                "coordinates": [31.459421, 74.395261],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -36093,6 +36106,7 @@ export const phase5 = {
             },
             {
                 "sector": "Sector M",
+                "coordinates": [31.455011, 74.425006],
                 "plots": [
                     {
                         "plot_number": "1",
