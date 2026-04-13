@@ -59,14 +59,14 @@ export default function SecureMapViewer({
     }
 
     // Create popup
-    const popup = new mapboxgl.Popup({ offset: 25 }).setText(title);
+    // const popup = new mapboxgl.Popup({ offset: 25 }).setText(title);
 
     // Add new marker
     currentMarker.current = new mapboxgl.Marker({ color: '#3b82f6' })
       .setLngLat([lng, lat])
-      .setPopup(popup)
+      // .setPopup(popup)
       .addTo(map.current)
-      .togglePopup();
+      // .togglePopup();
   };
 
   // Function to build a Mapbox query string

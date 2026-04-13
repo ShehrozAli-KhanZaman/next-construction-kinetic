@@ -103,6 +103,14 @@ export const useCascadingDropdowns = () => {
     return sectorObject?.coordinates || null;
   }, [city, area, sector]);
 
+  const selectedPlot = (() => {
+    if (!plotNumber) return null;
+    const cityObject = PAKISTAN_DATA?.data?.find(c => c.city === city);
+    const areaObject = cityObject?.city_area?.find(a => a.phase === area);
+    const sectorObject = findSectorObject(areaObject, sector);
+    return findPlotObject(sectorObject, plotNumber);
+  })();
+
   const getPlotCoordinates = useCallback(() => {
     if (!plotNumber) return null;
     const cityObject = PAKISTAN_DATA?.data?.find(c => c.city === city);
@@ -117,6 +125,7 @@ export const useCascadingDropdowns = () => {
     area,
     sector,
     plotNumber,
+    selectedPlot,
     cities,
     areas,
     sectors,
