@@ -4,6 +4,7 @@ export const phase6 = {
     phase_area:  [
             {
                 "sector": "Sector A",
+                "coordinates": [31.464698, 74.439767],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -3357,6 +3358,7 @@ export const phase6 = {
             },
             {
                 "sector": "Sector B",
+                "coordinates": [31.470970, 74.445567],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -6950,6 +6952,7 @@ export const phase6 = {
             },
             {
                 "sector": "Sector C",
+                "coordinates": [31.465499, 74.448465],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -13369,6 +13372,7 @@ export const phase6 = {
             },
             {
                 "sector": "Sector CCA 1",
+                "coordinates": [31.468890, 74.451259],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -14556,6 +14560,7 @@ export const phase6 = {
             },
             {
                 "sector": "Sector CCA 2",
+                "coordinates": [31.452912, 74.451722],
                 "plots": [
                     {
                         "plot_number": "46",
@@ -16163,6 +16168,7 @@ export const phase6 = {
             },
             {
                 "sector": "Sector D",
+                "coordinates": [31.460531, 74.451535],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -24166,6 +24172,7 @@ export const phase6 = {
             },
             {
                 "sector": "Sector E",
+                "coordinates": [31.452564, 74.457523],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -29499,6 +29506,7 @@ export const phase6 = {
             },
             {
                 "sector": "Sector F",
+                "coordinates": [31.466529, 74.460496],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -32018,6 +32026,7 @@ export const phase6 = {
             },
             {
                 "sector": "Sector G",
+                "coordinates": [31.472417, 74.457154],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -36229,6 +36238,7 @@ export const phase6 = {
             },
             {
                 "sector": "Sector H",
+                "coordinates": [31.475055, 74.451200],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -39054,6 +39064,7 @@ export const phase6 = {
             },
             {
                 "sector": "Sector J",
+                "coordinates": [31.480817, 74.457224],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -43475,6 +43486,7 @@ export const phase6 = {
             },
             {
                 "sector": "Sector K",
+                "coordinates": [31.471093, 74.462580],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -46942,7 +46954,7 @@ export const phase6 = {
                         "plot_number": "578",
                         "size": "20",
                         "feature": null,
-                        "coordinates": null
+                        "coordinates": [31.471093, 74.462580]
                     },
                     {
                         "plot_number": "579",
@@ -50680,6 +50692,7 @@ export const phase6 = {
             },
             {
                 "sector": "Sector L",
+                "coordinates": [31.481366, 74.464207],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -58611,6 +58624,7 @@ export const phase6 = {
             },
             {
                 "sector": "Sector M",
+                "coordinates": [31.479440, 74.472895],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -61964,6 +61978,7 @@ export const phase6 = {
             },
             {
                 "sector": "Sector N",
+                "coordinates": [31.491000, 74.471611],
                 "plots": [
                     {
                         "plot_number": "1",
@@ -69739,6 +69754,7 @@ export const phase6 = {
             },
             {
                 "sector": "Main Boulevard",
+                "coordinates": [31.473622, 74.443075],
                 "plots": [
                     {
                         "plot_number": "1",
